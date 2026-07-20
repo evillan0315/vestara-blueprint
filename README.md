@@ -19,6 +19,20 @@
 
 ---
 
+<p align="center">
+  <img
+    src="https://raw.githubusercontent.com/evillan0315/vestara-blueprint/main/assets/vestara-blue-print-vsion.png"
+    alt="The Vestara Blueprint Vision"
+    width="100%">
+</p>
+
+<p align="center">
+<b>The Vestara Blueprint is the visual architecture of the platform's long-term vision.</b><br/>
+It illustrates how strategy, engineering, AI, governance, infrastructure, and business capabilities converge into a single AI-native ecosystem.
+</p>
+
+---
+
 # Welcome to the Blueprint
 
 The **Vestara Blueprint** is the canonical specification for the Vestara platform.
@@ -32,7 +46,6 @@ Every application, service, AI agent, infrastructure component, and business cap
 Rather than documenting software after it has been developed, Vestara follows a **Documentation-First Engineering** philosophy, ensuring that architecture, standards, and strategic decisions are established before implementation begins.
 
 The Blueprint exists to provide a single source of truth that aligns developers, AI assistants, architects, designers, operators, and business stakeholders around one unified vision.
-
 ---
 
 # Executive Summary
