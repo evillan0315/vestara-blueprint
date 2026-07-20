@@ -21,7 +21,7 @@
 
 <p align="center">
   <img
-    src="https://raw.githubusercontent.com/evillan0315/vestara-blueprint/main/assets/vestara-blueprint-vsion.png"
+    src="./assets/vestara-blueprint-vsion.png"
     alt="The Vestara Blueprint Vision"
     width="100%">
 </p>
