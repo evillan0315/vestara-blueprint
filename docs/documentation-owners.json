@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "approvedOwners": [
+    "@ai-engineer",
+    "@backend-engineer",
+    "@chief-architect",
+    "@devops-engineer",
+    "@engineering-manager",
+    "@frontend-engineer",
+    "@product-manager",
+    "@research-agent",
+    "@security-engineer"
+  ]
+}
