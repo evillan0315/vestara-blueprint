@@ -26,7 +26,7 @@ vestara-blueprint/
 ├── 📖 BOOK 3: AI Architecture
 │   ├── 05-ai-core/            # Core AI: conversation, memory, planning, reasoning
 │   ├── 08-cloud/              # Cloud AI, distributed inference, swarms
-│   ├── 14-conversation/       # Conversation runtime, agent collaboration, voice
+│   ├── 23-conversation/       # Conversation runtime, agent collaboration, voice
 │   └── 21-research/           # AI research, evaluation, safety, future
 │
 ├── 📖 BOOK 4: Engineering
@@ -62,14 +62,19 @@ vestara-blueprint/
 
 | Need | Go To |
 |------|-------|
+| **Current Architecture (reconciled)** | [04-platform/engineering-operating-system.md](04-platform/engineering-operating-system.md) |
+| **Capability Maturity Matrix** | [99-appendix/capability-maturity-matrix.md](99-appendix/capability-maturity-matrix.md) |
+| **Implementation Alignment** | [99-appendix/implementation-alignment.md](99-appendix/implementation-alignment.md) |
+| **Engineering Event Architecture** | [04-platform/engineering-event-architecture.md](04-platform/engineering-event-architecture.md) |
 | **Understand the Vision** | [01-company/01-mission-vision-values.md](01-company/01-mission-vision-values.md) |
-| **Understand the Architecture** | [04-platform/01-platform-overview.md](04-platform/01-platform-overview.md) |
-| **Understand the AI** | [05-ai-core/01-ai-architecture-overview.md](05-ai-core/01-ai-architecture-overview.md) |
-| **Engineering Standards** | [14-engineering/01-engineering-standards.md](14-engineering/01-engineering-standards.md) |
-| **OS Architecture** | [07-operating-system/01-os-architecture.md](07-operating-system/01-os-architecture.md) |
-| **Roadmaps** | [20-roadmaps/01-generation-roadmap.md](20-roadmaps/01-generation-roadmap.md) |
+| **Understand the AI** | [05-ai-core/README.md](05-ai-core/README.md) |
+| **Provider Architecture** | [05-ai-core/provider-architecture.md](05-ai-core/provider-architecture.md) |
+| **Engineering Standards** | [14-engineering/evidence-based-verification.md](14-engineering/evidence-based-verification.md) |
+| **Visual Verification** | [14-engineering/visual-verification.md](14-engineering/visual-verification.md) |
+| **OS Architecture** | [07-operating-system/README.md](07-operating-system/README.md) |
+| **Roadmaps** | [20-roadmaps/V1.0-ROADMAP.md](20-roadmaps/V1.0-ROADMAP.md) |
 | **AI Development Workflow** | [00-governance/03-ai-development-lifecycle.md](00-governance/03-ai-development-lifecycle.md) |
-| **Security Model** | [11-security/01-security-architecture.md](11-security/01-security-architecture.md) |
+| **Security Model** | [11-security/README.md](11-security/README.md) |
 
 ---
 
@@ -111,17 +116,17 @@ This blueprint is the **supreme authority** for all Vestara decisions.
 
 - **05-ai-core** — Memory, Planning, Reasoning, Knowledge, Agents, Providers, Safety, Evaluation
 - **08-cloud** — Distributed inference, swarms, cloud workers, edge-cloud hybrid
-- **14-conversation** — Conversation runtime, agent collaboration, group chat, voice, streaming, artifacts
+- **23-conversation** — Conversation runtime, agent collaboration, group chat, voice, streaming, artifacts
 - **21-research** — Model eval, prompt engineering, safety, emerging capabilities
 
 ### Book 4: Engineering (Volumes 13, 14, 15)
 *How we build — standards, practices, tooling, quality.*
 
 - **13-design-system** — VDS: visual language, design tokens, components, accessibility, theme engine
-- **14-engineering** — TypeScript, React, Fastify, SQLite, testing, linting, architecture
+- **14-engineering** — TypeScript, verification, evidence, visual verification, engineering standards
 - **15-devops** — Docker, CI/CD, releases, monitoring, portable builds, SSD images
 
-> **Note**: Volume `13-user-experience` is superseded by `13-design-system` (VDS). The design system is the canonical visual specification. UX patterns are now covered across VDS and the conversation/workspace volumes.
+> **Note**: Volume `22-user-experience` is superseded by `13-design-system` (VDS). The design system is the canonical visual specification. UX patterns are now covered across VDS and the conversation/workspace volumes.
 
 ### Book 5: Operations (Volumes 07, 09, 11, 16)
 *How Vestara runs — OS, mobile, security, operations.*
@@ -143,6 +148,17 @@ This blueprint is the **supreme authority** for all Vestara decisions.
 ---
 
 ## 🔄 How to Use This Blueprint
+
+### Validation
+
+```bash
+node scripts/validate-blueprint.mjs
+```
+
+Checks frontmatter, unique document/ADR ids, volume-number conflicts, internal
+links, date formats, and Mermaid fence integrity. Any blocking error must be
+resolved before merging documentation changes (see
+`00-governance/adr/ADR-109-blueprint-implementation-alignment-metadata.md`).
 
 ### For AI Agents (Claude, OpenCode, Codex, Cursor, Copilot, etc.)
 
@@ -218,7 +234,7 @@ tags: ["tag1", "tag2"]
 | blueprints/00-07 | Superseded by this blueprint |
 | services/*/src | Implementation follows these specs |
 | apps/dashboard/src | UI implements VDS (13-design-system) specs |
-| packages/conversation-runtime | Implements 14-conversation runtime spec |
+| packages/conversation-runtime | Implements 23-conversation runtime spec |
 | packages/* | Shared types follow 14-engineering standards |
 
 ---

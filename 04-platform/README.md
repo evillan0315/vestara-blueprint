@@ -72,6 +72,12 @@ tags: ["platform", "architecture", "overview"]
 
 ---
 
+## Current Architecture (reconciled)
+
+- [engineering-operating-system.md](engineering-operating-system.md) — canonical engineering OS architecture
+- [engineering-event-architecture.md](engineering-event-architecture.md) — event store + temporal model
+> Earlier service-oriented framing is superseded (see [01-platform-overview.md](01-platform-overview.md)).
+
 **END OF PLATFORM VOLUME OVERVIEW**
 
 *The platform is the foundation. Every product is an expression of platform capabilities.*

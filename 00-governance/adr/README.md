@@ -30,7 +30,7 @@ The AKG connects constitutions, architectural decisions, blueprint volumes, runt
 |------|--------|---------|
 | **Constitution** | `00-governance/` | Product Constitution (Article VIII) |
 | **ADR** | `adr/ADR-NNN-*.md` | ADR-100: AI Organization Over AI Assistant |
-| **Blueprint** | `XX-volume/YY-file.md` | `14-conversation/04-group-chat.md` |
+| **Blueprint** | `XX-volume/YY-file.md` | `23-conversation/04-group-chat.md` |
 | **Runtime** | `vestara-ai-core/packages/*` | Verifier Runtime, Conversation Runtime |
 | **Role** | Agent definitions | Planner, Engineer, Verifier |
 
@@ -54,7 +54,7 @@ Points to ecosystem artifacts that reference or implement this ADR.
 
 ```
 ADR-100 ──referenced_by──→ 08-product-constitution (Article VIII)
-ADR-100 ──referenced_by──→ 14-conversation/04-group-chat.md
+ADR-100 ──referenced_by──→ 23-conversation/04-group-chat.md
 ```
 
 Interpretation: *These artifacts are where this ADR's principles appear in practice.*
@@ -76,12 +76,12 @@ Interpretation: *Every agent in the AI organization must understand this ADR.*
 ```text
 ADR-100 (Organization)
   depends_on: —
-  referenced_by: Product Constitution, 14-conversation/04-group-chat.md
+  referenced_by: Product Constitution, 23-conversation/04-group-chat.md
   influences: Planner, Engineer, Reviewer, Verifier, Context
   │
   ├── ADR-101 (Conversation)
   │     depends_on: ADR-100
-  │     referenced_by: 14-conversation/
+  │     referenced_by: 23-conversation/
   │     influences: Conversation Runtime, Planner, Engineer, Voice Pipeline
   │
   └── ADR-103 (Workspace Context)

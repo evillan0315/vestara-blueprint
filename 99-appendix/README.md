@@ -39,6 +39,11 @@ tags: ["appendix", "glossary", "references", "archive"]
 
 ---
 
+## Alignment (reconciled)
+
+- [capability-maturity-matrix.md](capability-maturity-matrix.md) — canonical capability status
+- [implementation-alignment.md](implementation-alignment.md) — status legend + repository references
+
 **END OF APPENDIX VOLUME OVERVIEW**
 
 *The appendix makes the Blueprint self-contained — no external resources needed to understand Vestara.*

@@ -66,10 +66,17 @@ tags: ["workspace", "ui", "experience", "overview"]
 |--------|--------------|
 | `04-platform` | Platform services power workspace modules |
 | `05-ai-core` | AI subsystems exposed through workspace UI |
-| `13-user-experience` | Design system, animations, accessibility |
+| `22-user-experience` | Design system, animations, accessibility |
 | `10-developer-platform` | SDK for extending the workspace |
 
 ---
+
+## Current Architecture (reconciled)
+
+- [engineering-session.md](engineering-session.md) — the engineering session
+- [inspector.md](inspector.md) — universal inspector
+- [cli-workspace-integration.md](cli-workspace-integration.md) — CLI + UI as shared runtime clients
+- [settings-architecture.md](settings-architecture.md) — settings as a runtime control surface
 
 **END OF WORKSPACE VOLUME OVERVIEW**
 

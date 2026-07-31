@@ -77,7 +77,7 @@ VDS is not a component library. It is the specification for how Vestara looks, f
 |--------|-------------|
 | `05-ai-core` | AI capabilities drive surface needs |
 | `06-workspace` | Workspace implements VDS patterns |
-| `14-conversation` | Chat UI inherits VDS conversation tokens |
+| `23-conversation` | Chat UI inherits VDS conversation tokens |
 | `14-engineering` | Engineering implements design tokens as CSS custom properties |
 
 ---

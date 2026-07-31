@@ -105,22 +105,35 @@ What did we decide? Be specific.
 | ADR-009 | Ollama On-Demand (No Auto-Start) | accepted | 2025-03-01 | 05-ai-core, 08-cloud |
 | ADR-010 | Secure Boot + Verified Boot Chain | accepted | 2025-03-15 | 07-operating-system, 11-security |
 | ADR-011 | VestaraApp Type for Fastify Routes | accepted | 2025-01-20 | 14-engineering, services/api |
-| ADR-012 | SWR for Frontend Data Fetching | accepted | 2025-02-01 | 13-user-experience, apps/dashboard |
-| ADR-013 | Tailwind CSS 4 + Vestara Design Tokens | accepted | 2025-02-10 | 13-user-experience |
+| ADR-012 | SWR for Frontend Data Fetching | accepted | 2025-02-01 | 22-user-experience, apps/dashboard |
+| ADR-013 | Tailwind CSS 4 + Vestara Design Tokens | accepted | 2025-02-10 | 22-user-experience |
 | ADR-014 | Provider-Agnostic AI Router | accepted | 2025-03-20 | 05-ai-core, services/api |
 | ADR-015 | Agent Runtime as First-Class Service | accepted | 2025-04-01 | 05-ai-core, services/agents |
 | ADR-016 | Architecture Freeze v1.0 | accepted | 2025-07-23 | All blueprint volumes |
 | ADR-017 | WorkspaceRuntime as Orchestration Boundary | accepted | 2026-07-23 | 06-workspace |
 | ADR-018 | RepositoryWorkspace as Canonical Domain Object | accepted | 2026-07-23 | 06-workspace |
 | ADR-019 | Vestara Specification-Driven Engineering (VSDE) | accepted | 2026-07-24 | 14-engineering |
-| ADR-020 | Workspace Kernel & Subsystem Architecture | accepted | 2026-07-27 | 06-workspace, 07-operating-system, 13-user-experience |
-| ADR-021 | Widget Manifest System & Dashboard Runtime | accepted | 2026-07-27 | 13-user-experience, 06-workspace |
+| ADR-020 | Workspace Kernel & Subsystem Architecture | accepted | 2026-07-27 | 06-workspace, 07-operating-system, 22-user-experience |
+| ADR-021 | Widget Manifest System & Dashboard Runtime | accepted | 2026-07-27 | 22-user-experience, 06-workspace |
 | ADR-022 | Standard Subsystem Directory Layout | accepted | 2026-07-27 | 14-engineering, all subsystems |
-| **ADR-100** | **AI Organization Over AI Assistant** | **accepted** | **2025-07-30** | **08-product-constitution, 14-conversation** |
-| **ADR-101** | **Conversation as Independent Architecture** | **accepted** | **2025-07-30** | **14-conversation, 05-ai-core** |
-| **ADR-102** | **Framework-Agnostic Design System (VDS)** | **accepted** | **2025-07-30** | **13-design-system** |
-| **ADR-103** | **Workspace-Native Context** | **accepted** | **2025-07-30** | **06-workspace, 08-product-constitution** |
-| **ADR-104** | **Evidence-Based Verification** | **accepted** | **2025-07-30** | **05-ai-core, 08-product-constitution** |
+| **ADR-100** | **AI Organization Over AI Assistant** | **accepted** | **2025-07-30** | [adr/ADR-100-ai-organization.md](adr/ADR-100-ai-organization.md) |
+| **ADR-101** | **Conversation as Independent Architecture** | **accepted** | **2025-07-30** | [adr/ADR-101-conversation-architecture.md](adr/ADR-101-conversation-architecture.md) |
+| **ADR-102** | **Framework-Agnostic Design System (VDS)** | **accepted** | **2025-07-30** | [adr/ADR-102-vds-framework-agnostic.md](adr/ADR-102-vds-framework-agnostic.md) |
+| **ADR-103** | **Workspace-Native Context** | **accepted** | **2025-07-30** | [adr/ADR-103-workspace-native-context.md](adr/ADR-103-workspace-native-context.md) |
+| **ADR-104** | **Evidence-Based Verification** | **accepted** | **2025-07-30** | [adr/ADR-104-evidence-based-verification.md](adr/ADR-104-evidence-based-verification.md) |
+| **ADR-105** | **Event-Sourced Engineering Graph** | **accepted** | **2026-08-01** | [adr/ADR-105-event-sourced-engineering-graph.md](adr/ADR-105-event-sourced-engineering-graph.md) |
+| **ADR-106** | **Provider-Neutral Engineering Provider Runtime** | **accepted** | **2026-08-01** | [adr/ADR-106-provider-neutral-engineering-provider-runtime.md](adr/ADR-106-provider-neutral-engineering-provider-runtime.md) |
+| **ADR-107** | **Workspace UI and CLI as Shared Runtime Clients** | **proposed** | **2026-08-01** | [adr/ADR-107-workspace-ui-and-cli-as-shared-runtime-clients.md](adr/ADR-107-workspace-ui-and-cli-as-shared-runtime-clients.md) |
+| **ADR-108** | **Visual Evidence and Screenshot Verification** | **accepted** | **2026-08-01** | [adr/ADR-108-visual-evidence-and-screenshot-verification.md](adr/ADR-108-visual-evidence-and-screenshot-verification.md) |
+| **ADR-109** | **Blueprint Implementation-Alignment Metadata and Versioned Reconcilement** | **accepted** | **2026-08-01** | [adr/ADR-109-blueprint-implementation-alignment-metadata.md](adr/ADR-109-blueprint-implementation-alignment-metadata.md) |
+| **ADR-110** | **Blueprint Volume Renumbering** | **accepted** | **2026-08-01** | [adr/ADR-110-blueprint-volume-renumbering.md](adr/ADR-110-blueprint-volume-renumbering.md) |
+
+> **Reconcilement note**: ADR-016 "Architecture Freeze v1.0" is **superseded** by
+> ADR-109. The Blueprint is now reconciled in **versions** against the
+> implementation (`vestara-ai-core`), with per-document alignment metadata and a
+> validation script, rather than permanently frozen. ADR-002 (OpenCode as
+> default provider) is reframed by ADR-106: the architecture is
+> provider-neutral; OpenCode is a default distribution provider.
 
 > **Foundational ADRs (100+)** define the architectural philosophy that governs all other decisions. Each has a standalone document in `00-governance/adr/`.
 | ADR-023 | Core Runtime Model — Everything is a Runtime | accepted | 2026-07-27 | 07-operating-system, all subsystems |
@@ -137,7 +150,7 @@ What did we decide? Be specific.
 | ADR-034 | Runtime Registry & Permission Model | accepted | 2026-07-27 | 07-operating-system, 11-security |
 | ADR-035 | Decision Pipeline — Permission, Policy, Verification, Trust & History | accepted | 2026-07-27 | 07-operating-system, 11-security |
 | ADR-036 | Policy Model — Declarative Organizational Rules | accepted | 2026-07-27 | 07-operating-system, 11-security |
-| ADR-043 | Shared Understanding Snapshot | accepted | 2026-07-28 | 05-ai-core, 06-workspace, 13-user-experience |
+| ADR-043 | Shared Understanding Snapshot | accepted | 2026-07-28 | 05-ai-core, 06-workspace, 22-user-experience |
 
 ---
 
@@ -2009,7 +2022,7 @@ workspace.interactive → user can begin productive work
 - ADR-023 (Core Runtime Model — Everything is a Runtime)
 - ADR-026 (Intent Model — Goals to Execution Plans)
 - ADR-035 (Decision Pipeline)
-- Blueprint volume: 05-ai-core, 06-workspace, 13-user-experience
+- Blueprint volume: 05-ai-core, 06-workspace, 22-user-experience
 - Package: `packages/understanding/`
 
 ---

@@ -16,9 +16,9 @@ depends_on:
     relationship: "conversation is the coordination medium for the AI organization"
 referenced_by:
   - type: "blueprint"
-    target: "14-conversation/README.md"
+    target: "23-conversation/README.md"
   - type: "blueprint"
-    target: "14-conversation/01-conversation-runtime.md"
+    target: "23-conversation/01-conversation-runtime.md"
   - type: "blueprint"
     target: "05-ai-core/01-ai-architecture-overview.md"
 influences:
@@ -39,7 +39,7 @@ As Vestara evolved toward a multi-agent organization model, conversation became 
 
 ## Decision
 
-Promote Conversation to a top-level architecture volume (`14-conversation/`) independent of AI Core. The Conversation Runtime owns:
+Promote Conversation to a top-level architecture volume (`23-conversation/`) independent of AI Core. The Conversation Runtime owns:
 
 - Message lifecycle and session management
 - Participant routing (human, agent, group)
@@ -69,7 +69,7 @@ AI Core provides the *intelligence* that participants use. Conversation provides
 
 ### Risks
 
-- Conversation Runtime may grow too large (mitigation: bounded by the 12 documents in `14-conversation/`; features outside that scope belong elsewhere)
+- Conversation Runtime may grow too large (mitigation: bounded by the 12 documents in `23-conversation/`; features outside that scope belong elsewhere)
 - Duplication with AI Core's context management (mitigation: conversation memory is *communication history*; AI Core context is *reasoning state* — distinct concepts)
 
 ## Alternatives Considered
@@ -87,6 +87,6 @@ AI Core provides the *intelligence* that participants use. Conversation provides
 
 ## Related
 
-- `14-conversation/README.md` — Volume overview
-- `14-conversation/01-conversation-runtime.md` — Core runtime specification
+- `23-conversation/README.md` — Volume overview
+- `23-conversation/01-conversation-runtime.md` — Core runtime specification
 - ADR-100 — AI Organization Over AI Assistant (conversation is the coordination medium for the AI organization)

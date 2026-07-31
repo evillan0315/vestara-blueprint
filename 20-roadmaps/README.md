@@ -48,6 +48,13 @@ tags: ["roadmaps", "strategy", "generations", "planning"]
 
 ---
 
+## Roadmaps (reconciled)
+
+- [engineering-os-roadmap.md](engineering-os-roadmap.md) — engineering operating system
+- [provider-platform-roadmap.md](provider-platform-roadmap.md) — provider-neutral providers
+- [extension-platform-roadmap.md](extension-platform-roadmap.md) — extensions + marketplace
+- [V1.0-ROADMAP.md](V1.0-ROADMAP.md) — generation V1 roadmap
+
 **END OF ROADMAPS VOLUME OVERVIEW**
 
 *A roadmap without a vision is just a to-do list.*

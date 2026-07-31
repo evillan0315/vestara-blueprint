@@ -1,6 +1,6 @@
 ---
 title: "Conversation — Volume Overview"
-volume: "14-conversation"
+volume: "23-conversation"
 book: "Book 3: AI Architecture"
 version: "1.0.0"
 status: "draft"
@@ -35,7 +35,7 @@ Conversation is not a feature of AI Core. It is the primary interface through wh
 ## Volume Contents
 
 ```
-14-conversation/
+23-conversation/
 │
 ├── README.md                         ← This file
 ├── 01-conversation-runtime.md        ─ Message lifecycle, session model, state

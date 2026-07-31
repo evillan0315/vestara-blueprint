@@ -73,7 +73,7 @@ Existing slots: `CSP-001` (Workspace Orientation) through `CSP-019` (Decision In
 
 | Context | Convention | Example |
 |---------|-----------|---------|
-| Blueprint volumes | `NN-name` | `05-ai-core`, `14-conversation` |
+| Blueprint volumes | `NN-name` | `05-ai-core`, `23-conversation` |
 | Blueprint documents | `NN-name.md` | `01-conversation-runtime.md` |
 | Event bus topics | `domain:action:subject` | `workspace:opened` |
 | ADR documents | `ADR-{NNN}-title.md` | `ADR-016-freeze-architecture.md` |

@@ -20,7 +20,7 @@ referenced_by:
   - type: "blueprint"
     target: "06-workspace/"
   - type: "blueprint"
-    target: "14-conversation/04-group-chat.md"
+    target: "23-conversation/04-group-chat.md"
 influences:
   - "Context Agent"
   - "Workspace Runtime"

@@ -23,15 +23,14 @@ tags: ["engineering", "standards", "handbook", "conventions"]
 14-engineering/
 │
 ├── README.md                              ← This file
-├── ENGINEERING_PRINCIPLES.md              ← Core engineering philosophy
-├── CODING_STANDARDS.md                    ← TypeScript, React, SQL conventions
-├── ARCHITECTURE.md                        ← Clean Architecture, DDD, patterns
-├── TESTING.md                             ← Vitest, coverage, TDD practices
-├── DOCUMENTATION.md                       ← JSDoc, Blueprint, ADR standards
-├── CODE_REVIEW.md                         ← Review process & checklist
-├── RELEASE_PROCESS.md                     ← Versioning, changelog, release steps
-└── CONTRIBUTING.md                        ← How to contribute
+├── evidence-based-verification.md         ← Evidence architecture (claims, evidence, checks)
+└── visual-verification.md                 ← Playwright screenshot regression + Visual Evidence
 ```
+
+> Other files listed in earlier revisions of this README (e.g.
+> `ENGINEERING_PRINCIPLES.md`, `CODING_STANDARDS.md`, `TESTING.md`) are not
+> present in the local repository. Engineering rules live in
+> `00-governance/02-engineering-rules.md`.
 
 ---
 

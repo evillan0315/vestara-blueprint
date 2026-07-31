@@ -2,16 +2,29 @@
 title: "Platform Architecture Overview — Layers, Modules, Dependencies"
 volume: "04-platform"
 book: "Book 2: Platform Architecture"
-version: "1.0.0"
+version: "1.1.0"
 status: "approved"
 owner: "@chief-architect"
-last-reviewed: "2025-07-23"
-next-review: "2026-01-23"
+last-reviewed: "2026-08-01"
+next-review: "2026-11-01"
+architecture-status: "superseded"
+implementation-status: "partial"
+verification-status: "unverified"
+implementation-repository: "evillan0315/vestara-ai-core"
+implementation-ref: "local main"
 tags: ["architecture", "platform", "layers", "modules", "dependencies"]
 ---
 
 # Platform Architecture Overview
 ## The Complete Vestara Platform Structure
+
+> **⚠ Superseded (reconciled)**: This document describes the earlier
+> service-oriented platform framing. The canonical current architecture is
+> [engineering-operating-system.md](engineering-operating-system.md) — an
+> engineering operating system with a workspace runtime, agent runtime,
+> capability-governed execution, verification, and an event-sourced engineering
+> graph. Prefer the reconciled document for new work; this overview is retained
+> for historical context and layer-level references.
 
 ---
 

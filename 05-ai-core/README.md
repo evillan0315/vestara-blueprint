@@ -93,6 +93,12 @@ tags: ["ai", "core", "architecture", "overview"]
 
 ---
 
+## Current Architecture (reconciled)
+
+- [engineering-orchestration.md](engineering-orchestration.md) — orchestration boundary
+- [provider-architecture.md](provider-architecture.md) — provider-neutral runtime
+- [trust-and-confidence.md](trust-and-confidence.md) — permission / trust / confidence
+
 **END OF AI CORE VOLUME OVERVIEW**
 
 *The AI core is the brain of Vestara. All intelligence flows through these subsystems.*

@@ -16,7 +16,7 @@ referenced_by:
   - type: "constitution"
     target: "08-product-constitution (Article VIII)"
   - type: "blueprint"
-    target: "14-conversation/04-group-chat.md"
+    target: "23-conversation/04-group-chat.md"
   - type: "blueprint"
     target: "05-ai-core/01-ai-architecture-overview.md"
 influences:
@@ -89,5 +89,5 @@ The agents communicate through the Conversation Runtime, not through shared mode
 ## Related
 
 - Product Constitution Article VIII — AI Organization Over AI Assistant
-- `14-conversation/04-group-chat.md` — Multi-agent collaboration vision
-- Blueprint volume: `14-conversation/`
+- `23-conversation/04-group-chat.md` — Multi-agent collaboration vision
+- Blueprint volume: `23-conversation/`
