@@ -3,7 +3,7 @@ id: "engineering-evidence-based-verification"
 title: "Evidence-Based Verification"
 volume: "14-engineering"
 book: "Book 4: Engineering"
-version: "1.0.0"
+version: "1.1.0"
 status: "approved"
 owner: "@chief-architect"
 created: "2026-08-01"
@@ -74,7 +74,8 @@ Confidence
 | Evidence | recorded artifact supporting a claim | partial (reports, telemetry, screenshots) |
 | Verification check | a single runnable check | yes |
 | Verification profile | named set of checks | partial |
-| Independent verification | verification by a different provider | proposed |
+| Independent verification policy | requirement expressible through `Strict Engineering` routing profile | partial |
+| Independent verification execution | verification by a different provider | proposed |
 | Result aggregation | combining check results | yes |
 | Failure handling / retries | rerun policy | partial |
 | Human review | approval gate | partial (approvals) |
@@ -84,7 +85,9 @@ Confidence
 
 - Verification evaluates **claims and evidence**; it does not fabricate either.
 - Providers never decide the final verification verdict; Vestara does.
-- Do not claim independent/cross-provider verification is implemented.
+- Do not claim independent/cross-provider verification execution is
+  implemented. The routing policy can require independence, but the default
+  runtime currently registers one provider.
 
 ## Implementation status
 

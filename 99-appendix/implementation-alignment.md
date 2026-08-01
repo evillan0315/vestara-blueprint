@@ -79,19 +79,20 @@ SCREENSHOT_ROUTES=<routes> SCREENSHOT_VIEWPORT=<group> SCREENSHOT_THEME=<theme> 
 ## Remaining architecture gaps
 
 1. Correlation/causation envelope on engineering events.
-2. CLI as a shared-runtime client of the Workspace API.
-3. Shared command model (do not duplicate existing session/intent contracts).
-4. Independent / cross-provider verification policy.
-5. Durable event persistence.
-6. Trust and historical confidence.
-7. Extension platform and Marketplace.
+2. Shared command model beyond the implemented routing commands (do not
+   duplicate existing session/intent contracts).
+3. Independent / cross-provider verification execution.
+4. Durable event persistence.
+5. Trust and historical confidence.
+6. Extension platform and Marketplace.
 
 ## Remaining implementation gaps
 
 1. Full visual-regression suite (only a subset verified end-to-end).
 2. Screenshots not yet emitted as verification evidence into the verification
    pipeline / event store.
-3. Provider routing is single-default; installable providers are not built.
+3. Provider execution is single-default; installable provider packages and
+   additional execution adapters are not built.
 
 ## Related ADRs
 

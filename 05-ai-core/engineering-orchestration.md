@@ -3,7 +3,7 @@ id: "ai-core-engineering-orchestration"
 title: "Engineering Orchestration"
 volume: "05-ai-core"
 book: "Book 3: AI Architecture"
-version: "1.0.0"
+version: "1.1.0"
 status: "approved"
 owner: "@chief-architect"
 created: "2026-08-01"
@@ -50,6 +50,11 @@ The `SessionOrchestrator` (workspace `sessions`) is the closest existing
 implementation of an engineering workflow coordinator: it accepts a goal and a
 workflow, assigns agents, and records execution sessions with timelines,
 approvals, and metrics.
+
+Routing selection and governed task assignment are now explicit shared-runtime
+objects. They do not replace the orchestration gap below: assignments are
+versioned and attributable, but plan/execution/verification correlation remains
+distributed across existing services.
 
 ## Responsibilities
 
@@ -103,8 +108,9 @@ evidence (see `14-engineering/visual-verification.md`).
 
 ## Implementation status
 
-Implemented and verified for single-provider orchestration. Multi-provider /
-cross-provider verification is proposed (see `provider-architecture.md`).
+Implemented and verified for single-provider orchestration plus provider-neutral
+routing intent and governed assignments. Multi-provider execution and
+cross-provider verification remain proposed (see `provider-architecture.md`).
 
 ## Future direction
 

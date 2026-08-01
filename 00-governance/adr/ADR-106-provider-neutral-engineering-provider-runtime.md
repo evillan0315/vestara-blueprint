@@ -3,7 +3,7 @@ id: "adr-106"
 adr: "ADR-106"
 title: "Provider-Neutral Engineering Provider Runtime"
 category: "foundation"
-version: 1.0
+version: 1.1
 date: "2026-08-01"
 status: "accepted"
 author: "@chief-architect"
@@ -55,5 +55,12 @@ interactive CLI provider, local inference provider, MCP-connected provider).
 
 ## Implementation Notes
 - Migration required? No.
-- Implemented: provider manager + default provider; installable providers are
-  proposed.
+- Implemented: provider manager + OpenCode default, normalized engineering
+  capability catalog, named routing profiles, provider-scoped model identity,
+  health-aware candidate resolution, versioned routing state, governed task
+  assignments, side-effect-aware reassignment, API/CLI/Workspace UI surfaces,
+  and an Ink Console adapter.
+- Partial: the registry and routing contract accept additional providers, but
+  only OpenCode is registered by the default API composition.
+- Proposed: Marketplace installation, additional engineering execution
+  adapters, automatic execution handoff, and cross-provider verification.

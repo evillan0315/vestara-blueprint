@@ -3,7 +3,7 @@ id: "roadmap-engineering-os"
 title: "Engineering OS Roadmap"
 volume: "20-roadmaps"
 book: "Book 6: Future Technologies"
-version: "1.0.0"
+version: "1.1.0"
 status: "review"
 owner: "@chief-architect"
 created: "2026-08-01"
@@ -34,18 +34,20 @@ implemented runtime and the identified architecture gaps.
 - Visual screenshot verification (subset verified)
 - Workspace UI modules (Docs, Diagnostics, Execution, Graph + Universal
   Inspector)
+- Provider-neutral routing domain, versioned assignments, shared API/CLI/UI
+  controls, and Ink Console
 
 ## Next milestones
 
 1. **Durable event persistence** — SQLite append log + on-disk checkpoints.
 2. **Correlation/causation envelope** — `correlationId` / `causationId` /
    `commandId` across intent → command → execution → verification.
-3. **Provider platform** — installable providers, provider health, routing.
-4. **CLI shared runtime** — CLI as a client of the Workspace API.
-5. **Cross-provider verification** — independent verifier policy.
-6. **Trust and historical confidence** — projection over the event store.
-7. **Extension platform + Marketplace**.
-8. **Full visual suite** — complete route × viewport × theme matrix + Visual
+3. **Provider platform extensions** — installable provider packages and
+   additional execution adapters.
+4. **Cross-provider verification** — execute the independent-verifier policy.
+5. **Trust and historical confidence** — projection over the event store.
+6. **Extension platform + Marketplace**.
+7. **Full visual suite** — complete route × viewport × theme matrix + Visual
    Evidence (interaction, a11y, video).
 
 ## Related

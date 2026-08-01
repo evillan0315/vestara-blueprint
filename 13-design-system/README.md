@@ -2,18 +2,18 @@
 title: "Vestara Design System (VDS) — Volume Overview"
 volume: "13-design-system"
 book: "Book 4: Engineering"
-version: "1.0.0"
+version: "1.1.0"
 status: "draft"
 owner: "@frontend-engineer"
-last-reviewed: "2025-07-30"
-next-review: "2026-01-30"
+last-reviewed: "2026-08-01"
+next-review: "2027-02-01"
 tags: ["vds", "design-system", "visual-language", "brand", "ui"]
 ---
 
 # Volume 13: Vestara Design System (VDS)
 ## The Visual Language of Vestara
 
-> **Mission**: Define a framework-agnostic visual language that every Vestara surface — desktop, web, mobile, tablet, automotive, and beyond — inherits without modification.
+> **Mission**: Define a framework-agnostic interaction language that every Vestara surface — graphical, terminal, voice, and future platforms — interprets without losing meaning, trust, or governance.
 
 VDS is not a component library. It is the specification for how Vestara looks, feels, and communicates. Any implementation (React, SwiftUI, Jetpack Compose, or future frameworks) derives from this contract.
 
@@ -28,7 +28,7 @@ VDS is not a component library. It is the specification for how Vestara looks, f
 | Mobile (iOS / Android) | Yes |
 | Tablet / Foldable | Yes |
 | Automotive / Embedded | Yes |
-| Terminal / TUI | Interpreted |
+| Terminal / TUI | Yes — semantic character-cell interpretation |
 | Voice-only | Audio equivalents |
 
 ---
@@ -54,7 +54,8 @@ VDS is not a component library. It is the specification for how Vestara looks, f
 ├── 13-dashboard-design.md       ─ Data viz, workspace layout, overview panels
 ├── 14-design-tokens.md          ─ Token taxonomy, naming, platform distribution
 ├── 15-accessibility.md          ─ WCAG targets, focus, screen reader, motion
-└── 16-theme-engine.md           ─ Dark/light, brand theming, custom themes
+├── 16-theme-engine.md           ─ Dark/light, brand theming, custom themes
+└── 17-terminal-console.md       ─ Terminal/TUI layout, input, routing, confirmations
 ```
 
 ---
@@ -68,6 +69,18 @@ VDS is not a component library. It is the specification for how Vestara looks, f
 | **Adaptive** | One language, many surfaces |
 | **Accessible** | WCAG 2.1 AA minimum, AAA target |
 | **Timeless** | Framework-agnostic; survives library churn |
+| **Governed** | Effective policy, side effects, and approvals remain visible |
+
+## Cross-surface invariants
+
+Every implementation MUST preserve the same semantic hierarchy, status
+meanings, participant attribution, routing intent, confirmation boundaries, and
+accessible keyboard path. A terminal MAY replace pixels with cells, icons with
+text, and animation with status changes; it MUST NOT remove governance or hide
+the effective provider/model assignment.
+
+The normative character-cell interpretation is defined in
+[VDS Terminal Console](17-terminal-console.md).
 
 ---
 

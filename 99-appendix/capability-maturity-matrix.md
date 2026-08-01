@@ -3,7 +3,7 @@ id: "appendix-capability-maturity-matrix"
 title: "Capability Maturity Matrix"
 volume: "99-appendix"
 book: "Book 6: Future Technologies"
-version: "1.0.0"
+version: "1.1.0"
 status: "approved"
 owner: "@chief-architect"
 created: "2026-08-01"
@@ -52,10 +52,12 @@ Precise states only; no checkmarks for unknown status.
 | Verification pipeline (typecheck/build/test/lint runners) | yes | accepted | implemented | verified | complete |
 | Evaluation harness (corpus + fixtures) | yes | accepted | implemented | verified | complete |
 | Cross-provider verification | yes | proposed | not started | unverified | draft |
-| Provider-neutral routing (installable providers) | yes | proposed | partial | unverified | draft |
+| Provider-neutral routing domain and governed assignments | yes | accepted | implemented | verified | complete |
+| Installable provider packages | yes | proposed | not started | unverified | draft |
 | OpenAI Codex provider | yes | proposed | not started | unverified | draft |
 | Claude Code provider | yes | proposed | not started | unverified | draft |
-| CLI as shared runtime client | yes | proposed | partial | unverified | draft |
+| CLI as shared runtime client (routing) | yes | accepted | implemented | verified | complete |
+| Ink engineering Console | yes | accepted | implemented | verified | complete |
 | Shared command envelope (correlation/causation) | yes | proposed | not started | unverified | draft |
 | Extension platform (module/plugin runtime) | yes | proposed | not started | unverified | draft |
 | Marketplace | yes | proposed | not started | unverified | draft |

@@ -3,7 +3,7 @@ id: "platform-engineering-operating-system"
 title: "Engineering Operating System"
 volume: "04-platform"
 book: "Book 2: Platform Architecture"
-version: "1.0.0"
+version: "1.1.0"
 status: "approved"
 owner: "@chief-architect"
 created: "2026-08-01"
@@ -40,8 +40,10 @@ reconciles the architecture with that implementation.
 - **Implemented and verified**: `WorkspaceRuntime` composition, lifecycle state
   machine, `AgentRuntime`, filesystem capability manager, telemetry, verification
   pipeline, Engineering Graph, and the Engineering Event Store.
-- **Partially implemented**: cross-provider execution (single provider wired),
-  CLI shared-runtime transport.
+- **Implemented**: provider-neutral routing intent, versioned routing selection,
+  governed task assignment, API/CLI/Workspace UI routing surfaces, and an Ink
+  Console using shared runtime transport.
+- **Partially implemented**: cross-provider execution (single provider wired).
 - **Specified only / proposed**: Marketplace, extension platform, durable event
   persistence, historical confidence.
 
@@ -104,7 +106,7 @@ implementation's actual identifiers.
 | Execution | `execution://<id>` | AgentRuntime | yes |
 | Session | `session://<id>` | SessionStorage | yes |
 | Agent | `agent://<id>` | AgentRuntime / AgentStorage | yes |
-| Provider | `@vestara/provider-*` packages | ProviderRuntime | partial (one default wired) |
+| Provider | provider-scoped model refs in `@vestara/provider-runtime` | ProviderRuntime | routing implemented; one default wired |
 | Capability | capability manifest + manager | AgentCapabilityManager | yes |
 | Approval | collaboration records + session approvals | CollaborationService | yes |
 | Artifact | change sets, verification reports, reviews | storages | yes |
@@ -158,6 +160,11 @@ Runtimes degrade gracefully: state machine failure states, verification retries,
 and capability denials are surfaced as events. Missing providers/binaries degrade
 to "not available" rather than throwing.
 
+Routing health uses hysteresis and explicit degraded, unavailable, cooldown,
+authentication-required, and rate-limited states. Automatic fallback is allowed
+only at policy-declared stages. After filesystem or command side effects,
+execution pauses and reassignment requires explicit approval.
+
 ## Trade-offs
 
 - **Monorepo, one runtime**: rapid composition; the workspace is a single
@@ -173,8 +180,8 @@ evidence: package tests, API smoke tests, and the visual-regression run
 
 ## Future direction
 
-Durable event persistence, provider-independent verification, historical
-confidence, extension platform, and the Marketplace. See
+Additional provider adapters, provider-independent verification, durable event
+persistence, historical confidence, extension platform, and the Marketplace. See
 `20-roadmaps/engineering-os-roadmap.md`.
 
 ## Related ADRs
@@ -188,4 +195,4 @@ confidence, extension platform, and the Marketplace. See
 - Repository: `evillan0315/vestara-ai-core`
 - Paths: `packages/workspace/src`, `packages/kernel/src`, `packages/agent-runtime`
   (agent storage/runtime), `packages/engineering-graph/src`,
-  `apps/api/src/routes`
+  `packages/provider-runtime/src`, `apps/api/src/routes`, `apps/console/src`

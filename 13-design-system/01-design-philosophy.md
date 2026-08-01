@@ -2,11 +2,11 @@
 title: "VDS Design Philosophy"
 volume: "13-design-system"
 book: "Book 4: Engineering"
-version: "1.0.0"
+version: "1.1.0"
 status: "draft"
 owner: "@frontend-engineer"
-last-reviewed: "2025-07-30"
-next-review: "2026-01-30"
+last-reviewed: "2026-08-01"
+next-review: "2027-02-01"
 tags: ["vds", "philosophy", "principles"]
 ---
 
@@ -23,3 +23,10 @@ tags: ["vds", "philosophy", "principles"]
 4. **Accessibility is not a layer** — it is foundational. Color choices, motion, typography, and interaction models are designed for the widest possible audience from the start.
 
 5. **One source of truth** — design tokens are the single point of change. No hardcoded color, spacing, or type value exists outside the token system.
+
+6. **Semantics survive the medium** — graphical and character-cell surfaces
+may render differently, but attribution, hierarchy, status, policy, and approval
+meaning MUST remain equivalent.
+
+7. **The runtime owns truth** — presentation surfaces express routing intent;
+they never invent availability, compatibility, permission, or assignment state.

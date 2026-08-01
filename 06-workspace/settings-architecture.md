@@ -3,7 +3,7 @@ id: "workspace-settings-architecture"
 title: "Settings Architecture"
 volume: "06-workspace"
 book: "Book 2: Platform Architecture"
-version: "1.0.0"
+version: "1.1.0"
 status: "approved"
 owner: "@chief-architect"
 created: "2026-08-01"
@@ -33,6 +33,10 @@ implemented sections as implemented.
 - **Provider settings** surface exists (`useProviderSettings`), scoped to the
   active provider.
 - **General settings** persist via the workspace preferences store.
+- **Engineering routing** is implemented as a dedicated `/routing` control
+  surface backed by shared versioned runtime state. It exposes profiles, role
+  defaults, provider/model candidates, preflight evidence, assignments, and
+  revision-conflict handling.
 
 The Settings page is the engineering control surface, but most sections below
 are **proposed**, not implemented toggles.
@@ -91,6 +95,7 @@ handling, section reset, validation, and secret masking.
 |---------|--------|
 | Theme/appearance settings | implemented and verified |
 | Provider settings (basic) | partial |
+| Routing profiles, role defaults, preflight, assignments | implemented and verified |
 | General settings (prefs) | implemented |
 | Runtime / Agents / Verification / CLI / History / Telemetry sections | proposed |
 
@@ -100,4 +105,7 @@ handling, section reset, validation, and secret masking.
 - Paths: `apps/workspace/src/pages/Settings/SettingsPage.tsx`,
   `apps/workspace/src/lib/theme.tsx`,
   `apps/workspace/src/hooks/useProviderSettings.ts`,
+  `apps/workspace/src/pages/Routing.tsx`,
+  `apps/workspace/src/lib/routing.ts`,
+  `apps/api/src/routes/routing.ts`,
   `apps/api/src/routes/workspace.ts` (`/api/settings`)
