@@ -2,13 +2,18 @@
 title: "VDS Terminal Console"
 volume: "13-design-system"
 book: "Book 4: Engineering"
-version: "1.0.0"
+version: "1.1.0"
 status: "approved"
 owner: "@frontend-engineer"
 created: "2026-08-01"
 last-reviewed: "2026-08-01"
 next-review: "2027-02-01"
 tags: ["vds", "terminal", "tui", "console", "routing", "accessibility"]
+architecture-status: "accepted"
+implementation-status: "partial"
+verification-status: "partial"
+implementation-repository: "evillan0315/vestara-ai-core"
+implementation-ref: "packages/tui/src/index.tsx; packages/tui/src/app.tsx; packages/tui/src/controller.ts; packages/tui/src/normalize.ts"
 ---
 
 # VDS Terminal Console
@@ -26,12 +31,14 @@ tags: ["vds", "terminal", "tui", "console", "routing", "accessibility"]
 ## Surface anatomy
 
 ```text
-┌ Vestara ───────────────────────────── Runtime status ┐
-│ Transcript / overlay / governed confirmation         │
-│                                                      │
-├ Composer ────────────────────────────────────────────┤
-│ Keyboard help and terminal dimensions                │
-└──────────────────────────────────────────────────────┘
+┌ Vestara ───────── Workspace ───────── Runtime status ┐
+├ Navigation ┬ Conversation / active view ┬ Agents     ┤
+│ views      │ tool cards and overlays     │ progress   │
+├────────────┴──────────────────────────────┴────────────┤
+│ Multiline composer                                   │
+├───────────────────────────────────────────────────────┤
+│ Workspace · branch · provider · agents · memory      │
+└───────────────────────────────────────────────────────┘
 ```
 
 The Console MUST remain useful at 80×24. It SHOULD preserve transcript,
@@ -80,7 +87,19 @@ second step. Reassignment MUST NOT imply that paused work resumed.
 
 ## Implementation reconciliation
 
-The Ink Console in `vestara-ai-core/apps/console` implements the initial layout,
-streaming composer, scrollback, help/palette overlays, and reassignment
-confirmations. Routing state and decisions remain owned by the shared runtime;
-Ink is a replaceable presentation adapter.
+`@vestara/tui` is the canonical interactive terminal surface. It implements
+alternate-screen rendering, responsive navigation and agent panes, streaming
+conversation updates, visible tool cards, telemetry and graph views, multiline
+editing, history, cursor movement, undo/redo, bracketed paste, command palette,
+toasts, confirmations, and persistent status. `apps/console` is only a
+compatibility launcher.
+
+`TuiController` consumes Workspace Runtime HTTP and WebSocket contracts.
+`normalizeRuntimeEvent` is the mandatory provider-protocol boundary: raw tool
+arguments, DSML/XML, provider envelopes, and provider metadata never enter
+conversation state. Runtime events update application state in place; the UI
+does not poll while connected.
+
+Current explorer, sessions, and plans panes establish extension points and
+shells over runtime data. Rich file-tree previews, resizable pane handles, and
+plugin-contributed render functions remain partial.

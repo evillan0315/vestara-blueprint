@@ -54,7 +54,8 @@ analysis do not become autonomous runtimes solely because they are specialists.
   pipeline, Engineering Graph, and the Engineering Event Store.
 - **Implemented**: provider-neutral routing intent, versioned routing selection,
   governed task assignment, API/CLI/Workspace UI routing surfaces, and an Ink
-  Console using shared runtime transport.
+  native `@vestara/tui` using shared runtime transport; `apps/console` is a
+  compatibility launcher.
 - **Partially implemented**: cross-provider execution (single provider wired).
 - **Specified only / proposed**: Marketplace, extension platform, durable event
   persistence, historical confidence.
@@ -226,4 +227,4 @@ persistence, historical confidence, extension platform, and the Marketplace. See
 - Repository: `evillan0315/vestara-ai-core`
 - Paths: `packages/workspace/src`, `packages/kernel/src`, `packages/agent-runtime`
   (agent storage/runtime), `packages/engineering-graph/src`,
-  `packages/provider-runtime/src`, `apps/api/src/routes`, `apps/console/src`
+  `packages/provider-runtime/src`, `apps/api/src/routes`, `packages/tui/src`

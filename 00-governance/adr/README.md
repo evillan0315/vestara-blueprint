@@ -112,6 +112,12 @@ ADR-112 (Extension Platform)
                  20-roadmaps/extension-platform-roadmap.md
   influences: Platform Engineer, Security Engineer, Developer Experience,
               Provider Runtime, Workspace UI, CLI
+
+ADR-113 (Native TUI)
+  depends_on: ADR-106, ADR-111, ADR-112
+  referenced_by: 13-design-system/17-terminal-console.md
+  influences: Platform Engineer, Frontend Engineer, Developer Experience,
+              CLI, Workspace Runtime, Extension Platform
 ```
 
 ---
