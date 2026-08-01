@@ -3,17 +3,17 @@ id: "developer-platform-extension-platform"
 title: "Extension Platform"
 volume: "10-developer-platform"
 book: "Book 2: Platform Architecture"
-version: "1.0.0"
+version: "1.1.0"
 status: "approved"
 owner: "@chief-architect"
 created: "2026-08-01"
 last-reviewed: "2026-08-01"
 next-review: "2026-11-01"
 architecture-status: "accepted"
-implementation-status: "not-started"
-verification-status: "unverified"
+implementation-status: "partial"
+verification-status: "partial"
 implementation-repository: "evillan0315/vestara-ai-core"
-implementation-ref: "not implemented"
+implementation-ref: "packages/extension-contracts/src/index.ts; packages/extension-runtime/src/index.ts"
 tags: ["extension-platform", "plugins", "modules", "marketplace", "reconciliation"]
 ---
 
@@ -27,9 +27,14 @@ engineering operating system.
 
 ## Current state
 
-**Not implemented.** The `10-developer-platform/extensions` and
-`04-platform/plugins|marketplace|providers` directories are empty. This
-document is architecture intent; do not treat it as implemented.
+**Foundation implemented; distribution service not started.** Vestara now has
+v1 manifest and lifecycle contracts plus a transactional local package manager.
+It validates compatibility and integrity, requests declared permissions,
+activates controlled contributions, persists workspace enablement, projects
+package relationships into the Engineering Graph, and supports disable,
+health, update, rollback, and uninstall. Remote registries, publishing,
+signatures, archive extraction, storefront UI, and out-of-process isolation
+remain proposed.
 
 ## Terminology
 
@@ -91,7 +96,10 @@ Package identity, publisher identity, capability declarations, requested
 permissions, workspace boundaries, protected paths, terminal/network policy,
 approval requirements, sandbox modes, secret isolation, signature verification,
 supply-chain security, event attribution, and install/update/uninstall audit.
-None implemented today; all proposed.
+Checksum verification, permission declarations, path and symlink containment,
+event attribution, transactional rollback, and isolation declarations are
+implemented in the local foundation. Signatures, SBOM enforcement, revocation,
+community isolation, resource limits, and secret mediation remain proposed.
 
 ## Future direction
 
@@ -99,8 +107,11 @@ See `20-roadmaps/extension-platform-roadmap.md`.
 
 ## Related ADRs
 
-- `adr/ADR-109-blueprint-implementation-alignment-metadata.md` (status framing)
+- `../00-governance/adr/ADR-112-extension-platform-and-local-package-manager.md`
 
 ## Related implementation
 
-- None (not implemented).
+- `packages/extension-contracts/src/index.ts`
+- `packages/extension-runtime/src/index.ts`
+- `packages/extension-contracts/__tests__/index.test.ts`
+- `packages/extension-runtime/__tests__/index.test.ts`

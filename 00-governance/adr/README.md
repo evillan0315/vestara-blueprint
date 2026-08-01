@@ -105,6 +105,13 @@ ADR-111 (Agent Harness)
                  04-platform/engineering-operating-system.md
   influences: Platform Engineer, AI Engineer, Security Engineer,
               Workspace UI, CLI, Agent Runtime
+
+ADR-112 (Extension Platform)
+  depends_on: ADR-104, ADR-106, ADR-111
+  referenced_by: 10-developer-platform/extension-platform.md,
+                 20-roadmaps/extension-platform-roadmap.md
+  influences: Platform Engineer, Security Engineer, Developer Experience,
+              Provider Runtime, Workspace UI, CLI
 ```
 
 ---

@@ -70,8 +70,9 @@ Precise states only; no checkmarks for unknown status.
 | Automation Runtime | yes | accepted | partial | partial | complete |
 | Event, Telemetry, and Audit Runtime | yes | accepted | partial | partial | complete |
 | Shared command envelope (correlation/causation) | yes | proposed | not started | unverified | draft |
-| Extension platform (module/plugin runtime) | yes | proposed | not started | unverified | draft |
-| Marketplace | yes | proposed | not started | unverified | draft |
+| Extension platform (module/plugin runtime) | yes | accepted | partial | partial | complete |
+| Local package manager | yes | accepted | partial | partial | complete |
+| Marketplace discovery/distribution | yes | proposed | not started | unverified | draft |
 | Durable event persistence (SQLite append log) | yes | proposed | not started | unverified | draft |
 | Trust score | yes | proposed | not started | unverified | draft |
 | Historical confidence | yes | proposed | not started | unverified | draft |
