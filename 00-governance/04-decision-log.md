@@ -127,6 +127,7 @@ What did we decide? Be specific.
 | **ADR-108** | **Visual Evidence and Screenshot Verification** | **accepted** | **2026-08-01** | [adr/ADR-108-visual-evidence-and-screenshot-verification.md](adr/ADR-108-visual-evidence-and-screenshot-verification.md) |
 | **ADR-109** | **Blueprint Implementation-Alignment Metadata and Versioned Reconcilement** | **accepted** | **2026-08-01** | [adr/ADR-109-blueprint-implementation-alignment-metadata.md](adr/ADR-109-blueprint-implementation-alignment-metadata.md) |
 | **ADR-110** | **Blueprint Volume Renumbering** | **accepted** | **2026-08-01** | [adr/ADR-110-blueprint-volume-renumbering.md](adr/ADR-110-blueprint-volume-renumbering.md) |
+| **ADR-111** | **Agent-Harness-Centered Runtime Architecture** | **accepted** | **2026-08-01** | [adr/ADR-111-agent-harness-centered-runtime-architecture.md](adr/ADR-111-agent-harness-centered-runtime-architecture.md) |
 
 > **Reconcilement note**: ADR-016 "Architecture Freeze v1.0" is **superseded** by
 > ADR-109. The Blueprint is now reconciled in **versions** against the
@@ -134,9 +135,13 @@ What did we decide? Be specific.
 > validation script, rather than permanently frozen. ADR-002 (OpenCode as
 > default provider) is reframed by ADR-106: the architecture is
 > provider-neutral; OpenCode is a default distribution provider.
+> ADR-023 ("Everything is a Runtime") is narrowed by ADR-111. A component is a
+> runtime only when it owns durable lifecycle, recovery, concurrency, isolation,
+> resources, and observability; other concepts remain services, providers,
+> strategies, policies, or projections.
 
 > **Foundational ADRs (100+)** define the architectural philosophy that governs all other decisions. Each has a standalone document in `00-governance/adr/`.
-| ADR-023 | Core Runtime Model — Everything is a Runtime | accepted | 2026-07-27 | 07-operating-system, all subsystems |
+| ADR-023 | Core Runtime Model — Everything is a Runtime | superseded by ADR-111 | 2026-07-27 | 07-operating-system, all subsystems |
 | ADR-024 | Job Model — Standard Operation Lifecycle | accepted | 2026-07-27 | 07-operating-system |
 | ADR-025 | Worker Model & Capability Scheduling | accepted | 2026-07-27 | 07-operating-system, 05-ai-core |
 | ADR-026 | Intent Model — Goals to Execution Plans | accepted | 2026-07-27 | 05-ai-core, 14-engineering |
@@ -544,6 +549,10 @@ subsystem/
 ```
 
 ### ADR-023: Core Runtime Model — Everything is a Runtime
+
+> **Status update (2026-08-01): superseded by ADR-111.** The shared lifecycle
+> base remains useful, but not every engineering concept qualifies as a
+> first-class runtime. Apply the ADR-111 graduation criteria.
 
 ```yaml
 adr: "ADR-023"

@@ -85,6 +85,8 @@ SCREENSHOT_ROUTES=<routes> SCREENSHOT_VIEWPORT=<group> SCREENSHOT_THEME=<theme> 
 4. Durable event persistence.
 5. Trust and historical confidence.
 6. Extension platform and Marketplace.
+7. Durable Agent Harness thread/item, environment, tool, worktree, and
+   automation contracts defined by ADR-111.
 
 ## Remaining implementation gaps
 
@@ -93,11 +95,15 @@ SCREENSHOT_ROUTES=<routes> SCREENSHOT_VIEWPORT=<group> SCREENSHOT_THEME=<theme> 
    pipeline / event store.
 3. Provider execution is single-default; installable provider packages and
    additional execution adapters are not built.
+4. The Agent Harness target architecture is not implemented; current behavior
+   remains distributed across AgentRuntime, session/conversation services,
+   capability managers, tool packages, and verification services.
 
 ## Related ADRs
 
 - `adr/ADR-109-blueprint-implementation-alignment-metadata.md`
 - `adr/ADR-110-blueprint-volume-renumbering.md`
+- `adr/ADR-111-agent-harness-centered-runtime-architecture.md`
 
 ## Related implementation
 

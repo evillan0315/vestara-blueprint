@@ -36,6 +36,7 @@ tags: ["platform", "architecture", "overview"]
 ├── workspace/                             ← Workspace orchestration
 ├── plugins/                               ← Plugin system & SDK
 ├── providers/                             ← External service providers
+├── agent-harness-architecture.md          ← Canonical target agent execution loop
 ├── filesystem/                            ← File abstraction & storage
 ├── marketplace/                           ← Plugin & extension marketplace
 ├── automation/                            ← Workflow automation

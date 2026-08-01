@@ -3,7 +3,7 @@ id: "ai-core-engineering-orchestration"
 title: "Engineering Orchestration"
 volume: "05-ai-core"
 book: "Book 3: AI Architecture"
-version: "1.1.0"
+version: "1.2.0"
 status: "approved"
 owner: "@chief-architect"
 created: "2026-08-01"
@@ -72,6 +72,12 @@ distributed across existing services.
 - The workflow coordinator does not perform provider reasoning.
 - Providers never own intent, permissions, evidence, or history.
 - The Engineering Event Store owns history; the graph owns the projection.
+- The Orchestration Runtime manages goals, task dependencies, assignments,
+  environments, and result integration.
+- The Agent Harness Runtime manages one agent's iterative turn. Orchestration
+  MUST NOT interpret every model item or micromanage tool calls.
+- Planning remains an orchestration strategy until it independently satisfies
+  the ADR-111 runtime qualification rule.
 
 ## Identified architecture gap
 
@@ -117,6 +123,8 @@ cross-provider verification remain proposed (see `provider-architecture.md`).
 - Full correlation envelope across intent/command/execution/verification.
 - Provider-independent orchestration and cross-provider verification.
 - Engineering workflow coordination contract (ADR).
+- Agent Harness coordinator over existing services, durable thread/item model,
+  unified tools, environment leases, steering, and cancellation (ADR-111).
 
 ## Related ADRs
 
@@ -124,6 +132,7 @@ cross-provider verification remain proposed (see `provider-architecture.md`).
 - `adr/ADR-104-evidence-based-verification.md`
 - `adr/ADR-105-event-sourced-engineering-graph.md`
 - `adr/ADR-106-provider-neutral-engineering-provider-runtime.md`
+- `adr/ADR-111-agent-harness-centered-runtime-architecture.md`
 
 ## Related implementation
 

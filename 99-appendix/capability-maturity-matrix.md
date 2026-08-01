@@ -3,7 +3,7 @@ id: "appendix-capability-maturity-matrix"
 title: "Capability Maturity Matrix"
 volume: "99-appendix"
 book: "Book 6: Future Technologies"
-version: "1.1.0"
+version: "1.2.0"
 status: "approved"
 owner: "@chief-architect"
 created: "2026-08-01"
@@ -58,6 +58,17 @@ Precise states only; no checkmarks for unknown status.
 | Claude Code provider | yes | proposed | not started | unverified | draft |
 | CLI as shared runtime client (routing) | yes | accepted | implemented | verified | complete |
 | Ink engineering Console | yes | accepted | implemented | verified | complete |
+| Agent Harness Runtime | yes | accepted | not started | unverified | complete |
+| Durable task/thread/turn/item model | yes | accepted | partial | partial | complete |
+| Environment Runtime | yes | accepted | not started | unverified | complete |
+| Unified Tool Runtime | yes | accepted | partial | partial | complete |
+| Context Runtime as harness source | yes | accepted | partial | partial | complete |
+| Policy and Approval Runtime | yes | accepted | partial | partial | complete |
+| Verification and Evidence Runtime | yes | accepted | partial | partial | complete |
+| Worktree and Parallel-Agent Runtime | yes | accepted | not started | unverified | complete |
+| Orchestration Runtime | yes | accepted | partial | partial | complete |
+| Automation Runtime | yes | accepted | partial | partial | complete |
+| Event, Telemetry, and Audit Runtime | yes | accepted | partial | partial | complete |
 | Shared command envelope (correlation/causation) | yes | proposed | not started | unverified | draft |
 | Extension platform (module/plugin runtime) | yes | proposed | not started | unverified | draft |
 | Marketplace | yes | proposed | not started | unverified | draft |
@@ -83,3 +94,4 @@ Precise states only; no checkmarks for unknown status.
 - `99-appendix/implementation-alignment.md` — status legend + repository
   references.
 - `00-governance/adr/ADR-105-event-sourced-engineering-graph.md`
+- `00-governance/adr/ADR-111-agent-harness-centered-runtime-architecture.md`

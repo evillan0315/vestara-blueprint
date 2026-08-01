@@ -3,7 +3,7 @@ id: "platform-engineering-operating-system"
 title: "Engineering Operating System"
 volume: "04-platform"
 book: "Book 2: Platform Architecture"
-version: "1.1.0"
+version: "1.2.0"
 status: "approved"
 owner: "@chief-architect"
 created: "2026-08-01"
@@ -27,6 +27,12 @@ a repository workspace. This document replaces the earlier service-oriented
 framing as the canonical architecture for how the Workspace composes its
 subsystems and executes intent.
 
+This document describes the implemented platform and its migration toward the
+canonical target in
+[Agent Harness Runtime Architecture](agent-harness-architecture.md). The target
+does not create a runtime for every engineering noun; it centers execution on a
+durable harness and qualifies other components by lifecycle ownership.
+
 ## Context
 
 Earlier Blueprint volumes described a service-oriented platform. The implemented
@@ -34,6 +40,12 @@ runtime (`vestara-ai-core`) is an operating-system-style kernel with a workspace
 runtime that composes specialists, an agent runtime, a capability-governed
 execution layer, and an event-sourced engineering graph. This document
 reconciles the architecture with that implementation.
+
+The existing coordinator-composes-specialists pattern remains valid for
+ownership. ADR-111 narrows where coordination occurs: task orchestration manages
+agents and dependencies, while the Agent Harness owns each model/tool/
+observation/verification turn. Planning, browser use, learning, and repository
+analysis do not become autonomous runtimes solely because they are specialists.
 
 ## Current state
 
@@ -90,6 +102,24 @@ The kernel (`@vestara/kernel`) orchestrates boot; `WorkspaceRuntime`
 Every `Runtime` instance uses `@vestara/state-machine` for lifecycle transitions
 (`created → initializing → running → stopped → …`). The state machine is
 zero-dependency and generic.
+
+## Target runtime composition
+
+| Target runtime | Responsibility | Current maturity |
+|----------------|----------------|------------------|
+| Agent Harness | one iterative agent turn through terminal outcome | proposed; evolves `AgentRuntime` |
+| Task and Thread | durable task, turns, items, steering, resume | partial across sessions/conversation |
+| Environment | execution boundary, policy, provisioning, snapshots | proposed |
+| Tool | common registry, validation, authorization, invocation, evidence | partial across tool packages/capabilities |
+| Context | dynamic context selection for each turn | partial across context/understanding/knowledge |
+| Policy and Approval | risk decision and scoped authorization | partial |
+| Verification and Evidence | repeated checks and structured proof | partial/implemented components |
+| Worktree and Parallel Agent | leases, isolation, conflicts, integration | proposed |
+| Orchestration | tasks, dependencies, assignment, environments, integration | partial |
+| Automation | schedules/events create ordinary task threads | partial across jobs/scheduler |
+| Event, Telemetry, Audit | ordered truth, live state, replay, attribution | partial; persistence gap |
+
+See ADR-111 for the runtime qualification rule and migration constraints.
 
 ## Engineering objects
 
@@ -189,6 +219,7 @@ persistence, historical confidence, extension platform, and the Marketplace. See
 - `adr/ADR-104-evidence-based-verification.md`
 - `adr/ADR-105-event-sourced-engineering-graph.md`
 - `adr/ADR-106-provider-neutral-engineering-provider-runtime.md`
+- `adr/ADR-111-agent-harness-centered-runtime-architecture.md`
 
 ## Related implementation
 

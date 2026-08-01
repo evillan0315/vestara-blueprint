@@ -98,6 +98,13 @@ ADR-102 (VDS)
   depends_on: —
   referenced_by: 13-design-system/
   influences: Frontend Engineer, UI Designer, Workspace UI, Mobile Engineer
+
+ADR-111 (Agent Harness)
+  depends_on: ADR-103, ADR-104, ADR-105, ADR-106, ADR-107
+  referenced_by: 04-platform/agent-harness-architecture.md,
+                 04-platform/engineering-operating-system.md
+  influences: Platform Engineer, AI Engineer, Security Engineer,
+              Workspace UI, CLI, Agent Runtime
 ```
 
 ---

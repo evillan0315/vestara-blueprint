@@ -3,7 +3,7 @@ id: "roadmap-engineering-os"
 title: "Engineering OS Roadmap"
 volume: "20-roadmaps"
 book: "Book 6: Future Technologies"
-version: "1.1.0"
+version: "1.2.0"
 status: "review"
 owner: "@chief-architect"
 created: "2026-08-01"
@@ -39,18 +39,45 @@ implemented runtime and the identified architecture gaps.
 
 ## Next milestones
 
-1. **Durable event persistence** — SQLite append log + on-disk checkpoints.
-2. **Correlation/causation envelope** — `correlationId` / `causationId` /
-   `commandId` across intent → command → execution → verification.
-3. **Provider platform extensions** — installable provider packages and
-   additional execution adapters.
-4. **Cross-provider verification** — execute the independent-verifier policy.
-5. **Trust and historical confidence** — projection over the event store.
-6. **Extension platform + Marketplace**.
-7. **Full visual suite** — complete route × viewport × theme matrix + Visual
-   Evidence (interaction, a11y, video).
+### Phase 1 — Complete the Agent Harness
+
+1. Durable task/thread/turn/item schemas and event persistence.
+2. Agent Harness coordinator over current agent, provider, context, capability,
+   and verification services.
+3. Unified Tool Runtime envelope and adapters for existing tools.
+4. Policy/approval evaluation for every proposed tool call.
+5. Structured observations, cancellation, steering, and resume.
+
+### Phase 2 — Make results trustworthy
+
+1. Repeated verification and repair loop.
+2. Structured evidence artifacts.
+3. Browser/computer-use tool providers and human-visible demonstration.
+4. Full visual evidence suite.
+
+### Phase 3 — Enable parallel engineering
+
+1. Worktree leases and environment isolation.
+2. Dependency-aware task assignment and supervisor orchestration.
+3. Conflict detection, merge preparation, and integration verification.
+
+### Phase 4 — Enable long-running work
+
+1. Context compaction and durable resume.
+2. Cloud/remote environments and cross-device steering.
+3. Automation that creates ordinary task threads.
+4. Durable engineering memory derived from completed threads.
+
+### Phase 5 — Improve from outcomes
+
+1. Failure-pattern extraction and reusable skills.
+2. Repository-specific instruction refinement.
+3. Verification-policy refinement, trust, and agent evaluation.
+4. Provider platform extensions and cross-provider verification.
+5. Extension platform and Marketplace.
 
 ## Related
 
 - `04-platform/engineering-operating-system.md`
+- `04-platform/agent-harness-architecture.md`
 - `99-appendix/capability-maturity-matrix.md`
