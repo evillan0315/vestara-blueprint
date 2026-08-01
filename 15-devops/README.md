@@ -2,11 +2,11 @@
 title: "DevOps — Volume Overview"
 volume: "15-devops"
 book: "Book 4: Engineering"
-version: "1.0.0"
+version: "1.1.0"
 status: "approved"
 owner: "@devops-engineer"
-last-reviewed: "2025-07-23"
-next-review: "2026-01-23"
+last-reviewed: "2026-08-01"
+next-review: "2026-11-01"
 tags: ["devops", "ci-cd", "docker", "infrastructure", "monitoring"]
 ---
 
@@ -47,6 +47,14 @@ tags: ["devops", "ci-cd", "docker", "infrastructure", "monitoring"]
 | **Environment Parity** | Dev = Staging = Production |
 | **Self-Healing** | Automatic rollback on failure |
 | **Disaster Recovery Tested** | Regular DR drills |
+
+## OS-0 deployment status
+
+Reviewed systemd templates are implemented under `vestara-ai-core/os/systemd`
+at reference `579df3f`. They provide host preflight, API/runtime hosting,
+workspace readiness, and a target unit. Installation and enablement are
+explicit administrator actions. Image production, unattended installation,
+signed update delivery, and automatic rollback remain future work.
 
 ---
 

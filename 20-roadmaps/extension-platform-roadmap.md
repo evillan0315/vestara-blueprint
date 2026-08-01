@@ -13,7 +13,7 @@ architecture-status: "proposed"
 implementation-status: "partial"
 verification-status: "partial"
 implementation-repository: "evillan0315/vestara-ai-core"
-implementation-ref: "packages/extension-contracts/src/index.ts; packages/extension-runtime/src/index.ts"
+implementation-ref: "45e670d; packages/extension-contracts; packages/extension-runtime"
 tags: ["roadmap", "extensions", "marketplace", "reconciliation"]
 ---
 
@@ -31,10 +31,10 @@ discovery and publishing are not implemented.
 
 ## Phases
 
-1. **Extension contracts — partial.** Package identity, taxonomy, manifest,
+1. **Extension contracts — foundation complete.** Package identity, taxonomy, manifest,
    lifecycle, trust, isolation, contributions, permissions, compatibility, and
    health contracts exist.
-2. **Local package manager — partial.** Unpacked local install, checksum
+2. **Local package manager — foundation complete.** Unpacked local install, checksum
    verification, dependency checks, activation, enable/disable, health,
    retained-version rollback, uninstall, events, and graph projection exist.
 3. **Reference packages — next.** Extract provider, theme, and standards-pack

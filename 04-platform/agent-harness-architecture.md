@@ -3,17 +3,17 @@ id: "platform-agent-harness-architecture"
 title: "Agent Harness Runtime Architecture"
 volume: "04-platform"
 book: "Book 2: Platform Architecture"
-version: "1.0.0"
+version: "1.1.0"
 status: "approved"
 owner: "@chief-architect"
 created: "2026-08-01"
 last-reviewed: "2026-08-01"
 next-review: "2026-11-01"
 architecture-status: "accepted"
-implementation-status: "proposed"
-verification-status: "unverified"
+implementation-status: "partial"
+verification-status: "verified"
 implementation-repository: "evillan0315/vestara-ai-core"
-implementation-ref: "target architecture; migration adapters not yet implemented"
+implementation-ref: "4a76027 (Harness Foundation); target runtime remains partial"
 tags: ["agent-harness", "threads", "tools", "environments", "orchestration"]
 ---
 
@@ -47,6 +47,19 @@ Agent Harness Runtime
 The harness coordinates this loop. It does not absorb tool implementation,
 environment isolation, policy decisions, verification checks, or durable event
 storage.
+
+## Current implementation
+
+The Harness Foundation is implemented at `vestara-ai-core@4a76027`.
+`@vestara/agent-harness` coordinates one durable turn across provider inference,
+context assembly, tools, policy and approval decisions, observations,
+verification, steering, cancellation, and terminal outcome. Authoritative
+history is delegated to `@vestara/thread-runtime`; specialist services retain
+their ownership.
+
+This verifies the central coordinator contract, not the entire target. Durable
+cross-process recovery, environment provisioning, worktree leases, compaction,
+browser demonstration, and full automation integration remain incomplete.
 
 ## Harness state
 

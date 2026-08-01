@@ -2,7 +2,7 @@
 title: "VDS Terminal Console"
 volume: "13-design-system"
 book: "Book 4: Engineering"
-version: "1.1.0"
+version: "1.2.0"
 status: "approved"
 owner: "@frontend-engineer"
 created: "2026-08-01"
@@ -13,7 +13,7 @@ architecture-status: "accepted"
 implementation-status: "partial"
 verification-status: "partial"
 implementation-repository: "evillan0315/vestara-ai-core"
-implementation-ref: "packages/tui/src/index.tsx; packages/tui/src/app.tsx; packages/tui/src/controller.ts; packages/tui/src/normalize.ts"
+implementation-ref: "502b078, db3f498; packages/tui"
 ---
 
 # VDS Terminal Console
@@ -100,6 +100,8 @@ arguments, DSML/XML, provider envelopes, and provider metadata never enter
 conversation state. Runtime events update application state in place; the UI
 does not poll while connected.
 
-Current explorer, sessions, and plans panes establish extension points and
-shells over runtime data. Rich file-tree previews, resizable pane handles, and
-plugin-contributed render functions remain partial.
+Explorer, sessions, and plans are backed by Engineering Graph and runtime API
+data. `TuiExtensionRegistry` accepts declarative view descriptors with disposal
+hooks; extensions cannot inject arbitrary Ink components into the trusted TUI
+process. Rich file-tree previews, bounded list navigation, resizable pane
+handles, and full Marketplace-driven view discovery remain partial.

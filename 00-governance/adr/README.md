@@ -118,6 +118,13 @@ ADR-113 (Native TUI)
   referenced_by: 13-design-system/17-terminal-console.md
   influences: Platform Engineer, Frontend Engineer, Developer Experience,
               CLI, Workspace Runtime, Extension Platform
+
+ADR-114 (Linux Host Integration)
+  depends_on: ADR-104, ADR-107, ADR-111
+  referenced_by: 07-operating-system/os-0-host-integration.md,
+                 07-operating-system/README.md
+  influences: Platform Engineer, DevOps Engineer, Security Engineer,
+              Kernel, Host Runtime, Boot Runtime
 ```
 
 ---

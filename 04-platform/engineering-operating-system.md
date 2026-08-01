@@ -3,7 +3,7 @@ id: "platform-engineering-operating-system"
 title: "Engineering Operating System"
 volume: "04-platform"
 book: "Book 2: Platform Architecture"
-version: "1.2.0"
+version: "1.3.0"
 status: "approved"
 owner: "@chief-architect"
 created: "2026-08-01"
@@ -57,6 +57,8 @@ analysis do not become autonomous runtimes solely because they are specialists.
   native `@vestara/tui` using shared runtime transport; `apps/console` is a
   compatibility launcher.
 - **Partially implemented**: cross-provider execution (single provider wired).
+- **Implemented and verified**: OS-0 Host Runtime, durable Boot Runtime,
+  read-only host/boot API and CLI status, and explicit systemd host-mode units.
 - **Specified only / proposed**: Marketplace, extension platform, durable event
   persistence, historical confidence.
 
@@ -99,6 +101,8 @@ The kernel (`@vestara/kernel`) orchestrates boot; `WorkspaceRuntime`
 | VerificationRuntime | Evaluates claims and evidence (verification pipeline, evidence pipeline) |
 | EngineeringEventStore | Stores historical engineering truth (session-only today) |
 | EngineeringGraph | Projects structural and temporal engineering state |
+| HostRuntime | Observes the Linux machine boundary; host mutation is deny-by-default |
+| BootRuntime | Persists ordered Vestara boot progress and recovery evidence |
 
 Every `Runtime` instance uses `@vestara/state-machine` for lifecycle transitions
 (`created → initializing → running → stopped → …`). The state machine is
@@ -108,7 +112,7 @@ zero-dependency and generic.
 
 | Target runtime | Responsibility | Current maturity |
 |----------------|----------------|------------------|
-| Agent Harness | one iterative agent turn through terminal outcome | proposed; evolves `AgentRuntime` |
+| Agent Harness | one iterative agent turn through terminal outcome | foundation implemented; broader target partial |
 | Task and Thread | durable task, turns, items, steering, resume | partial across sessions/conversation |
 | Environment | execution boundary, policy, provisioning, snapshots | proposed |
 | Tool | common registry, validation, authorization, invocation, evidence | partial across tool packages/capabilities |
@@ -121,6 +125,9 @@ zero-dependency and generic.
 | Event, Telemetry, Audit | ordered truth, live state, replay, attribution | partial; persistence gap |
 
 See ADR-111 for the runtime qualification rule and migration constraints.
+Host and Boot Runtimes meet that rule for OS-0; storage, device, network,
+identity, service, update, and recovery concerns remain adapters/services until
+their independent lifecycle requirements are demonstrated. See ADR-114.
 
 ## Engineering objects
 
@@ -221,6 +228,7 @@ persistence, historical confidence, extension platform, and the Marketplace. See
 - `adr/ADR-105-event-sourced-engineering-graph.md`
 - `adr/ADR-106-provider-neutral-engineering-provider-runtime.md`
 - `adr/ADR-111-agent-harness-centered-runtime-architecture.md`
+- `adr/ADR-114-linux-host-integration-foundation.md`
 
 ## Related implementation
 
@@ -228,3 +236,5 @@ persistence, historical confidence, extension platform, and the Marketplace. See
 - Paths: `packages/workspace/src`, `packages/kernel/src`, `packages/agent-runtime`
   (agent storage/runtime), `packages/engineering-graph/src`,
   `packages/provider-runtime/src`, `apps/api/src/routes`, `packages/tui/src`
+- OS-0 paths: `packages/host-runtime`, `packages/boot-runtime`, `os/systemd`
+- OS-0 implementation reference: `579df3f`

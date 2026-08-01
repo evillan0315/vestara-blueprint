@@ -76,6 +76,8 @@ their own enforceable isolation implementation before use.
 
 ## Implementation evidence
 
+- Repository: `evillan0315/vestara-ai-core`
+- Implementation reference: `45e670d`
 - `packages/extension-contracts/src/index.ts`
 - `packages/extension-runtime/src/index.ts`
 - `packages/extension-contracts/__tests__/index.test.ts`

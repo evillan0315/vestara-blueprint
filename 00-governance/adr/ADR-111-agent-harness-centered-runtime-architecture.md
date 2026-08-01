@@ -129,6 +129,19 @@ coordinator over current services, unified tool adapters, and durable event
 storage. Obsolete runtime names are retired only after consumers migrate and
 evidence proves equivalent behavior.
 
+## Implementation evidence
+
+The additive Harness Foundation is implemented and verified; the complete
+target architecture remains partial.
+
+- Repository: `evillan0315/vestara-ai-core`
+- Implementation reference: `4a76027`
+- `packages/agent-harness`
+- `packages/thread-runtime`
+- `packages/tool-runtime`
+- `packages/policy-engine`
+- `packages/verification`
+
 ## Official alignment references
 
 - [Codex App Server](https://developers.openai.com/codex/app-server) — thread,

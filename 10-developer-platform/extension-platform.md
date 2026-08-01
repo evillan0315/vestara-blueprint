@@ -13,7 +13,7 @@ architecture-status: "accepted"
 implementation-status: "partial"
 verification-status: "partial"
 implementation-repository: "evillan0315/vestara-ai-core"
-implementation-ref: "packages/extension-contracts/src/index.ts; packages/extension-runtime/src/index.ts"
+implementation-ref: "45e670d; packages/extension-contracts; packages/extension-runtime"
 tags: ["extension-platform", "plugins", "modules", "marketplace", "reconciliation"]
 ---
 

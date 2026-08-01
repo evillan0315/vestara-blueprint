@@ -3,7 +3,7 @@ id: "appendix-capability-maturity-matrix"
 title: "Capability Maturity Matrix"
 volume: "99-appendix"
 book: "Book 6: Future Technologies"
-version: "1.2.0"
+version: "1.3.0"
 status: "approved"
 owner: "@chief-architect"
 created: "2026-08-01"
@@ -47,6 +47,9 @@ Precise states only; no checkmarks for unknown status.
 | Engineering Graph / Inspector UI (universal inspector) | yes | accepted | implemented | verified | complete |
 | Execution Center (queue, timeline, replay) | yes | accepted | implemented | verified | complete |
 | Diagnostic Center (host observability, health checks) | yes | accepted | implemented | verified | complete |
+| OS-0 Host Runtime (read-only Linux host inspection) | yes | accepted | implemented | verified | complete |
+| OS-0 Boot Runtime (durable post-Linux boot stages) | yes | accepted | implemented | verified | complete |
+| OS-0 systemd host-mode units | yes | accepted | implemented | verified | complete |
 | Documentation Center (docs browsing/search) | yes | accepted | implemented | verified | complete |
 | Visual screenshot verification (Playwright) | yes | accepted | implemented | verified (subset) | complete |
 | Verification pipeline (typecheck/build/test/lint runners) | yes | accepted | implemented | verified | complete |
@@ -57,8 +60,8 @@ Precise states only; no checkmarks for unknown status.
 | OpenAI Codex provider | yes | proposed | not started | unverified | draft |
 | Claude Code provider | yes | proposed | not started | unverified | draft |
 | CLI as shared runtime client (routing) | yes | accepted | implemented | verified | complete |
-| Ink engineering Console | yes | accepted | implemented | verified | complete |
-| Agent Harness Runtime | yes | accepted | not started | unverified | complete |
+| Native `@vestara/tui` interactive interface | yes | accepted | implemented | verified | complete |
+| Agent Harness Runtime foundation | yes | accepted | partial | verified | complete |
 | Durable task/thread/turn/item model | yes | accepted | partial | partial | complete |
 | Environment Runtime | yes | accepted | not started | unverified | complete |
 | Unified Tool Runtime | yes | accepted | partial | partial | complete |
@@ -70,14 +73,17 @@ Precise states only; no checkmarks for unknown status.
 | Automation Runtime | yes | accepted | partial | partial | complete |
 | Event, Telemetry, and Audit Runtime | yes | accepted | partial | partial | complete |
 | Shared command envelope (correlation/causation) | yes | proposed | not started | unverified | draft |
-| Extension platform (module/plugin runtime) | yes | accepted | partial | partial | complete |
-| Local package manager | yes | accepted | partial | partial | complete |
+| Extension platform contracts | yes | accepted | implemented | verified | complete |
+| Local package manager foundation | yes | accepted | implemented | verified | complete |
 | Marketplace discovery/distribution | yes | proposed | not started | unverified | draft |
 | Durable event persistence (SQLite append log) | yes | proposed | not started | unverified | draft |
 | Trust score | yes | proposed | not started | unverified | draft |
 | Historical confidence | yes | proposed | not started | unverified | draft |
 | Visual Evidence (interaction walkthrough, a11y, video) | partial | proposed | not started | unverified | draft |
 | Vestara AI OS installer packages | yes | proposed | not started | unverified | draft |
+| Bootable Vestara ISO / portable disk image | yes | proposed | not started | unverified | draft |
+| Immutable A/B updates and recovery | yes | proposed | not started | unverified | draft |
+| Secure / measured boot integration | yes | accepted target | not started | unverified | draft |
 
 ## Notes on evidence
 
@@ -89,6 +95,8 @@ Precise states only; no checkmarks for unknown status.
 - Visual screenshot verification is marked "verified (subset)" because only a
   limited route × viewport × theme matrix has been run end-to-end, not the full
   suite.
+- OS-0 verification proves the user-space Linux host boundary. It is not
+  evidence of an ISO, bootloader, installer, immutable image, or portable SSD.
 
 ## Related
 
@@ -96,3 +104,4 @@ Precise states only; no checkmarks for unknown status.
   references.
 - `00-governance/adr/ADR-105-event-sourced-engineering-graph.md`
 - `00-governance/adr/ADR-111-agent-harness-centered-runtime-architecture.md`
+- `00-governance/adr/ADR-114-linux-host-integration-foundation.md`

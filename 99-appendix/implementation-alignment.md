@@ -3,7 +3,7 @@ id: "appendix-implementation-alignment"
 title: "Implementation Alignment"
 volume: "99-appendix"
 book: "Book 6: Future Technologies"
-version: "1.0.0"
+version: "1.1.0"
 status: "approved"
 owner: "@chief-architect"
 created: "2026-08-01"
@@ -87,6 +87,8 @@ SCREENSHOT_ROUTES=<routes> SCREENSHOT_VIEWPORT=<group> SCREENSHOT_THEME=<theme> 
 6. Extension platform and Marketplace.
 7. Durable Agent Harness thread/item, environment, tool, worktree, and
    automation contracts defined by ADR-111.
+8. Bootable image, portable storage, immutable update, and recovery layers
+   beyond the implemented ADR-114 OS-0 host boundary.
 
 ## Remaining implementation gaps
 
@@ -95,17 +97,24 @@ SCREENSHOT_ROUTES=<routes> SCREENSHOT_VIEWPORT=<group> SCREENSHOT_THEME=<theme> 
    pipeline / event store.
 3. Provider execution is single-default; installable provider packages and
    additional execution adapters are not built.
-4. The Agent Harness target architecture is not implemented; current behavior
-   remains distributed across AgentRuntime, session/conversation services,
-   capability managers, tool packages, and verification services.
+4. The Agent Harness Foundation is implemented at `4a76027`; durable
+   cross-process recovery, full environment/worktree isolation, compaction, and
+   automation remain incomplete across the target architecture.
+5. OS-0 Host and Boot Runtimes are implemented and verified, but Vestara does
+   not yet build or install a bootable operating-system image.
 
 ## Related ADRs
 
 - `adr/ADR-109-blueprint-implementation-alignment-metadata.md`
 - `adr/ADR-110-blueprint-volume-renumbering.md`
 - `adr/ADR-111-agent-harness-centered-runtime-architecture.md`
+- `adr/ADR-114-linux-host-integration-foundation.md`
 
 ## Related implementation
 
 - Repository: `evillan0315/vestara-ai-core`
+- OS-0 implementation reference: `579df3f`
+- Agent Harness Foundation reference: `4a76027`
+- Extension Platform Foundation reference: `45e670d`
+- Native TUI references: `502b078`, `db3f498`
 - Validation: `vestara-blueprint/scripts/validate-blueprint.mjs`

@@ -2,18 +2,29 @@
 title: "Operating System — Volume Overview"
 volume: "07-operating-system"
 book: "Book 5: Operations"
-version: "1.0.0"
+version: "1.1.0"
 status: "approved"
 owner: "@devops-engineer"
-last-reviewed: "2025-07-23"
-next-review: "2026-01-23"
+last-reviewed: "2026-08-01"
+next-review: "2026-11-01"
 tags: ["os", "operating-system", "lxqt", "portable", "ssd"]
 ---
 
 # Volume 07: Operating System
-## The Future Vestara AI OS — Portable, Immutable, Secure
+## From Verified Linux Host Integration to a Portable, Immutable Distribution
 
 > **Mission**: Build an immutable, portable AI operating system that boots from external SSD on any x86-64 computer — zero installation, zero configuration, instant productivity.
+
+## Current implementation status
+
+Vestara is not yet a bootable distribution. OS-0 Host Integration is implemented
+and verified: Linux/systemd can start the Vestara service composition, Host
+Runtime provides typed read-only machine inspection, and Boot Runtime persists
+ordered progress through `workspace-ready`.
+
+See [OS-0 Host Integration](os-0-host-integration.md) and ADR-114. ISO generation,
+bootloader/initramfs integration, partitioning, encrypted portable persistence,
+A/B updates, Secure Boot, recovery images, and installers remain future work.
 
 ---
 
@@ -23,6 +34,7 @@ tags: ["os", "operating-system", "lxqt", "portable", "ssd"]
 07-operating-system/
 │
 ├── README.md                              ← This file
+├── os-0-host-integration.md               ← Implemented Linux host foundation
 ├── OS_ARCHITECTURE.md                     ← OS layers & component architecture
 ├── LXQT_CUSTOMIZATION.md                  ← LXQt desktop environment customization
 ├── BOOT_PROCESS.md                        ← UEFI → GRUB → Kernel → Desktop
@@ -54,6 +66,9 @@ tags: ["os", "operating-system", "lxqt", "portable", "ssd"]
 | **Minimal** | Only necessary services, no bloat |
 | **AI-Optimized** | Pre-configured for AI workloads, GPU drivers, local models |
 | **Updatable** | Atomic over-the-air updates with verification |
+
+The table above is the target distribution architecture, not the current
+implementation claim. The implemented OS-0 subset is intentionally smaller.
 
 ---
 

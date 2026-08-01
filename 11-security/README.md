@@ -2,11 +2,11 @@
 title: "Security — Volume Overview"
 volume: "11-security"
 book: "Book 5: Operations"
-version: "1.0.0"
+version: "1.1.0"
 status: "approved"
 owner: "@security-engineer"
-last-reviewed: "2025-07-23"
-next-review: "2026-01-23"
+last-reviewed: "2026-08-01"
+next-review: "2026-11-01"
 tags: ["security", "threat-model", "encryption", "compliance", "audit"]
 ---
 
@@ -48,6 +48,19 @@ tags: ["security", "threat-model", "encryption", "compliance", "audit"]
 | **Secure by Design** | Security reviewed at architecture phase, not after |
 | **Supply Chain Security** | Signed artifacts, SBOM, dependency auditing |
 | **User Controlled** | Users own their keys, data, and encryption |
+
+## OS-0 security boundary
+
+OS-0 Host Runtime observes machine state without an agent-controlled shell.
+Power operations are disabled by default and require explicit enablement,
+per-request authorization, and policy permission; no OS-0 API or CLI route
+exposes them. Supplied systemd units use a dedicated identity,
+`NoNewPrivileges`, private temporary storage, read-only system protection, and
+narrow writable paths.
+
+These controls do not constitute Secure Boot, measured boot, encrypted portable
+storage, signed updates, or an immutable root filesystem. Those remain
+unimplemented distribution-layer security requirements.
 
 ---
 
