@@ -42,6 +42,15 @@ implemented runtime and the identified architecture gaps.
   push protocol with monotonic sequences, hybrid stage derivation, a live TUI
   workflow view, and eight-stage owning-agent attribution with human names
   (ADR-122, ADR-123).
+- Engineering evidence pipeline (PCS-026) — collectors → content-addressed
+  artifacts → immutable manifest → `VerificationEvidenceBundle` (checks,
+  provenance, replay descriptor, derived six-factor confidence); visual
+  comparison + human-reviewed baselines; Workspace Evidence viewer; harness
+  verification persists a bundle per run.
+- Distributed worker cluster (PCS-027) — `TaskDispatcher` over a WebSocket
+  transport; node registration/heartbeats, capability + least-load scheduling,
+  lease + executionId idempotency; orchestrator dispatches through the cluster
+  when nodes are online (fallback to the harness); Workspace Workers view.
 - Workspace UI surfaces the lifecycle from the one canonical projection:
   Dashboard "Live Engineering Workflow", Sessions harness ExecutionSessions,
   Agent Control workflow rails, Artifacts "Live Change Projection",
@@ -75,9 +84,16 @@ execution path (ADR-120).
 ### Phase 2 — Make results trustworthy
 
 1. Repeated verification and repair loop.
-2. Structured evidence artifacts.
-3. Browser/computer-use tool providers and human-visible demonstration.
-4. Full visual evidence suite.
+2. Structured evidence artifacts — delivered (PCS-026): the `EvidencePipeline`
+   collects (command/test/filesystem/source-diff) → content-addresses →
+   writes an immutable manifest → assembles a `VerificationEvidenceBundle`
+   (checks, provenance, replay descriptor, derived six-factor confidence);
+   visual comparison + human-reviewed baselines; Workspace Evidence viewer.
+3. Browser/computer-use tool providers and human-visible demonstration —
+   partial: `PlaywrightScreenshotSource` (PCS-026 slice 2) provisioned via
+   `VESTARA_SCREENSHOT_URL`; computer-use tool providers remain.
+4. Full visual evidence suite — partial (visual comparison + baselines +
+   screenshot collector delivered; baseline review + full matrix pending).
 
 ### Phase 3 — Enable parallel engineering
 
@@ -93,6 +109,12 @@ execution path (ADR-120).
 4. Agent swimlanes in the workflow projection (multi-agent runs) — partial:
    `projectWorkflowAcrossThreads` aggregates per-agent harness threads into one
    projection with lanes; stage attribution is wired and settling.
+5. Distributed worker cluster — delivered (PCS-027 slices 1-2): the
+   `TaskDispatcher` worker boundary made physical over a WebSocket transport
+   (`/ws/worker`); node registration + heartbeats, capability + least-load
+   scheduling, leases with executionId idempotency, and the orchestrator
+   dispatching through the cluster when nodes are online (fallback to the
+   harness). Multi-node hardening and gRPC/K8s transports remain.
 
 ### Phase 4 — Enable long-running work
 

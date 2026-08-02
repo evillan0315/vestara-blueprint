@@ -54,6 +54,8 @@ concern.
 | impl-adr-004-multi-agent | Multi-Agent Workflow ADR | core | `docs/ADR/ADR-004-multi-agent-workflow.md` | implementation | yes |
 | impl-pcs-024 | Agent Filesystem Capabilities | core | `docs/PCS-024-agent-filesystem-capabilities.md` | implementation | yes |
 | impl-pcs-025 | Multi-Agent Project Management | core | `docs/PCS-025-multi-agent-project-management.md` | implementation | yes |
+| impl-pcs-026 | Engineering Evidence Pipeline | core | `docs/PCS-026-engineering-evidence-pipeline.md` | implementation | yes |
+| impl-pcs-027 | Distributed Worker Cluster | core | `docs/PCS-027-distributed-worker-cluster.md` | implementation | yes |
 
 ### Evidence layer
 
