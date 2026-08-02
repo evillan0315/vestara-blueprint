@@ -3,7 +3,7 @@ id: "marketplace-implementation"
 title: "Marketplace Implementation — Incremental Build Plan"
 volume: "10-developer-platform"
 book: "Book 2: Platform Architecture"
-version: "1.0.0"
+version: "2.0.0"
 status: "approved"
 architecture-status: "accepted"
 implementation-status: "in-progress"
@@ -15,7 +15,7 @@ author: ["@chief-architect", "@frontend-engineer"]
 last-reviewed: "2026-08-03"
 next-review: "2027-02-03"
 canonical: true
-supersedes: []
+supersedes: ["marketplace-implementation-v1"]
 tags: ["marketplace", "implementation", "milestones", "incremental", "canonical"]
 ---
 
@@ -32,104 +32,127 @@ tags: ["marketplace", "implementation", "milestones", "incremental", "canonical"
 ```
 Design Phase (Complete)
     ↓
-Platform Foundation
+Contracts and Planning
     ↓
-Local Marketplace
+Local Catalog
+    ↓
+Lifecycle Integration
     ↓
 Marketplace UI
     ↓
-Extension Runtime Integration
+Packaging and Local Publishing
     ↓
-Publishing
-    ↓
-Online Marketplace
+Remote Marketplace
 ```
 
 Each milestone builds on the previous one. No milestone depends on future work.
 
+### 1.1 Ownership Rules
+
+```text
+Marketplace
+    owns discovery, catalog, search, compatibility, resolution, planning
+
+Extension Runtime
+    owns installation, activation, rollback, uninstall, permissions,
+    durable installation state, and graph projection
+
+Workspace Runtime
+    owns module activation, contribution registration
+
+App Runtime
+    owns isolated application execution
+```
+
+The Marketplace produces install plans, not execution. Execution belongs to Extension Runtime.
+
 ---
 
-## 2. Milestone MP-001 — Marketplace Platform Foundation
+## 2. Package Structure
 
-### 2.1 Objective
-
-The backend that everything else depends on.
-
-### 2.2 Package Structure
+### 2.1 Recommended Layout
 
 ```text
 packages/
-└── marketplace/
-    ├── asset-registry/
-    ├── installer/
-    ├── resolver/
-    ├── signatures/
-    ├── integrity/
-    ├── activation/
-    ├── publishing/
-    └── types/
+├── marketplace/
+│   ├── catalog/
+│   ├── registry/
+│   ├── search/
+│   ├── resolver/
+│   ├── compatibility/
+│   └── planning/
+│
+├── extension-contracts/
+├── extension-runtime/
+├── extension-security/
+├── extension-publishing/
+└── app-runtime/
 ```
 
-### 2.3 Core Interfaces
+### 2.2 Key Principle
+
+Do not create a second lifecycle authority inside `packages/marketplace`.
+
+---
+
+## 3. Core Interfaces
+
+### 3.1 Marketplace Service
 
 ```typescript
-interface MarketplaceRuntime {
-  registry: MarketplaceRegistry;
-  installer: MarketplaceInstaller;
+interface MarketplaceService {
+  registries: MarketplaceRegistry[];
   resolver: MarketplaceResolver;
-  publisher: MarketplacePublisher;
+  compatibility: MarketplaceCompatibilityService;
+  planner: MarketplaceInstallPlanner;
 }
+```
 
+### 3.2 Registry Abstraction
+
+```typescript
 interface MarketplaceRegistry {
-  getAsset(id: string): Promise<MarketplaceAsset>;
-  listAssets(query: AssetQuery): Promise<AssetSearchResult>;
-  getVersions(assetId: string): Promise<AssetVersion[]>;
+  readonly id: string;
+  readonly kind: 'local' | 'remote' | 'enterprise';
+
+  search(query: MarketplaceQuery): Promise<MarketplaceSearchResult>;
+  getAsset(assetId: string): Promise<MarketplaceAssetDetails>;
+  getVersions(assetId: string): Promise<readonly MarketplaceAssetVersion[]>;
+  acquire(
+    reference: MarketplaceAssetVersionReference,
+  ): Promise<AcquiredExtensionPackage>;
 }
 
-interface MarketplaceInstaller {
-  plan(assetId: string, options: InstallOptions): Promise<InstallPlan>;
-  execute(plan: InstallPlan): Promise<InstallTransaction>;
-  rollback(transaction: InstallTransaction): Promise<void>;
-}
+class LocalMarketplaceRegistry implements MarketplaceRegistry {}
+class RemoteMarketplaceRegistry implements MarketplaceRegistry {}
+class EnterpriseMarketplaceRegistry implements MarketplaceRegistry {}
+```
 
+### 3.3 Resolver
+
+```typescript
 interface MarketplaceResolver {
   resolve(assetId: string, version?: string): Promise<ResolvedAsset>;
   resolveDependencies(asset: ResolvedAsset): Promise<ResolvedDependency[]>;
   checkCompatibility(asset: ResolvedAsset): Promise<CompatibilityResult>;
 }
+```
 
-interface MarketplacePublisher {
-  pack(manifest: ExtensionManifest): Promise<PackedAsset>;
-  validate(asset: PackedAsset): Promise<ValidationResult>;
-  publish(asset: PackedAsset): Promise<PublishResult>;
+### 3.4 Install Planner
+
+```typescript
+interface MarketplaceInstallPlanner {
+  plan(request: MarketplaceInstallRequest): Promise<MarketplaceInstallPlan>;
 }
 
-interface MarketplaceAsset {
-  id: string;
-  name: string;
-  kind: AssetKind;
-  versions: AssetVersion[];
-  manifest: ExtensionManifest;
+interface MarketplaceInstallRequest {
+  assetId: string;
+  version?: string;
+  scope: 'user' | 'workspace' | 'system';
+  workspaceId?: string;
 }
 
-interface ExtensionManifest {
-  schemaVersion: string;
-  id: string;
-  name: string;
-  version: string;
-  kind: AssetKind;
-  publisher: PublisherIdentity;
-  compatibility: CompatibilityConstraints;
-  entrypoints: Entrypoints;
-  dependencies: Dependencies;
-  permissions: PermissionDeclaration;
-  contributions?: ContributionDeclaration;
-  integrity: IntegrityDeclaration;
-  signatures?: SignatureDeclaration;
-  lifecycle?: LifecycleDeclaration;
-}
-
-interface InstallPlan {
+interface MarketplaceInstallPlan {
   operationId: string;
   asset: ResolvedAsset;
   dependencies: ResolvedDependency[];
@@ -139,137 +162,359 @@ interface InstallPlan {
   integrity: IntegrityPlan;
   actions: InstallAction[];
 }
+```
 
-interface InstallTransaction {
-  transactionId: string;
-  plan: InstallPlan;
-  state: TransactionState;
-  startedAt: timestamp;
-  completedAt?: timestamp;
-  rollback?: RollbackRecord;
+### 3.5 Extension Lifecycle Manager (Extension Runtime)
+
+```typescript
+interface ExtensionLifecycleManager {
+  install(plan: MarketplaceInstallPlan): Promise<InstallationResult>;
+  update(plan: MarketplaceInstallPlan): Promise<InstallationResult>;
+  rollback(request: RollbackRequest): Promise<RollbackResult>;
+  uninstall(request: UninstallRequest): Promise<UninstallResult>;
 }
 ```
 
-### 2.4 Initial Operations
+### 3.6 State Separation
 
 ```text
-Load local registry
-Resolve asset
-Generate install plan
+Catalog listing ≠ Installed version ≠ Workspace enablement ≠ Running process
+
+Available ≠ Installed ≠ Enabled ≠ Running
 ```
 
-No downloads yet.
+---
 
-### 2.5 Milestone Criteria
+## 4. State Models
 
+### 4.1 Catalog State (Marketplace)
+
+```typescript
+interface LocalMarketplaceEntry {
+  assetId: string;
+  manifestPath: string;
+  availableVersions: readonly string[];
+  catalogMetadata: MarketplaceCatalogMetadata;
+}
+```
+
+### 4.2 Installation State (Extension Runtime)
+
+```typescript
+interface InstalledExtensionProjection {
+  assetId: string;
+  installedVersions: readonly InstalledVersion[];
+  activeVersion?: string;
+  installationScope: 'user' | 'system';
+}
+```
+
+### 4.3 Enablement State (Workspace Runtime)
+
+```typescript
+interface WorkspaceExtensionEnablement {
+  workspaceId: string;
+  assetId: string;
+  version: string;
+  enabled: boolean;
+  configurationRevision: string;
+}
+```
+
+### 4.4 Running State (App Runtime)
+
+```typescript
+interface AppProcessState {
+  appId: string;
+  pid: number;
+  state: 'starting' | 'running' | 'stopping' | 'stopped' | 'crashed';
+  healthCheck?: HealthCheckResult;
+}
+```
+
+---
+
+## 5. Milestones
+
+### MP-001 — Marketplace Contracts and Planning
+
+**Objective:** Define core contracts and planning interfaces.
+
+**Scope:**
+- Asset catalog types
+- Registry abstraction
+- Manifest validation
+- Compatibility checking
+- Dependency resolution
+- Dry-run install plans
+
+**Package Structure:**
+```text
+packages/marketplace/
+├── catalog/
+│   ├── types.ts
+│   └── index.ts
+├── registry/
+│   ├── types.ts
+│   └── index.ts
+├── search/
+│   ├── types.ts
+│   └── index.ts
+├── resolver/
+│   ├── types.ts
+│   └── index.ts
+├── compatibility/
+│   ├── types.ts
+│   └── index.ts
+├── planning/
+│   ├── types.ts
+│   └── index.ts
+└── index.ts
+```
+
+**Core Interfaces:**
+```typescript
+// Catalog
+interface MarketplaceAsset { ... }
+interface MarketplaceAssetVersion { ... }
+interface MarketplaceCatalogMetadata { ... }
+
+// Registry
+interface MarketplaceRegistry { ... }
+interface MarketplaceSearchResult { ... }
+interface AcquiredExtensionPackage { ... }
+
+// Resolver
+interface ResolvedAsset { ... }
+interface ResolvedDependency { ... }
+
+// Compatibility
+interface CompatibilityResult { ... }
+interface CompatibilityIssue { ... }
+
+// Planning
+interface MarketplaceInstallRequest { ... }
+interface MarketplaceInstallPlan { ... }
+interface InstallAction { ... }
+```
+
+**Criteria:**
 - [ ] Package structure created
 - [ ] Core interfaces defined
-- [ ] Local registry loading works
-- [ ] Asset resolution works
+- [ ] Manifest validation works
+- [ ] Compatibility checking works
+- [ ] Dependency resolution works
 - [ ] Install plan generation works
 - [ ] Unit tests pass
 
 ---
 
-## 3. Milestone MP-002 — Local Marketplace
+### MP-002 — Local Catalog
 
-### 3.1 Objective
+**Objective:** Build a local Marketplace catalog.
 
-Build a local Marketplace without networking.
+**Scope:**
+- Read-only local registry
+- Search and filtering
+- Asset details and versions
+- Malformed asset isolation
+- Incremental rescanning
 
-### 3.2 Local Structure
-
+**Local Structure:**
 ```text
 ~/.vestara/
     marketplace/
         index.json
-
-extensions/
-    github/
-    ide/
-    messages/
 ```
 
-### 3.3 Local Registry
-
+**Local Registry Implementation:**
 ```typescript
-interface LocalRegistry {
-  path: string;
-  index: LocalIndex;
+class LocalMarketplaceRegistry implements MarketplaceRegistry {
+  readonly id: string;
+  readonly kind: 'local' = 'local';
   
-  load(): Promise<void>;
-  save(): Promise<void>;
+  private basePath: string;
+  private index: LocalIndex;
   
-  getAsset(id: string): Promise<MarketplaceAsset>;
-  listAssets(query: AssetQuery): Promise<AssetSearchResult>;
-  addAsset(asset: MarketplaceAsset): Promise<void>;
-  removeAsset(assetId: string): Promise<void>;
-}
-
-interface LocalIndex {
-  version: string;
-  assets: LocalAsset[];
-  lastUpdated: timestamp;
-}
-
-interface LocalAsset {
-  id: string;
-  path: string;
-  version: string;
-  installedAt: timestamp;
-  enabled: boolean;
-  enabledIn: string[];
+  async search(query: MarketplaceQuery): Promise<MarketplaceSearchResult> { ... }
+  async getAsset(assetId: string): Promise<MarketplaceAssetDetails> { ... }
+  async getVersions(assetId: string): Promise<readonly MarketplaceAssetVersion[]> { ... }
+  async acquire(reference: MarketplaceAssetVersionReference): Promise<AcquiredExtensionPackage> { ... }
 }
 ```
 
-### 3.4 Validated Operations
-
+**Malformed Asset Isolation:**
 ```text
-Registry management
-Discovery
-Dependency resolution
-Manifest loading
-Activation
+Asset loaded
+    ↓
+Manifest parsed
+    ↓
+Validation failed
+    ↓
+Asset quarantined
+    ↓
+Error recorded
+    ↓
+Scan continues
 ```
 
-### 3.5 Milestone Criteria
-
+**Criteria:**
 - [ ] Local registry structure created
 - [ ] Local registry loading works
-- [ ] Asset discovery works
-- [ ] Dependency resolution works
-- [ ] Manifest validation works
-- [ ] Activation works
+- [ ] Search and filtering works
+- [ ] Asset details work
+- [ ] Malformed asset isolation works
+- [ ] Incremental rescanning works
 - [ ] Integration tests pass
 
 ---
 
-## 4. Milestone MP-003 — Marketplace UI
+### MP-003 — Lifecycle Integration
 
-### 4.1 Objective
+**Objective:** Connect Marketplace to Extension Runtime.
 
-Create a dedicated Workspace module for the Marketplace.
+**Flow:**
+```text
+Marketplace discovers asset
+    ↓
+Resolver selects version
+    ↓
+Planner produces install plan
+    ↓
+Extension Runtime installs asset
+    ↓
+User enables in workspace
+    ↓
+Workspace Runtime activates module
+    ↓
+Contributions register
+    ↓
+Application shell updates
+```
 
-### 4.2 Module Structure
+**Integration Points:**
+```typescript
+// Marketplace to Extension Runtime
+interface MarketplaceToExtensionIntegration {
+  extensionLifecycleManager: ExtensionLifecycleManager;
+  
+  // Delegate execution
+  install(plan: MarketplaceInstallPlan): Promise<InstallationResult>;
+  update(plan: MarketplaceInstallPlan): Promise<InstallationResult>;
+  rollback(request: RollbackRequest): Promise<RollbackResult>;
+  uninstall(request: UninstallRequest): Promise<UninstallResult>;
+}
 
+// Extension Runtime to Workspace Runtime
+interface ExtensionToWorkspaceIntegration {
+  workspaceRuntime: WorkspaceRuntime;
+  
+  // Enable/disable
+  enableModule(moduleId: string, workspaceId: string): Promise<void>;
+  disableModule(moduleId: string, workspaceId: string): Promise<void>;
+}
+```
+
+**Contribution Registration (via Workspace Runtime):**
+```text
+Extension Runtime installs asset
+    ↓
+Workspace Runtime enables WorkspaceModule
+    ↓
+Module Registry loads manifest
+    ↓
+Contribution Registry registers:
+    navigation
+    routes
+    commands
+    search
+    inspectors
+    toolbar
+    status
+    ↓
+Application shell recomputes projections
+```
+
+**Enablement Semantics:**
+```text
+Install module
+    → files and installation state become available
+    → no sidebar contribution yet
+
+Enable module in workspace
+    → Workspace Runtime activates module
+    → contributions register
+    → sidebar updates without restart
+
+Disable module
+    → contributions unregister immediately
+
+Uninstall module
+    → requires module disabled in all affected workspaces
+      or an explicit coordinated disable operation
+```
+
+**Criteria:**
+- [ ] Extension Runtime integration works
+- [ ] Workspace Runtime integration works
+- [ ] Install flow works
+- [ ] Enable flow works
+- [ ] Disable flow works
+- [ ] Uninstall flow works
+- [ ] Rollback flow works
+- [ ] Sidebar auto-updates on enable
+- [ ] Events emitted correctly
+- [ ] Integration tests pass
+
+---
+
+### MP-004 — Marketplace Workspace Module
+
+**Objective:** Create a dedicated Workspace module for the Marketplace.
+
+**Scope:**
+- Discover page
+- Installed page
+- Workspace Enabled page
+- Updates page
+- Operations page
+- Asset details
+- Install review
+- Dynamic contribution activation
+
+**Module Structure:**
 ```text
 Platform
 └── Marketplace
 ```
 
-### 4.3 Pages
-
+**Pages:**
 ```text
 Discover
+    → Browse available assets
+    → Search and filter
+    → View categories and bundles
+
 Installed
-Updates
+    → View installed assets
+    → Enable/disable per workspace
+    → View versions
+
 Workspace Enabled
+    → View assets enabled in current workspace
+    → Manage enablement
+
+Updates
+    → View available updates
+    → Update assets
+
 Operations
-Publish
+    → View install/update/rollback operations
+    → Monitor progress
+    → View history
 ```
 
-### 4.4 Asset Page
-
+**Asset Detail Pages:**
 ```text
 Overview
 Versions
@@ -278,150 +523,79 @@ Permissions
 Capabilities
 Compatibility
 Publisher
-Reviews (future)
 Install History
 ```
 
-### 4.5 UI Components
-
+**Contribution Registration:**
 ```typescript
-interface MarketplaceUI {
-  // Pages
-  DiscoverPage: Component;
-  InstalledPage: Component;
-  UpdatesPage: Component;
-  WorkspaceEnabledPage: Component;
-  OperationsPage: Component;
-  PublishPage: Component;
-  
-  // Asset Detail
-  AssetDetailPage: Component;
-  AssetOverview: Component;
-  AssetVersions: Component;
-  AssetDependencies: Component;
-  AssetPermissions: Component;
-  AssetCapabilities: Component;
-  AssetCompatibility: Component;
-  AssetPublisher: Component;
-  AssetInstallHistory: Component;
-  
-  // Actions
-  InstallButton: Component;
-  UpdateButton: Component;
-  UninstallButton: Component;
-  EnableButton: Component;
-  DisableButton: Component;
-}
+// Marketplace module contributions
+const marketplaceModule: WorkspaceModuleManifest = {
+  navigation: {
+    sidebar: {
+      id: 'marketplace',
+      label: 'Marketplace',
+      icon: 'shopping-cart',
+      children: [
+        { id: 'discover', label: 'Discover', route: '/marketplace/discover' },
+        { id: 'installed', label: 'Installed', route: '/marketplace/installed' },
+        { id: 'updates', label: 'Updates', route: '/marketplace/updates' },
+      ]
+    }
+  },
+  routes: [
+    { path: '/marketplace/discover', component: 'DiscoverPage' },
+    { path: '/marketplace/installed', component: 'InstalledPage' },
+    { path: '/marketplace/updates', component: 'UpdatesPage' },
+    { path: '/marketplace/asset/:assetId', component: 'AssetDetailPage' },
+  ],
+  commands: [
+    { id: 'marketplace.search', label: 'Search Marketplace', handler: 'openSearch' },
+    { id: 'marketplace.install', label: 'Install Asset', handler: 'installAsset' },
+  ],
+  search: [
+    { id: 'marketplace-assets', provider: 'MarketplaceSearchProvider' }
+  ],
+  inspector: [
+    { id: 'marketplace-asset', section: 'Marketplace Asset' }
+  ]
+};
 ```
 
-### 4.6 Milestone Criteria
-
+**Criteria:**
 - [ ] Marketplace module created
 - [ ] Navigation registered
 - [ ] Routes registered
 - [ ] Commands registered
 - [ ] Discover page works
 - [ ] Installed page works
+- [ ] Updates page works
 - [ ] Asset detail works
-- [ ] Install flow works
+- [ ] Install review works
 - [ ] UI tests pass
 
 ---
 
-## 5. Milestone MP-004 — Extension Runtime Integration
+### MP-005 — Packaging and Local Publishing
 
-### 5.1 Objective
+**Objective:** Build the publishing pipeline for local registries.
 
-Connect Marketplace to existing runtimes.
+**Scope:**
+- Pack
+- Validate
+- Sign
+- Verify
+- Publish to local registry
 
-### 5.2 Install Flow
-
-```text
-Marketplace
-    ↓
-Install Plan
-    ↓
-Extension Runtime
-    ↓
-Workspace Runtime
-    ↓
-Module Registry
-    ↓
-Sidebar updates
-```
-
-### 5.3 Integration Points
-
-```typescript
-interface MarketplaceExtensionIntegration {
-  // Extension Runtime
-  extensionRuntime: ExtensionRuntime;
-  
-  // Workspace Runtime
-  workspaceRuntime: WorkspaceRuntime;
-  
-  // Module Registry
-  moduleRegistry: ModuleRegistry;
-  
-  // Sidebar Service
-  sidebarService: SidebarService;
-  
-  // Navigation Service
-  navigationService: NavigationService;
-}
-
-interface ExtensionRuntime {
-  install(plan: InstallPlan): Promise<Installation>;
-  activate(installation: Installation): Promise<Activation>;
-  deactivate(activation: Activation): Promise<void>;
-  uninstall(installation: Installation): Promise<void>;
-  rollback(installation: Installation, targetVersion: string): Promise<void>;
-}
-
-interface WorkspaceRuntime {
-  loadModule(moduleId: string): Promise<WorkspaceModule>;
-  activateModule(moduleId: string): Promise<void>;
-  deactivateModule(moduleId: string): Promise<void>;
-  registerNavigation(navigation: NavigationDefinition): void;
-  registerRoutes(routes: RouteDefinition[]): void;
-  registerCommands(commands: CommandDefinition[]): void;
-}
-```
-
-### 5.4 Automatic Sidebar Update
-
-After installing a Workspace Module, the sidebar should update automatically without restarting the application.
-
-### 5.5 Milestone Criteria
-
-- [ ] Extension Runtime integration works
-- [ ] Workspace Runtime integration works
-- [ ] Module Registry integration works
-- [ ] Sidebar auto-updates on install
-- [ ] Navigation auto-updates on install
-- [ ] Commands auto-register on install
-- [ ] End-to-end install flow works
-- [ ] Integration tests pass
-
----
-
-## 6. Milestone MP-005 — Publishing
-
-### 6.1 Objective
-
-Build the publishing pipeline.
-
-### 6.2 CLI Commands
-
+**CLI Commands:**
 ```bash
-vestara marketplace pack
-vestara marketplace validate
-vestara marketplace publish
-vestara marketplace verify
+vestara extension pack
+vestara extension validate
+vestara extension sign
+vestara extension verify
+vestara marketplace publish --registry local
 ```
 
-### 6.3 Archive Structure
-
+**Archive Structure:**
 ```text
 github.extension
 ├── manifest.yaml
@@ -431,58 +605,53 @@ github.extension
 └── provider-runtime.js
 ```
 
-### 6.4 Publishing Pipeline
-
+**Publishing Pipeline:**
 ```typescript
-interface PublishingPipeline {
-  pack(manifest: ExtensionManifest): Promise<PackedAsset>;
-  validate(asset: PackedAsset): Promise<ValidationResult>;
-  sign(asset: PackedAsset, key: SigningKey): Promise<SignedAsset>;
-  publish(asset: SignedAsset): Promise<PublishResult>;
-  verify(assetId: string, version: string): Promise<VerificationResult>;
-}
-
-interface PackedAsset {
-  id: string;
-  version: string;
-  archive: ArchiveReference;
-  manifest: ExtensionManifest;
-  signatures: SignatureRecord[];
-}
-
-interface SignedAsset extends PackedAsset {
-  signatures: SignatureRecord[];
-}
-
-interface PublishResult {
-  success: boolean;
-  assetId: string;
-  version: string;
-  publishedAt: timestamp;
-  issues: PublishingIssue[];
+interface ExtensionPublishingService {
+  pack(manifest: ExtensionManifest): Promise<PackedExtension>;
+  validate(asset: PackedExtension): Promise<ValidationResult>;
+  sign(asset: PackedExtension, key: SigningKey): Promise<SignedExtension>;
+  verify(asset: PackedExtension): Promise<VerificationResult>;
+  publishToLocal(asset: SignedExtension, registry: LocalMarketplaceRegistry): Promise<PublishResult>;
 }
 ```
 
-### 6.5 Milestone Criteria
+**Key Distinction:**
+```text
+pack, validate, sign
+    → operate on the distributable before it enters a Marketplace
+    → belong under `vestara extension`
 
+publish
+    → registers the asset in a Marketplace registry
+    → belongs under `vestara marketplace`
+```
+
+**Criteria:**
 - [ ] Pack command works
 - [ ] Validate command works
-- [ ] Publish command works
+- [ ] Sign command works
 - [ ] Verify command works
+- [ ] Publish to local registry works
 - [ ] Archive structure correct
 - [ ] Signature verification works
 - [ ] Publishing pipeline tests pass
 
 ---
 
-## 7. Milestone MP-006 — Online Marketplace
+### MP-006 — Remote Marketplace
 
-### 7.1 Objective
+**Objective:** Add remote registry support.
 
-Add remote registry support.
+**Scope:**
+- Remote registry
+- Search service
+- Downloads
+- Publisher accounts
+- Signature and trust services
+- Moderation and governance
 
-### 7.2 Service Structure
-
+**Service Structure:**
 ```text
 apps/
 └── marketplace-service/
@@ -492,52 +661,37 @@ apps/
     │   ├── download/
     │   ├── version/
     │   ├── signature/
+    │   ├── publisher/
     │   └── api/
     └── package.json
 ```
 
-### 7.3 Service APIs
-
+**Remote Registry Implementation:**
 ```typescript
-interface MarketplaceService {
-  // Registry
-  getAsset(id: string): Promise<MarketplaceAsset>;
-  listAssets(query: AssetQuery): Promise<AssetSearchResult>;
+class RemoteMarketplaceRegistry implements MarketplaceRegistry {
+  readonly id: string;
+  readonly kind: 'remote' = 'remote';
   
-  // Search
-  search(query: string, options: SearchOptions): Promise<SearchResult>;
+  private serviceUrl: string;
   
-  // Download
-  download(assetId: string, version: string): Promise<DownloadResult>;
-  
-  // Version
-  getVersions(assetId: string): Promise<AssetVersion[]>;
-  getLatestVersion(assetId: string): Promise<AssetVersion>;
-  
-  // Signature
-  verifySignature(assetId: string, version: string): Promise<SignatureVerification>;
+  async search(query: MarketplaceQuery): Promise<MarketplaceSearchResult> { ... }
+  async getAsset(assetId: string): Promise<MarketplaceAssetDetails> { ... }
+  async getVersions(assetId: string): Promise<readonly MarketplaceAssetVersion[]> { ... }
+  async acquire(reference: MarketplaceAssetVersionReference): Promise<AcquiredExtensionPackage> { ... }
 }
 ```
 
-### 7.4 Client Changes
+**Key Principle:**
+A remote registry is not a specialized local registry. Both implement the same `MarketplaceRegistry` interface but with different storage and mutation semantics.
 
-The client implementation should barely change because it already works against a registry.
-
-```typescript
-interface RemoteRegistry extends LocalRegistry {
-  serviceUrl: string;
-  
-  // Override remote operations
-  getAsset(id: string): Promise<MarketplaceAsset>;
-  listAssets(query: AssetQuery): Promise<AssetSearchResult>;
-  download(assetId: string, version: string): Promise<DownloadResult>;
-}
+**CLI Addition:**
+```bash
+vestara marketplace publish --registry vestara-public
 ```
 
-### 7.5 Milestone Criteria
-
+**Criteria:**
 - [ ] Marketplace service created
-- [ ] Registry API works
+- [ ] Remote registry works
 - [ ] Search API works
 - [ ] Download API works
 - [ ] Version API works
@@ -548,181 +702,110 @@ interface RemoteRegistry extends LocalRegistry {
 
 ---
 
-## 8. Repository Structure
+## 6. First Vertical Slice
 
-### 8.1 Recommended Layout
-
-```text
-apps/
-├── marketplace-service/
-├── api/
-├── workspace/
-└── cli/
-
-packages/
-├── marketplace/
-├── extension-runtime/
-├── extension-sdk/
-├── publishing/
-├── signatures/
-└── installer/
-```
-
-### 8.2 Package Dependencies
+### 6.1 Metallic Gold Theme (Package)
 
 ```text
-marketplace
-    ├── extension-runtime
-    ├── extension-sdk
-    ├── publishing
-    ├── signatures
-    └── installer
-
-extension-runtime
-    ├── extension-sdk
-    └── shared
-
-workspace
-    ├── extension-sdk
-    └── shared
-
-cli
-    ├── marketplace
-    └── shared
-```
-
----
-
-## 9. First Assets
-
-### 9.1 Package — Metallic Gold Theme
-
-```text
-Manifest Kind: package
-Activation: eager
-Contributions: theme.register
-Runtime Boundary: in-process
-```
-
-**Tests:**
-- install
-- enable
-- disable
-- rollback
-
-### 9.2 Workspace Module — Messages
-
-```text
-Manifest Kind: workspace-module
-Activation: on-demand
-Contributions: navigation, routes, commands, search, inspector
-Runtime Boundary: Workspace Runtime
-```
-
-**Tests:**
-- sidebar registration
-- routes
-- commands
-- search
-- inspector
-
-### 9.3 App — Local Model Manager
-
-```text
-Manifest Kind: app
-Activation: manual
-Contributions: workspace-module, service
-Runtime Boundary: isolated process
-```
-
-**Tests:**
-- install
-- process launch
-- health
-- shutdown
-
----
-
-## 10. Data Model
-
-### 10.1 Initial Registry
-
-A JSON index is enough initially.
-
-```typescript
-interface Registry {
-  assets: Asset[];
-  versions: Version[];
-  dependencies: Dependency[];
-  publishers: Publisher[];
-  categories: Category[];
-  bundles: Bundle[];
-}
-
-interface Asset {
-  id: string;
-  name: string;
-  kind: AssetKind;
-  publisherId: string;
-  categoryId: string;
-  description: string;
-  manifest: ExtensionManifest;
-}
-
-interface Version {
-  assetId: string;
-  version: string;
-  integrity: IntegrityDeclaration;
-  publishedAt: timestamp;
-  changelog?: string;
-}
-
-interface Dependency {
-  assetId: string;
-  version: string;
-  dependencyId: string;
-  dependencyVersion: string;
-  optional: boolean;
-}
-
-interface Publisher {
-  id: string;
-  name: string;
-  verified: boolean;
-  trustLevel: TrustLevel;
-}
-
-interface Category {
-  id: string;
-  name: string;
-  capability?: string;
-}
-
-interface Bundle {
-  id: string;
-  name: string;
-  description: string;
-  assets: string[];
-}
-```
-
-### 10.2 Migration Path
-
-```text
-JSON Index (MVP)
+Local catalog contains Metallic Gold Theme
     ↓
-SQLite (Local)
+Marketplace discovers it
     ↓
-PostgreSQL (Service)
+Resolver selects exact version
+    ↓
+Planner produces permission/integrity plan
+    ↓
+Extension Runtime installs immutable version
+    ↓
+User enables it in workspace
+    ↓
+Theme contribution registers
+    ↓
+Workspace appearance changes
+    ↓
+Disable
+    ↓
+Previous appearance returns
+    ↓
+Rollback
+    ↓
+Previous package version becomes active
 ```
+
+**Validates:**
+- Manifest parsing
+- Registry discovery
+- Resolution
+- Planning
+- Lifecycle delegation
+- Enablement
+- Contribution registration
+- Events
+- Rollback
+
+### 6.2 Messages (Workspace Module)
+
+```text
+Install Messages module
+    ↓
+Enable in workspace
+    ↓
+Sidebar navigation registers
+    ↓
+Routes register
+    ↓
+Commands register
+    ↓
+Search providers register
+    ↓
+Inspector sections register
+    ↓
+Messages appears in sidebar
+    ↓
+Click Messages → Inbox view loads
+```
+
+**Validates:**
+- Workspace Module activation
+- Navigation contribution
+- Route contribution
+- Command contribution
+- Search contribution
+- Inspector contribution
+
+### 6.3 Local Model Manager (App)
+
+```text
+Install Local Model Manager
+    ↓
+Enable in workspace
+    ↓
+App process launches
+    ↓
+Health check passes
+    ↓
+App appears in running processes
+    ↓
+Stop app
+    ↓
+Health check fails
+    ↓
+App removed from running processes
+```
+
+**Validates:**
+- App Runtime isolation
+- Process launch
+- Health monitoring
+- Graceful shutdown
 
 ---
 
-## 11. Engineering Integration
+## 7. Engineering Integration
 
-### 11.1 Marketplace Events
+### 7.1 Marketplace Events
 
-Every Marketplace operation should become an Engineering Event.
+Every Marketplace operation becomes an Engineering Event.
 
 ```text
 Install Requested
@@ -742,7 +825,7 @@ Health Checked
 Completed
 ```
 
-### 11.2 Event Types
+### 7.2 Event Types
 
 ```typescript
 interface MarketplaceEvent {
@@ -767,90 +850,131 @@ type MarketplaceEventType =
   | 'rolled-back';
 ```
 
-### 11.3 Replay Capability
+### 7.3 Replay Capability
 
 The user should be able to replay an installation exactly like an engineering session.
 
 ---
 
-## 12. Marketplace as Workspace Module
+## 8. Data Model
 
-### 12.1 Self-Implementation
+### 8.1 Initial Registry
 
-The Marketplace itself should be implemented using the same Workspace SDK as any third-party module.
+A JSON index is enough initially.
 
-### 12.2 Contributions
+```typescript
+interface LocalIndex {
+  version: string;
+  assets: LocalAssetEntry[];
+  lastUpdated: timestamp;
+}
 
-```text
-Navigation
-Routes
-Commands
-Search Providers
-Inspector Integrations
-Toolbar Actions
+interface LocalAssetEntry {
+  assetId: string;
+  manifestPath: string;
+  availableVersions: string[];
+  catalogMetadata: MarketplaceCatalogMetadata;
+}
 ```
 
-### 12.3 Validation
+### 8.2 Migration Path
 
-If your own Marketplace can run purely through the Workspace SDK, you've proven the SDK is capable enough for external developers.
+```text
+JSON Index (MVP)
+    ↓
+SQLite (Local)
+    ↓
+PostgreSQL (Service)
+```
 
 ---
 
-## 13. Implementation Priority
+## 9. Repository Structure
 
-### 13.1 This Week
+### 9.1 Final Layout
 
-1. `packages/marketplace` with core contracts and runtime
-2. Local JSON registry
+```text
+apps/
+├── marketplace-service/
+├── api/
+├── workspace/
+└── cli/
+
+packages/
+├── marketplace/
+├── extension-contracts/
+├── extension-runtime/
+├── extension-security/
+├── extension-publishing/
+├── extension-sdk/
+└── app-runtime/
+```
+
+### 9.2 Package Dependencies
+
+```text
+marketplace
+    ├── extension-contracts
+    ├── extension-runtime
+    └── extension-sdk
+
+extension-runtime
+    ├── extension-contracts
+    ├── extension-sdk
+    └── shared
+
+workspace
+    ├── extension-sdk
+    └── shared
+
+cli
+    ├── marketplace
+    └── shared
+```
+
+---
+
+## 10. Implementation Priority
+
+### 10.1 This Week
+
+1. `packages/marketplace` with core contracts and types
+2. Registry abstraction and local implementation
 3. Manifest loading and validation
 4. Install plan generation
 5. Basic Marketplace page that lists local assets
-6. Install a single Theme package
-7. Install the Messages Workspace Module and watch it appear in the sidebar
+6. Install Metallic Gold Theme and see it apply
+7. Install Messages and see it appear in sidebar
 
-### 13.2 Expected Outcome
+### 10.2 Expected Outcome
 
 An end-to-end vertical slice—from discovery to activation—while keeping the implementation manageable.
 
 ---
 
-## 14. Milestone Dependencies
+## 11. Risk Mitigation
 
-```text
-MP-001 (Platform Foundation)
-    ↓
-MP-002 (Local Marketplace)
-    ↓
-MP-003 (Marketplace UI)
-    ↓
-MP-004 (Extension Runtime Integration)
-    ↓
-MP-005 (Publishing)
-    ↓
-MP-006 (Online Marketplace)
-```
-
----
-
-## 15. Risk Mitigation
-
-### 15.1 Incremental Delivery
+### 11.1 Incremental Delivery
 
 Each milestone produces working software. No big-bang integration.
 
-### 15.1 Vertical Slices
+### 11.2 Vertical Slices
 
 Each milestone includes tests. No untested code.
 
-### 15.3 Local First
+### 11.3 Local First
 
 Network dependency is introduced only in MP-006. Earlier milestones work offline.
 
-### 15.4 SDK Validation
+### 11.4 SDK Validation
 
 The Marketplace itself proves the SDK works. No separate SDK validation needed.
 
+### 11.5 Ownership Clarity
+
+Marketplace plans, Extension Runtime executes, Workspace Runtime activates. No authority conflicts.
+
 ---
 
-*This document defines the incremental implementation plan for the Vestara Marketplace.*
-*Build the platform first, then add capabilities.*
+*This document defines the corrected incremental implementation plan for the Vestara Marketplace.*
+*Build the platform first, then add capabilities. Respect ownership boundaries.*
