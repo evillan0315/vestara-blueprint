@@ -2,7 +2,7 @@
 id: "workspace-volume"
 title: "Volume 06 — Workspace"
 book: "Book 2: Platform Architecture"
-version: "4.0.0"
+version: "5.0.0"
 status: "approved"
 architecture-status: "accepted"
 implementation-status: "partial"
@@ -13,7 +13,7 @@ owner: "@frontend-engineer"
 author: ["@frontend-engineer", "@chief-architect"]
 last-reviewed: "2026-08-02"
 next-review: "2027-02-02"
-supersedes: "3.0.0"
+supersedes: "4.0.0"
 ---
 
 # Volume 06 — Workspace
@@ -37,9 +37,11 @@ inside an Engineering Session.
 ```
 Domain Contract
         ↓
-Runtime
+Runtime Owner
         ↓
-Engineering Graph
+Engineering Events
+        ↓
+Engineering Graph (projection layer)
         ↓
 Workspace Projection
         ↓
@@ -50,25 +52,53 @@ UI Component
 
 ---
 
-## Projection Sources
+## Navigation Structure
 
-| Domain Contract | Canonical Volume | Runtime Owner |
-|----------------|------------------|---------------|
-| Agent | Volume 08 (AI Agent) | AgentRuntime |
-| Assignment | Volume 08 (AI Agent) | AgentRuntime |
-| Execution | Volume 08 (AI Agent) | AgentRuntime |
-| Capability | Volume 08 (AI Agent) | AgentRuntime |
-| Evidence | Volume 14 (Engineering) | VerificationRuntime |
-| Verification | Volume 14 (Engineering) | VerificationRuntime |
-| Claim | Volume 14 (Engineering) | VerificationRuntime |
-| Artifact | Volume 14 (Engineering) | EngineeringGraph |
-| Plan | Volume 14 (Engineering) | PlanningService |
-| Task | Volume 14 (Engineering) | PlanningService |
-| Engineering Session | Volume 04 (Platform) | WorkspaceRuntime |
-| Engineering Event | Volume 04 (Platform) | EngineeringEventStore |
-| Engineering Graph | Volume 04 (Platform) | EngineeringGraph |
-| Runtime Health | Volume 04 (Platform) | Kernel |
-| Telemetry | Volume 04 (Platform) | Kernel |
+```
+Workspace
+├── Engineering Sessions
+├── Projects
+├── Overview
+└── Activity
+
+
+Engineering
+├── Planning
+├── Executions
+├── Artifacts
+├── Verification
+├── Evidence
+├── Engineering Graph
+└── Timeline
+
+
+Builders
+├── Application Builder
+└── API Builder
+
+
+Operations
+├── Operations
+├── Telemetry
+├── Runtime
+├── Events
+└── Diagnostics
+
+
+Tools
+├── Chat
+├── Editor
+├── Explorer
+├── Terminal
+├── Browser
+└── Knowledge
+
+
+Platform
+├── Marketplace
+├── Extensions
+└── Settings
+```
 
 ---
 
@@ -84,42 +114,76 @@ UI Component
 | `06-workspace-modes.md` | Adaptive interface contexts | Approved |
 | `workspace-projections.md` | Domain contract projection rules | Approved |
 
+### Builders
+
+| Document | Purpose | Status |
+|----------|---------|--------|
+| `builders/01-application-builder.md` | Application development projection | Proposed |
+| `builders/02-api-builder.md` | API development projection | Proposed |
+
 ---
 
-## Information Architecture
+## Projection Sources
 
-### Projected Domains (not defined here)
+| Domain Contract | Canonical Document | Runtime Owner |
+|----------------|-------------------|---------------|
+| Agent | `05-ai-core/agent-domain.md` | AgentRuntime |
+| Assignment | `05-ai-core/agent-domain.md` | AgentRuntime |
+| Execution | `04-platform/agent-harness-architecture.md` | AgentRuntime |
+| Capability | `05-ai-core/agent-domain.md` | AgentRuntime |
+| Evidence | `14-engineering/evidence-based-verification.md` | VerificationRuntime |
+| Verification | `14-engineering/evidence-based-verification.md` | VerificationRuntime |
+| Claim | `14-engineering/evidence-based-verification.md` | VerificationRuntime |
+| Artifact | `14-engineering/evidence-based-verification.md` | ArtifactStorage |
+| Plan | `14-engineering/engineering-principles.md` | PlanningService |
+| Task | `14-engineering/engineering-principles.md` | PlanningService |
+| Engineering Session | `04-platform/engineering-operating-system.md` | WorkspaceRuntime |
+| Engineering Event | `04-platform/engineering-event-architecture.md` | EngineeringEventStore |
+| Engineering Graph | `04-platform/engineering-event-architecture.md` | EngineeringGraph |
+| Runtime Health | `04-platform/engineering-operating-system.md` | Kernel |
+| Telemetry | `04-platform/engineering-operating-system.md` | Kernel |
+| Project | `14-engineering/engineering-principles.md` | WorkspaceRuntime |
+| API Specification | `14-engineering/engineering-principles.md` | PlanningService |
 
-| Domain | Source Volume | Projection |
-|--------|--------------|------------|
-| Agent | Volume 08 | Agent Center |
-| Evidence | Volume 14 | Evidence Center |
-| Verification | Volume 14 | Verification Center |
-| Artifact | Volume 14 | Artifact Center |
-| Plan | Volume 14 | Planning Workspace |
-| Timeline | Volume 04 | Engineering Timeline |
-| Operations | Volume 04 | Operations Center |
+---
 
-### Tools (Contextual Instruments)
+## Builder Architecture
 
-| Tool | Binds To |
-|------|----------|
-| **Chat** | Session conversation |
-| **Terminal** | Governed execution tool |
-| **Browser** | Governed runtime tool |
-| **Editor** | File and artifact editing surface |
-| **Explorer** | Repository projection |
-| **Documentation** | Knowledge and document projection |
+### Builder Rule
 
-### Platform Surfaces
+```
+Builder
+  ≠ domain owner
+```
 
-| Surface | Purpose |
+A builder orchestrates and projects existing contracts:
+
+```
+Canonical Domain Contracts
+        ↓
+Builder Workflow
+        ↓
+Engineering Session
+        ↓
+Plans and Tasks
+        ↓
+Executions
+        ↓
+Artifacts
+        ↓
+Verification and Evidence
+```
+
+### Future Builders
+
+| Builder | Purpose |
 |---------|---------|
-| **Settings** | Configuration governance |
-| **Marketplace** | Extension and agent catalog |
-| **Routing** | Provider and model routing |
-| **Notifications** | System and session alerts |
-| **Profile** | User identity and preferences |
+| Database Builder | Database schema and migration design |
+| Workflow Builder | Business process and workflow design |
+| Agent Builder | Agent capability and behavior design |
+| Integration Builder | Third-party integration design |
+| Infrastructure Builder | Infrastructure and deployment design |
+| Plugin Builder | Extension and plugin design |
 
 ---
 
@@ -163,6 +227,9 @@ The interface distinguishes ephemeral progress from persisted evidence.
 
 ### 5. Tools as Instruments
 Chat, terminal, browser, editor, and explorer are contextual tools, not primary architecture.
+
+### 6. Builders as Orchestrators
+Builders orchestrate and project existing domain contracts—they do not own them.
 
 ---
 
