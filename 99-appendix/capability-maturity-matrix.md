@@ -3,11 +3,11 @@ id: "appendix-capability-maturity-matrix"
 title: "Capability Maturity Matrix"
 volume: "99-appendix"
 book: "Book 6: Future Technologies"
-version: "1.3.0"
+version: "1.4.0"
 status: "approved"
 owner: "@chief-architect"
 created: "2026-08-01"
-last-reviewed: "2026-08-01"
+last-reviewed: "2026-08-02"
 next-review: "2026-11-01"
 architecture-status: "accepted"
 implementation-status: "implemented"
@@ -75,7 +75,12 @@ Precise states only; no checkmarks for unknown status.
 | Shared command envelope (correlation/causation) | yes | proposed | not started | unverified | draft |
 | Extension platform contracts | yes | accepted | implemented | verified | complete |
 | Local package manager foundation | yes | accepted | implemented | verified | complete |
-| Marketplace discovery/distribution | yes | proposed | not started | unverified | draft |
+| Marketplace catalog and local registry (read-only, symlink-safe, malformed isolation) | yes | accepted | implemented | verified | complete |
+| Marketplace discovery, search, compatibility, and resolution (dry-run plans) | yes | accepted | implemented | verified | complete |
+| Marketplace install orchestration and CLI (`vestara marketplace`) | yes | accepted | implemented | verified | complete |
+| Marketplace Workspace API (operation DTOs, awaiting-permission gating) | yes | accepted | implemented | verified | complete |
+| Marketplace Workspace UI and operation center (Discover/Categories/Installed/Updates, asset detail, install review, WebSocket events) | yes | accepted | implemented | verified | complete |
+| Remote marketplace registries and publishing | yes | proposed | not started | unverified | draft |
 | Durable event persistence (SQLite append log) | yes | proposed | not started | unverified | draft |
 | Trust score | yes | proposed | not started | unverified | draft |
 | Historical confidence | yes | proposed | not started | unverified | draft |
@@ -104,4 +109,6 @@ Precise states only; no checkmarks for unknown status.
   references.
 - `00-governance/adr/ADR-105-event-sourced-engineering-graph.md`
 - `00-governance/adr/ADR-111-agent-harness-centered-runtime-architecture.md`
+- `00-governance/adr/ADR-112-extension-platform-and-local-package-manager.md`
 - `00-governance/adr/ADR-114-linux-host-integration-foundation.md`
+- `00-governance/adr/ADR-115-marketplace-foundation-and-workspace-experience.md`

@@ -84,7 +84,9 @@ SCREENSHOT_ROUTES=<routes> SCREENSHOT_VIEWPORT=<group> SCREENSHOT_THEME=<theme> 
 3. Independent / cross-provider verification execution.
 4. Durable event persistence.
 5. Trust and historical confidence.
-6. Extension platform and Marketplace.
+6. Remote marketplace registries, publishing, signature enforcement, and
+   storefront governance (the local Marketplace foundation and Workspace
+   experience are implemented; see ADR-115).
 7. Durable Agent Harness thread/item, environment, tool, worktree, and
    automation contracts defined by ADR-111.
 8. Bootable image, portable storage, immutable update, and recovery layers
@@ -108,7 +110,9 @@ SCREENSHOT_ROUTES=<routes> SCREENSHOT_VIEWPORT=<group> SCREENSHOT_THEME=<theme> 
 - `adr/ADR-109-blueprint-implementation-alignment-metadata.md`
 - `adr/ADR-110-blueprint-volume-renumbering.md`
 - `adr/ADR-111-agent-harness-centered-runtime-architecture.md`
+- `adr/ADR-112-extension-platform-and-local-package-manager.md`
 - `adr/ADR-114-linux-host-integration-foundation.md`
+- `adr/ADR-115-marketplace-foundation-and-workspace-experience.md`
 
 ## Related implementation
 
@@ -116,5 +120,9 @@ SCREENSHOT_ROUTES=<routes> SCREENSHOT_VIEWPORT=<group> SCREENSHOT_THEME=<theme> 
 - OS-0 implementation reference: `579df3f`
 - Agent Harness Foundation reference: `4a76027`
 - Extension Platform Foundation reference: `45e670d`
+- Marketplace references: `packages/marketplace/`,
+  `apps/api/src/routes/marketplace.ts`,
+  `apps/workspace/src/pages/Marketplace/`,
+  `apps/cli/src/commands/marketplace.ts`
 - Native TUI references: `502b078`, `db3f498`
 - Validation: `vestara-blueprint/scripts/validate-blueprint.mjs`

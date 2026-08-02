@@ -68,7 +68,7 @@ A participant should never seek to replace another participant. It should seek t
 
 **Mission**: Empower people to transform ideas into products, businesses, organizations, and lifelong skills through an AI-native platform that is portable, private, and provider-agnostic.
 
-**Tech Stack**: TypeScript (strict), Node.js 22+, Fastify 5, SQLite (better-sqlite3), React 19, Vite 6, Tailwind 4, Turborepo, pnpm 10.
+**Tech Stack**: TypeScript (strict), Node.js 22+, raw Node `http` + `ws` API gateway, SQLite (sql.js WASM), React 19 + Vite 6 + MUI 6 + Tailwind 4, pnpm workspaces + `tsc` project references.
 
 ---
 
@@ -76,11 +76,11 @@ A participant should never seek to replace another participant. It should seek t
 
 | Rule | Enforcement |
 |------|-------------|
-| **Zero `any` types** | TypeScript strict + CI fail |
-| **Zod at ALL boundaries** | API, config, IPC, DB results |
-| **VestaraApp type for routes** | Never `FastifyInstance` directly |
+| **TypeScript strict + `skipLibCheck`** | `tsconfig.json`; Biome (not ESLint) is the only linter/formatter |
+| **Validation at boundaries** | Manifest validation in `@vestara/extension-contracts`; route body parsing in `apps/api/src/routes/` |
+| **Raw Node `http` + `ws` gateway** | `apps/api/src/server.ts` delegates to handler functions in `apps/api/src/routes/` — no Fastify |
 | **Parameterized SQL only** | `db.prepare('...').run(params)` |
-| **Feature-first modules** | Colocate by domain, not layer |
+| **One lifecycle authority** | Extension install/rollback/permissions delegate to `@vestara/extension-runtime` |
 | **OpenCode default provider** | Works without API keys |
 | **Ollama on-demand only** | No auto-start daemon |
 | **`pnpm build` before commit** | CI gate |
@@ -155,17 +155,20 @@ Vision → Business Validation → Research → Architecture → Blueprint Appro
 
 | Need | Path |
 |------|------|
-| Shared types | `packages/types/src/` |
-| Zod schemas | `packages/validation/src/` |
-| Constants | `packages/constants/src/` |
-| Utilities | `packages/utils/src/` |
-| Config loader | `packages/config/src/` |
-| Core services | `services/core/src/` |
-| API routes | `services/api/src/routes/` |
-| Agent runtime | `services/agents/src/` |
-| Memory service | `services/memory/src/` |
-| Dashboard | `apps/dashboard/src/` |
+| Domain types | `packages/types/src/` |
+| Shared contracts | `packages/shared/src/` |
+| Extension contracts | `packages/extension-contracts/src/` |
+| Extension lifecycle | `packages/extension-runtime/src/` |
+| Marketplace (catalog/discovery) | `packages/marketplace/src/` |
+| API server + routes | `apps/api/src/` |
+| CLI | `apps/cli/src/` |
+| Workspace UI | `apps/workspace/src/` |
 | Blueprint docs | `vestara-blueprint/` |
+
+> **Reconciliation note**: older Blueprint volumes and instruction files reference
+> Fastify, `@vestara/validation`, `VestaraApp`, Turborepo, and `services/*`.
+> These claims are superseded by `04-platform/engineering-operating-system.md`,
+> ADR-109, and ADR-115 — trust `vestara-ai-core` manifests and source.
 
 ---
 

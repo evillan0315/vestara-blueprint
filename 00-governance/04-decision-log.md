@@ -131,6 +131,7 @@ What did we decide? Be specific.
 | **ADR-112** | **Extension Platform and Local Package Manager** | **accepted** | **2026-08-01** | [adr/ADR-112-extension-platform-and-local-package-manager.md](adr/ADR-112-extension-platform-and-local-package-manager.md) |
 | **ADR-113** | **Native TUI as Canonical Interactive Interface** | **accepted** | **2026-08-01** | [adr/ADR-113-native-tui-as-canonical-interactive-interface.md](adr/ADR-113-native-tui-as-canonical-interactive-interface.md) |
 | **ADR-114** | **Linux Host Integration Foundation Before Bootable Distribution** | **accepted** | **2026-08-01** | [adr/ADR-114-linux-host-integration-foundation.md](adr/ADR-114-linux-host-integration-foundation.md) |
+| **ADR-115** | **Marketplace Foundation and Workspace Experience** | **accepted** | **2026-08-02** | [adr/ADR-115-marketplace-foundation-and-workspace-experience.md](adr/ADR-115-marketplace-foundation-and-workspace-experience.md) |
 
 > **Reconcilement note**: ADR-016 "Architecture Freeze v1.0" is **superseded** by
 > ADR-109. The Blueprint is now reconciled in **versions** against the
@@ -144,6 +145,11 @@ What did we decide? Be specific.
 > strategies, policies, or projections.
 > ADR-114 establishes Linux and systemd as the OS-0 machine plane and records
 > host integration separately from the future bootable distribution.
+> ADR-112's distribution layer is now partially realized by ADR-115: the
+> Marketplace foundation (catalog, local registry, search, resolution, install
+> orchestration, CLI, Workspace API and UI, WebSocket operation center) is
+> implemented above `extension-runtime`. Remote registries, publishing, and
+> signature enforcement remain future.
 
 > **Foundational ADRs (100+)** define the architectural philosophy that governs all other decisions. Each has a standalone document in `00-governance/adr/`.
 | ADR-023 | Core Runtime Model — Everything is a Runtime | superseded by ADR-111 | 2026-07-27 | 07-operating-system, all subsystems |

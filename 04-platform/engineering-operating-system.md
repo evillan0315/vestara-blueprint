@@ -59,8 +59,9 @@ analysis do not become autonomous runtimes solely because they are specialists.
 - **Partially implemented**: cross-provider execution (single provider wired).
 - **Implemented and verified**: OS-0 Host Runtime, durable Boot Runtime,
   read-only host/boot API and CLI status, and explicit systemd host-mode units.
-- **Specified only / proposed**: Marketplace, extension platform, durable event
-  persistence, historical confidence.
+- **Specified only / proposed**: remote marketplace distribution (the local
+  Marketplace foundation and Workspace experience are implemented per ADR-115),
+  durable event persistence, historical confidence.
 
 ## Central lifecycle
 
@@ -219,7 +220,9 @@ evidence: package tests, API smoke tests, and the visual-regression run
 ## Future direction
 
 Additional provider adapters, provider-independent verification, durable event
-persistence, historical confidence, extension platform, and the Marketplace. See
+persistence, historical confidence, and remote Marketplace distribution (the
+local Marketplace foundation and Workspace experience are implemented per
+ADR-115). See
 `20-roadmaps/engineering-os-roadmap.md`.
 
 ## Related ADRs

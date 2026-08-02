@@ -74,7 +74,8 @@ implemented runtime and the identified architecture gaps.
 2. Repository-specific instruction refinement.
 3. Verification-policy refinement, trust, and agent evaluation.
 4. Provider platform extensions and cross-provider verification.
-5. Extension platform and Marketplace.
+5. Extension platform and Marketplace — local foundation and Workspace
+   experience shipped (ADR-115); remote distribution and publishing remain.
 
 ## Related
 
