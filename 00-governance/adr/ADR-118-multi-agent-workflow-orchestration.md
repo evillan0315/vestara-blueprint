@@ -3,9 +3,9 @@ id: "adr-118"
 adr: "ADR-118"
 title: "Multi-Agent Workflow Orchestration"
 category: "implementation"
-version: 1.0
+version: 1.1
 date: "2026-08-02"
-status: "proposed"
+status: "accepted"
 author: "@chief-architect"
 deciders: ["@chief-architect", "@engineering-manager", "@product-manager"]
 consulted: ["@ai-engineer", "@backend-engineer"]
@@ -19,6 +19,8 @@ referenced_by:
     target: "20-roadmaps/multi-agent-workflow.md"
   - type: "blueprint"
     target: "14-engineering/multi-agent-workflow.md"
+  - type: "implementation"
+    target: "vestara-ai-core/docs/PCS-025-phase-1-implementation-plan.md"
 ---
 
 ## Context
@@ -70,8 +72,19 @@ records the decision and rationale.
 - New agent roles register via agent definition + capability declarations without
   orchestrator changes.
 - Remote workers can implement the existing `remote` worker-type contract.
-- Status is **proposed**: implementation is staged per the PCS-025 roadmap (Phase 1
-  orchestration core → Phase 2 review/test/approval → Phase 3 distributed).
+- Status: **accepted** (2026-08-03). Implementation is staged per the PCS-025
+  roadmap:
+  - **Phase 1 — orchestration core: partial.** The `WorkflowOrchestrator` +
+    project/plan/task state machines, `TaskStore`/`ArtifactStore`/
+    `FileLockRegistry`, bounded retry/revision policy, task-graph waves, and
+    idempotent resume are delivered in `packages/workflow-orchestrator/`, wired
+    into the API (`/api/orchestration/*`) and the temporal event store
+    (`orchestration.*` events), and execute tasks through the harness
+    (`HarnessTaskDispatcher`). 32 tests pass. See
+    `vestara-ai-core/docs/PCS-025-phase-1-implementation-plan.md` §11.
+  - **Phase 2 — review/test/approval, parallel waves, approval gateway: not
+    started.**
+  - **Phase 3 — distributed/remote workers: not started.**
 - Implementation ADR: `vestara-ai-core/docs/ADR/ADR-004-multi-agent-workflow.md`.
 
 ---

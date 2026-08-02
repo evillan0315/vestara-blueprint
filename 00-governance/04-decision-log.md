@@ -136,7 +136,7 @@ What did we decide? Be specific.
 | **ADR-115** | **Marketplace Foundation and Workspace Experience** | **accepted** | **2026-08-02** | [adr/ADR-115-marketplace-foundation-and-workspace-experience.md](adr/ADR-115-marketplace-foundation-and-workspace-experience.md) |
 | **ADR-116** | **Capability System — Permission-Gated Agent Access** | **accepted** | **2026-08-02** | [adr/ADR-116-capability-system.md](adr/ADR-116-capability-system.md) |
 | **ADR-117** | **Filesystem Runtime — Sandboxed, Approval-Gated Executor** | **accepted** | **2026-08-02** | [adr/ADR-117-filesystem-runtime.md](adr/ADR-117-filesystem-runtime.md) |
-| **ADR-118** | **Multi-Agent Workflow Orchestration** | **proposed** | **2026-08-02** | [adr/ADR-118-multi-agent-workflow-orchestration.md](adr/ADR-118-multi-agent-workflow-orchestration.md) |
+| **ADR-118** | **Multi-Agent Workflow Orchestration** | **accepted** | **2026-08-02** | [adr/ADR-118-multi-agent-workflow-orchestration.md](adr/ADR-118-multi-agent-workflow-orchestration.md) |
 
 > **Reconcilement note**: ADR-016 "Architecture Freeze v1.0" is **superseded** by
 > ADR-109. The Blueprint is now reconciled in **versions** against the
@@ -159,8 +159,10 @@ What did we decide? Be specific.
 > (ADR-025/033/034 realized for agent execution): agents reach the filesystem only
 > through `AgentCapabilityManager` (ADR-116) into the sandboxed, approval-gated
 > `FilesystemRuntime` (ADR-117), and multi-agent project execution is designed
-> around a `WorkflowOrchestrator` (ADR-118, proposed — see
-> `vestara-ai-core/docs/PCS-025-multi-agent-project-management.md`).
+> around a `WorkflowOrchestrator` (ADR-118, accepted — Phase 1 orchestration core
+> is implemented in `packages/workflow-orchestrator/`; see
+> `vestara-ai-core/docs/PCS-025-multi-agent-project-management.md` and
+> `vestara-ai-core/docs/PCS-025-phase-1-implementation-plan.md`).
 > Implementation ADRs mirror these decisions in `vestara-ai-core/docs/ADR/`
 > (ADR-001 runtime, ADR-002 capability system, ADR-003 filesystem runtime,
 > ADR-004 multi-agent workflow).

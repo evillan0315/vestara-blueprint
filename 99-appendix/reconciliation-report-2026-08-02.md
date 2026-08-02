@@ -145,6 +145,12 @@ Not yet started. Requires:
 
 1. Reconcile Agent Harness, Capability System, and Filesystem Runtime across all documents
 2. Keep ADR-118 explicitly proposed — do not mark multi-agent lifecycle as implemented
+   > **Superseded 2026-08-03**: ADR-118 moved to **accepted** — Phase 1
+   > orchestration core is now implemented in `packages/workflow-orchestrator/`
+   > (state machines, stores, retry policy, task-graph waves, resume) and wired
+   > through the harness + temporal event store. Phases 2-3 (review/test/
+   > approval, parallel waves, remote workers) remain future; do not mark the
+   > full multi-agent lifecycle as complete.
 3. Clarify OS-0 is implemented but bootable Vestara distribution is not
 4. Create architecture docs for `packages/execution-center/` and agent-harness routes
 5. Add documentation drift validator to CI

@@ -46,6 +46,12 @@ implemented runtime and the identified architecture gaps.
   Dashboard "Live Engineering Workflow", Sessions harness ExecutionSessions,
   Agent Control workflow rails, Artifacts "Live Change Projection",
   Documentation "System Milestones".
+- Multi-agent workflow orchestration core (ADR-118, Phase 1): `WorkflowOrchestrator`
+  + project/plan/task state machines, task/artifact/file-lock stores, bounded
+  retry/revision policy, task-graph waves, checkpoint/resume in
+  `packages/workflow-orchestrator/`; tasks execute through the harness
+  (`HarnessTaskDispatcher`), `orchestration.*` events project into the temporal
+  event store, and `/api/orchestration/*` exposes the lifecycle.
 - Telemetry
 - Engineering Graph + Temporal Event Store (session-only)
 - Verification pipeline + evidence
@@ -101,9 +107,11 @@ execution path (ADR-120).
 
 Canonical workflow projection, incremental push protocol, hybrid stage
 derivation, eight-stage owning-agent attribution, and the TUI lifecycle rail
-are shipped (ADR-122, ADR-123). Remaining: agent swimlanes (ADR-118), the
-premium Workspace diagram consuming the canonical projection, and temporal
-replay controls.
+are shipped (ADR-122, ADR-123). The multi-agent workflow orchestration core is
+implemented (ADR-118, Phase 1 partial). Remaining: agent swimlanes end-to-end
+for orchestrated projects (the `projectWorkflowAcrossThreads` aggregation is
+wired but stage attribution is still settling), the premium Workspace diagram
+consuming the canonical projection, and temporal replay controls.
 
 ## Related
 
