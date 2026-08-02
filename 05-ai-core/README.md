@@ -71,7 +71,7 @@ tags: ["ai", "core", "architecture", "overview"]
 | **Conversation** | Multi-turn chat with context, memory, tool use | ✅ Full |
 | **Memory** | Short-term, long-term, episodic memory with consolidation | ✅ Full |
 | **Knowledge** | RAG pipeline with FTS + vector search | ✅ Core |
-| **Providers** | Router with OpenCode default, Ollama local, external fallback | ✅ Full |
+| **Providers** | Router with provider-agnostic local inference, Ollama on-demand, external fallback | ✅ Full |
 | **Agents** | Runtime, tools, execution, persistence | ✅ Core |
 | **Prompts** | Templates, versioning, optimization | 📋 MVP |
 | **Evaluation** | Benchmarks, regression, safety checks | 📋 Planned |

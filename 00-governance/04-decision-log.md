@@ -2,11 +2,13 @@
 title: "Architectural Decision Log (ADR)"
 volume: "00-governance"
 book: "Book 1: Vision & Business"
-version: "1.0.0"
+version: "1.1.0"
 status: "approved"
 owner: "@chief-architect"
-last-reviewed: "2025-07-23"
-next-review: "2025-10-23"
+last-reviewed: "2026-08-02"
+next-review: "2026-11-02"
+canonical: true
+supersedes: []
 tags: ["adr", "decisions", "architecture", "governance"]
 ---
 

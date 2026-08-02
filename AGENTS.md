@@ -81,7 +81,7 @@ A participant should never seek to replace another participant. It should seek t
 | **Raw Node `http` + `ws` gateway** | `apps/api/src/server.ts` delegates to handler functions in `apps/api/src/routes/` — no Fastify |
 | **Parameterized SQL only** | `db.prepare('...').run(params)` |
 | **One lifecycle authority** | Extension install/rollback/permissions delegate to `@vestara/extension-runtime` |
-| **OpenCode default provider** | Works without API keys |
+| **Provider-agnostic local inference** | Works without API keys |
 | **Ollama on-demand only** | No auto-start daemon |
 | **`pnpm build` before commit** | CI gate |
 

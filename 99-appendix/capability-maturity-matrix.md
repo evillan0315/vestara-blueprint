@@ -13,7 +13,9 @@ architecture-status: "accepted"
 implementation-status: "implemented"
 verification-status: "verified"
 implementation-repository: "evillan0315/vestara-ai-core"
-implementation-ref: "local main"
+implementation-ref: "eb3fd3d (main, 2026-08-02)"
+canonical: true
+supersedes: []
 tags: ["matrix", "maturity", "status", "reconciliation"]
 ---
 
@@ -102,6 +104,10 @@ Precise states only; no checkmarks for unknown status.
   suite.
 - OS-0 verification proves the user-space Linux host boundary. It is not
   evidence of an ISO, bootloader, installer, immutable image, or portable SSD.
+- **Evidence is addressable**: each verification record should reference a
+  specific commit SHA, environment, commands run, test inventory, and
+  timestamp. See [implementation-alignment.md](implementation-alignment.md)
+  for the cross-repository reference standard.
 
 ## Related
 

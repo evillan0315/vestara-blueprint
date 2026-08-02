@@ -14,6 +14,11 @@ implementation-status: "implemented"
 verification-status: "verified"
 implementation-repository: "evillan0315/vestara-ai-core"
 implementation-ref: "local main (workspace-runtime, kernel, agent-runtime, engineering-graph)"
+canonical: true
+supersedes:
+  - "04-platform/01-platform-overview.md"
+  - "04-platform/service-oriented-architecture.md"
+conflict-policy: replace
 tags: ["architecture", "runtime", "orchestration", "engineering-os", "reconciliation"]
 ---
 

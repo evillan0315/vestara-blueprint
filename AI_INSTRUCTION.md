@@ -453,7 +453,7 @@ vestara-ai-os/
 4. **USE @vestara/validation** — Zod schemas for ALL boundaries
 5. **USE VestaraApp** — Never FastifyInstance in routes
 6. **SQLite only** — No Postgres, no MySQL
-7. **OpenCode default** — Works without API keys
+7. **Provider-agnostic local inference** — Works without API keys
 8. **Ollama on-demand** — No auto-start
 9. **No comments in code** — Unless explicitly requested
 10. **Run `pnpm build` before commit** — CI will fail otherwise

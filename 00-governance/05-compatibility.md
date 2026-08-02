@@ -151,7 +151,7 @@ Portable AI OS booting from SSD. TypeScript, Fastify, SQLite, React, Tailwind.
 - Use @vestara/types, @vestara/validation, @vestara/utils
 - SQLite parameterized queries only
 - VestaraApp type for Fastify routes
-- OpenCode default provider, Ollama on-demand
+- Provider-agnostic local inference, Ollama on-demand
 - Feature-first modules, EventBus communication
 - UUID v7 IDs, ISO 8601 timestamps
 

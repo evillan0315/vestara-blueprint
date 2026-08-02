@@ -50,7 +50,7 @@ timeline
          : Portable AI workstation on SSD
          : Local-first, offline-capable
          : Projects, Knowledge, Memory, Agents
-         : OpenCode default, Ollama local
+         : Provider-agnostic local inference, Ollama local
          : Developer-focused
     
     2026 : Generation 2 — Portable AI OS

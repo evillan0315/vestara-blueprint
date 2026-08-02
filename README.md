@@ -52,9 +52,9 @@ vestara-blueprint/
 
 ## ⚡ Important Notes
 
-- **Implementation lives in `vestara-ai-core/`** — this repository contains the frozen architecture specification
+- **Implementation lives in `vestara-ai-core/`** — this repository contains the architecture specification
 - **Development methodology**: Vestara Specification-Driven Engineering (VSDE) — see `vestara-ai-core/docs/VSDE/`
-- **Architecture is frozen** per ADR-016 — no changes to architecture documents without a new ADR
+- **Accepted architecture is change-controlled** per ADR-109 — no changes without ADR and impact reconciliation
 
 ---
 
@@ -111,7 +111,7 @@ This blueprint is the **supreme authority** for all Vestara decisions.
 - **10-developer-platform** — SDK, plugins, marketplace, API gateway
 - **12-data** — Data ownership, privacy, sync, local-first, encryption
 
-### Book 3: AI Architecture (Volumes 05, 08, 14, 21)
+### Book 3: AI Architecture (Volumes 05, 08, 23, 21)
 *The brain of Vestara — every AI subsystem specified.*
 
 - **05-ai-core** — Memory, Planning, Reasoning, Knowledge, Agents, Providers, Safety, Evaluation
@@ -243,7 +243,7 @@ tags: ["tag1", "tag2"]
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 2.0.0 | 2025-07-30 | Chief Architect | Promoted VDS to 13-design-system, Conversation to 14-conversation; added 11-language governance doc |
+| 2.0.0 | 2025-07-30 | Chief Architect | Promoted VDS to 13-design-system, Conversation to 23-conversation; added 11-language governance doc |
 | 1.0.0 | 2025-07-23 | Chief Architect | Initial blueprint creation |
 
 ---

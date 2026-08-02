@@ -13,7 +13,9 @@ architecture-status: "accepted"
 implementation-status: "implemented"
 verification-status: "verified"
 implementation-repository: "evillan0315/vestara-ai-core"
-implementation-ref: "local main"
+implementation-ref: "eb3fd3d (main, 2026-08-02)"
+canonical: true
+supersedes: []
 tags: ["alignment", "status", "reconciliation"]
 ---
 

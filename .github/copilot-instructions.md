@@ -11,13 +11,13 @@ TypeScript (strict), Node.js 24, sql.js (SQLite WASM), React 19, Vite 6, Tailwin
 - Read `vestara-ai-core/docs/PRODUCT-PRINCIPLES.md` for product governance
 
 ## Where the Code Is
-All active implementation is in `vestara-ai-core/`. The blueprint repository contains frozen architecture documents.
+All active implementation is in `vestara-ai-core/`. The blueprint repository contains the architecture specification.
 
 ## Architecture
 - `WorkspaceRuntime` is the orchestration boundary — CLI imports it, not knowledge/memory/reasoning directly
 - `RepositoryWorkspace` is the canonical domain object enriched by every pipeline stage
 - 22 packages building in dependency order via `build-order.sh`
-- OpenCode is the sole AI provider (default: `https://opencode.ai/zen/v1`)
+- Provider-agnostic AI routing (OpenAI, Anthropic, Ollama, local inference)
 - sql.js (WASM) for SQLite — NOT better-sqlite3
 - AI is optional — all pipelines degrade gracefully with deterministic output
 

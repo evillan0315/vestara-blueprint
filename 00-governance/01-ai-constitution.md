@@ -2,11 +2,11 @@
 title: "AI Constitution — Master Prompt for All AI Agents"
 volume: "00-governance"
 book: "Book 1: Vision & Business"
-version: "2.0.0"
+version: "2.1.0"
 status: "approved"
 owner: "@chief-architect"
-last-reviewed: "2026-07-27"
-next-review: "2027-01-27"
+last-reviewed: "2026-08-02"
+next-review: "2027-02-02"
 tags: ["constitution", "governance", "ai-agents", "master-prompt"]
 ---
 
@@ -167,13 +167,26 @@ That is what companionship means.
 
 > **Vestara empowers people to transform ideas into products, businesses, organizations, and lifelong skills through an AI-native platform that is portable, private, and provider-agnostic.**
 
-### What Vestara IS
+### What Vestara IS (Product Identity)
 
-- ✅ A **portable AI operating system** that boots from external SSD
-- ✅ An **AI-native workspace platform** with built-in agents, memory, knowledge
-- ✅ A **developer platform** for building AI-powered applications
-- ✅ An **ecosystem** — open, extensible, provider-agnostic
-- ✅ **Local-first, privacy-first, offline-first** by default
+These are the enduring identity claims that define Vestara's category and purpose:
+
+- A **portable AI operating system** that boots from external SSD
+- An **AI-native workspace platform** with built-in agents, memory, knowledge
+- A **developer platform** for building AI-powered applications
+- An **ecosystem** — open, extensible, provider-agnostic
+- **Local-first, privacy-first, offline-first** by default
+
+### Current Implementation State
+
+The following reflects what is **currently operational**, not aspirational targets. See the [Capability Maturity Matrix](../99-appendix/capability-maturity-matrix.md) for detailed status.
+
+- ✅ Workspace platform with agents, memory, knowledge, conversation
+- ✅ Agent capability system with permission-gated filesystem access
+- ✅ Provider-neutral AI routing with multiple provider support
+- ✅ Extension platform and local package manager
+- ⬜ Bootable ISO / immutable A/B OS / portable SSD image (proposed, not implemented)
+- ⬜ Secure Boot / measured boot integration (accepted target, not started)
 
 ### What Vestara is NOT
 
@@ -254,19 +267,11 @@ timeline
 | 7 | **Feature-First Organization** | Colocate by feature, not layer |
 | 8 | **No Technical Debt Unless Documented** | Every `TODO` = tracking ticket |
 
-### TypeScript Constitution
-
-```typescript
-// ✅ MANDATORY PATTERNS
-interface Config { readonly theme: 'dark' | 'light'; }  // readonly, union types
-function createUser(config: Config): User { ... }       // explicit return type
-const result = await db.get<User>('SELECT * FROM users WHERE id = ?', id); // typed
-
-// ❌ FORBIDDEN PATTERNS
-function createUser(config: any): any { ... }           // any is banned
-type Config = { theme: string };                        // loose types
-const user = db.get('SELECT * FROM users');             // untyped
-```
+> **Implementation rules** (TypeScript patterns, prohibitions, verification
+> checklists, testing standards) are defined in
+> [02-engineering-rules.md](02-engineering-rules.md) and
+> [14-engineering/](../14-engineering/). This Constitution establishes
+> principles; engineering standards define practice.
 
 ---
 
@@ -360,7 +365,7 @@ When documents conflict, priority order:
 | Mandate | Implementation |
 | --------- | ---------------- |
 | **Zero Telemetry** | No analytics, no crash reporting without explicit opt-in |
-| **Local-First AI** | OpenCode default (free, no keys); Ollama on-demand |
+| **Local-First AI** | Provider-agnostic local inference; Ollama on-demand |
 | **Encrypted Storage** | LUKS2 overlay for user data; keys in TPM |
 | **Parameterized Queries** | `db.prepare('...').run(params)` — never string concat |
 | **Zod Validation** | Every API boundary, config, IPC message validated |
@@ -374,14 +379,16 @@ When documents conflict, priority order:
 
 ## Absolute Prohibitions (Never Do These)
 
+> **Implementation details**: See [02-engineering-rules.md](02-engineering-rules.md)
+> for complete prohibitions, mandatory patterns, and verification checklists.
+
 | Category | Prohibited |
 | ---------- | ------------ |
-| **Types** | `any`, `unknown` without validation, `as Type` assertions |
+| **Types** | `any`, `unknown` without validation |
 | **Database** | Raw SQL string concatenation, ORM without types |
 | **Secrets** | Hardcoded keys, committed `.env`, printed tokens |
 | **Security** | Disabled CSP, disabled rate limits, skipped auth |
 | **Architecture** | Circular dependencies, god classes, implicit globals |
-| **Testing** | Disabled tests, mocked database, no integration tests |
 | **Documentation** | Undocumented public APIs, missing ADRs for decisions |
 | **Dependencies** | Unpinned versions, unused packages, duplicate utils |
 | **AI** | Single-provider assumptions, cloud-only features |
@@ -389,6 +396,9 @@ When documents conflict, priority order:
 ---
 
 ## Self-Verification Checklist (Run Before Completing Task)
+
+> **Detailed verification rules**: See [02-engineering-rules.md](02-engineering-rules.md)
+> for testing standards, CI gates, and tooling requirements.
 
 ```markdown
 - [ ] Read Constitution, Rules, AIDL, Decision Log
@@ -400,9 +410,8 @@ When documents conflict, priority order:
 - [ ] Feature-first organization — colocated by feature
 - [ ] No technical debt without tracking ticket
 - [ ] Tests pass — unit + integration, coverage thresholds met
-- [ ] `pnpm lint && pnpm typecheck && pnpm build && pnpm test` passes
+- [ ] Lint and build pass
 - [ ] Security review — validation, auth, injection, XSS, CSP
-- [ ] Performance — no N+1, no memory leaks, p95 targets
 - [ ] Documentation updated — Blueprint, API docs, examples
 - [ ] Decision logged — ADR created for architectural choices
 - [ ] Backward compatibility — migrations additive, APIs versioned

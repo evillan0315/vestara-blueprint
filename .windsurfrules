@@ -6,13 +6,13 @@ Follow the AI Constitution: vestara-blueprint/00-governance/01-ai-constitution.m
 
 ## Where the Code Is
 All active implementation: `vestara-ai-core/`
-Blueprint (frozen architecture): `vestara-blueprint/`
+Blueprint (architecture specification): `vestara-blueprint/`
 
 ## Workflow (VSDE)
 1. Read PRODUCT-PRINCIPLES.md and VSDE standard
 2. Read relevant Capability Specification Package (CSP)
 3. Specifications before implementation — never start coding without a complete CSP
-4. Implement against existing contracts (architecture is frozen)
+4. Implement against existing contracts (architecture is change-controlled)
 5. Write tests (Vitest, sql.js in-memory)
 6. Verify: pnpm test && bash build-order.sh
 

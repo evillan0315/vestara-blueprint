@@ -168,7 +168,7 @@ Every feature scored on **RICE** (Reach × Impact × Confidence / Effort):
 
 | Feature | Reach | Impact | Conf | Effort | RICE | Status |
 |---------|-------|--------|------|--------|------|--------|
-| OpenCode default provider | 1000 | 3.0 | 1.0 | 2 | 1500 | ✅ Done |
+| Provider-agnostic local inference | 1000 | 3.0 | 1.0 | 2 | 1500 | ✅ Done |
 | SQLite + .vestara folder | 1000 | 3.0 | 1.0 | 3 | 1000 | ✅ Done |
 | Project Kanban board | 800 | 2.5 | 0.9 | 4 | 450 | 🔄 Active |
 | Knowledge FTS search | 700 | 2.5 | 0.8 | 3 | 467 | 🔄 Active |
