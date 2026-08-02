@@ -40,14 +40,17 @@ Completed in prior session (commit `acf5dcb`):
 - TypeScript code patterns, prohibitions, and checklists moved to reference engineering standards
 - Canonical/supersession metadata added to key architecture documents
 
-### Phase 4 — Architecture domain reconciliation
+### Phase 4 — Architecture domain reconciliation (Canonical Engineering Model)
 
-Not yet started. Requires:
+Completed. Five domains reconciled using the Canonical Engineering Model template:
 
-- Agent Harness domain reconciliation
-- Capability system reconciliation
-- Filesystem Runtime reconciliation
-- Multi-agent orchestration (keep ADR-118 proposed)
+- Agent Harness — `04-platform/agent-harness-architecture.md` equivalent via ADR-111
+- Capability System — `00-governance/adr/ADR-116-capability-system.md`
+- Filesystem Runtime — `00-governance/adr/ADR-117-filesystem-runtime.md`
+- Engineering Graph — `00-governance/adr/ADR-105-event-sourced-engineering-graph.md`
+- Provider Architecture — `00-governance/adr/ADR-106-provider-neutral-engineering-provider-runtime.md`
+
+`99-appendix/canonical-engineering-model.md` created with full domain specs.
 - Verification and evidence
 - Engineering Event Store and Graph
 - Provider architecture
@@ -56,11 +59,19 @@ Not yet started. Requires:
 
 ### Phase 5 — vestara-ai-core documentation update
 
-Not yet started. Requires:
+Partially completed:
 
-- Architecture docs for new packages (execution-center, agent-harness routes)
-- Package documentation matrix
-- ADR cross-reference report
+- `99-appendix/package-documentation-matrix.md` created — 40+ packages mapped
+- 15 packages identified as missing READMEs
+- Package-to-architecture references established
+
+### Phase 8 — Evidence and verification
+
+Partially completed:
+
+- `99-appendix/evidence-bundle-standard.md` created
+- Evidence bundle structure defined (metadata, verification, events, graph, confidence)
+- Naming convention: `verification-<commit-sha>-<seq>.json`
 
 ### Phase 6 — Milestones and roadmaps
 
@@ -82,9 +93,9 @@ Not yet started. Requires:
 
 Partially completed:
 
-- Evidence addressability standard defined
-- Commit SHA pinned in maturity matrix and implementation-alignment
-- Evidence notes updated in capability matrix
+- `99-appendix/evidence-bundle-standard.md` created
+- Evidence bundle structure defined (metadata, verification, events, graph, confidence)
+- Naming convention: `verification-<commit-sha>-<seq>.json`
 
 ### Phase 9 — Automation and validation
 
@@ -93,7 +104,14 @@ Not yet started. Requires:
 - Documentation drift validator
 - CI gate for documentation
 
-## Changes made this session
+## New files this session
+
+| File | Purpose |
+|------|---------|
+| `99-appendix/capability-catalog.md` | Central capability registry — hub of the engineering knowledge graph |
+| `99-appendix/canonical-engineering-model.md` | Standard template for all architecture domain reconciliations |
+| `99-appendix/package-documentation-matrix.md` | Auto-derived package registry with architecture references |
+| `99-appendix/evidence-bundle-standard.md` | Standard evidence format for verification runs |
 
 | File | Change |
 |------|--------|
