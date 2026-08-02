@@ -1,9 +1,9 @@
 ---
 id: "marketplace-catalog"
-title: "Marketplace Catalog — Intent-Based Module Taxonomy"
+title: "Marketplace Catalog — Intent-Based Discovery System"
 volume: "10-developer-platform"
 book: "Book 2: Platform Architecture"
-version: "1.0.0"
+version: "2.0.0"
 status: "approved"
 architecture-status: "accepted"
 implementation-status: "proposed"
@@ -15,15 +15,24 @@ author: ["@chief-architect", "@frontend-engineer"]
 last-reviewed: "2026-08-03"
 next-review: "2027-02-03"
 canonical: true
-supersedes: []
-tags: ["marketplace", "catalog", "taxonomy", "intent", "canonical"]
+supersedes: ["marketplace-catalog-v1"]
+tags: ["marketplace", "catalog", "taxonomy", "intent", "discovery", "canonical"]
 ---
 
 # Marketplace Catalog
 
-## Intent-Based Module Taxonomy
+## Intent-Based Discovery System
 
-> **A good Marketplace catalog groups installable modules by user intent, not by implementation type.**
+> **Discover by intent, understand by implementation.**
+
+Users rarely think "I need a Workspace Module." They think:
+- "I need GitHub."
+- "I need an IDE."
+- "I need Messages."
+- "I need Kubernetes."
+- "I need PostgreSQL."
+
+The asset kind becomes relevant only when Vestara decides how to install and activate it.
 
 ---
 
@@ -31,23 +40,824 @@ tags: ["marketplace", "catalog", "taxonomy", "intent", "canonical"]
 
 ```
 Marketplace
+    ├── Discovery Layer
+    │   ├── Capability Layer (what you want to accomplish)
+    │   ├── Categories (domain grouping)
+    │   ├── Solution Bundles (curated sets)
+    │   ├── Featured Collections (discovery mechanisms)
+    │   └── Badges (quick understanding)
     ├── Catalog
-    │   ├── Categories (user intent)
     │   ├── Listings (modules)
-    │   ├── Filters (asset kind, trust, etc.)
-    │   └── Search (full-text, faceted)
-    ├── Discovery
+    │   ├── Compatibility Matrix
+    │   ├── Capability Matrix
+    │   └── Engineering Readiness
+    ├── Analytics
+    │   ├── Usage Metrics
+    │   ├── Quality Metrics
+    │   └── Publisher Reputation
     ├── Distribution
     └── Lifecycle
 ```
 
-The catalog is the user-facing discovery interface. It groups modules by what users want to do, not how they are implemented.
+---
+
+## 2. Capability Layer
+
+Instead of only categories, allow users to browse by what they want to accomplish:
+
+### 2.1 Capability Capabilities
+
+```text
+I want to...
+
+Build Applications
+Build APIs
+Build Databases
+Review Code
+Debug
+Deploy
+Monitor
+Communicate
+Manage Projects
+Generate Documentation
+Design UI
+Test Applications
+Manage Infrastructure
+Train Agents
+Analyze Repositories
+```
+
+### 2.2 Capability to Module Mapping
+
+#### Build Applications
+
+```text
+→ Application Builder
+→ IDE
+→ GitHub
+→ Verification Center
+→ Evidence Center
+```
+
+#### Build APIs
+
+```text
+→ API Builder
+→ API Client
+→ PostgreSQL
+→ Verification Center
+→ Documentation Generator
+```
+
+#### Build Databases
+
+```text
+→ Database Builder
+→ Database Studio
+→ PostgreSQL
+→ MySQL
+→ MongoDB
+```
+
+#### Review Code
+
+```text
+→ IDE
+→ Git Explorer
+→ Pull Request Review
+→ Security Scanner
+→ Code Ownership
+```
+
+#### Debug
+
+```text
+→ IDE
+→ Debugger
+→ Log Explorer
+→ Diagnostics
+→ Runtime Monitor
+```
+
+#### Deploy
+
+```text
+→ Deployment Monitor
+→ Docker
+→ Kubernetes
+→ GitHub Actions
+→ GitLab CI
+```
+
+#### Monitor
+
+```text
+→ Operations Center
+→ Runtime Monitor
+→ Telemetry Explorer
+→ Event Stream
+→ Alert Manager
+```
+
+#### Communicate
+
+```text
+→ Messages
+→ Calendar
+→ Contacts
+→ Slack
+→ Microsoft Teams
+```
+
+#### Manage Projects
+
+```text
+→ Projects
+→ Tasks
+→ Kanban Board
+→ Roadmaps
+→ Sprint Planning
+```
+
+#### Generate Documentation
+
+```text
+→ Documentation Generator
+→ Knowledge Base
+→ Wiki
+→ API Documentation
+→ Architecture Records
+```
+
+#### Design UI
+
+```text
+→ UI Designer
+→ Design System
+→ Theme Studio
+→ Wireframing
+→ Prototype Builder
+```
+
+#### Test Applications
+
+```text
+→ Test Explorer
+→ Playwright Verification
+→ Visual Testing Studio
+→ API Contract Verification
+→ Accessibility Verification
+```
+
+#### Manage Infrastructure
+
+```text
+→ Infrastructure Builder
+→ Container Manager
+→ Kubernetes Console
+→ Terraform
+→ Ansible
+```
+
+#### Train Agents
+
+```text
+→ Agent Center
+→ Prompt Studio
+→ Model Registry
+→ Evaluation Studio
+→ Memory Explorer
+```
+
+#### Analyze Repositories
+
+```text
+→ Repository Intelligence
+→ Dependency Graph
+→ Impact Analysis
+→ Technical Debt Explorer
+→ Code Ownership
+```
 
 ---
 
-## 2. Category Taxonomy
+## 3. Solution Bundles
 
-### 2.1 Development
+Instead of installing one extension at a time, offer curated solution bundles:
+
+### 3.1 Node.js Development
+
+```text
+Node.js Development
+
+contains
+
+✓ IDE
+✓ GitHub
+✓ Terminal
+✓ TypeScript Standards
+✓ Playwright Verification
+✓ Documentation Generator
+```
+
+### 3.2 Fullstack React
+
+```text
+Fullstack React
+
+contains
+
+✓ IDE
+✓ Application Builder
+✓ API Builder
+✓ PostgreSQL
+✓ Docker
+✓ GitHub
+✓ Playwright
+✓ Engineering Graph
+```
+
+### 3.3 AI Engineering
+
+```text
+AI Engineering
+
+contains
+
+✓ Agent Center
+✓ Prompt Studio
+✓ Model Registry
+✓ Ollama Provider
+✓ Evaluation Studio
+✓ Memory Explorer
+```
+
+### 3.4 DevOps Pipeline
+
+```text
+DevOps Pipeline
+
+contains
+
+✓ Docker
+✓ Kubernetes
+✓ GitHub Actions
+✓ GitLab CI
+✓ Terraform
+✓ Deployment Monitor
+✓ Operations Center
+```
+
+### 3.5 Enterprise Security
+
+```text
+Enterprise Security
+
+contains
+
+✓ Security Scanner
+✓ Vulnerability Scanner
+✓ Dependency Audit
+✓ Secret Scanner
+✓ Permission Manager
+✓ Audit Log
+✓ Compliance Center
+```
+
+### 3.6 Data Engineering
+
+```text
+Data Engineering
+
+contains
+
+✓ Database Builder
+✓ PostgreSQL
+✓ MongoDB
+✓ Redis
+✓ Data Pipeline
+✓ ETL Builder
+✓ Data Catalog
+```
+
+### 3.7 Bundle Installation
+
+```text
+Bundle Manifest
+    ↓
+Dependency Resolution
+    ↓
+Single Transaction Install
+    ↓
+Bulk Enable in Workspace
+    ↓
+Emit Bundle Events
+```
+
+---
+
+## 4. Featured Collections
+
+Discovery mechanisms beyond categories:
+
+### 4.1 Collection Types
+
+```text
+Featured
+Trending
+Recently Updated
+Verified
+Enterprise Ready
+Made by Vestara
+Community Picks
+Starter Kits
+New Releases
+```
+
+### 4.2 Collection Definitions
+
+#### Featured
+
+```text
+Curated by Vestara team
+High quality, well-integrated
+Regularly updated
+```
+
+#### Trending
+
+```text
+Most installs this week
+Most active development
+Growing community
+```
+
+#### Recently Updated
+
+```text
+Updated in last 30 days
+Active maintenance
+Bug fixes and features
+```
+
+#### Verified
+
+```text
+Publisher verified
+Signature valid
+Security scanned
+```
+
+#### Enterprise Ready
+
+```text
+Enterprise support
+SLA guarantees
+Compliance features
+```
+
+#### Made by Vestara
+
+```text
+First-party modules
+Highest integration
+Guaranteed compatibility
+```
+
+#### Community Picks
+
+```text
+Highly rated by users
+Active community
+Good documentation
+```
+
+#### Starter Kits
+
+```text
+Pre-configured bundles
+Quick start guides
+Best practices included
+```
+
+#### New Releases
+
+```text
+Published in last 7 days
+New features
+Fresh capabilities
+```
+
+---
+
+## 5. Marketplace Badges
+
+Every listing exposes badges for quick understanding:
+
+### 5.1 Trust Badges
+
+```text
+Verified Publisher
+Open Source
+Official
+Enterprise
+```
+
+### 5.2 Capability Badges
+
+```text
+Offline Ready
+Supports Local Models
+Session Aware
+Builder Compatible
+```
+
+### 5.3 Requirement Badges
+
+```text
+Requires Docker
+Requires GPU
+Requires Network
+```
+
+### 5.4 Asset Kind Badges
+
+```text
+Workspace Module
+App
+Package
+Connector
+Builder
+Theme
+Agent
+Provider
+```
+
+### 5.5 Badge Rendering
+
+```text
+┌─────────────────────────────────────┐
+│ GitHub                              │
+│                                     │
+│ [Verified] [Official] [Open Source] │
+│                                     │
+│ Connect to GitHub repositories,     │
+│ pull requests, and issues.          │
+│                                     │
+│ [Workspace Module]                  │
+└─────────────────────────────────────┘
+```
+
+---
+
+## 6. Compatibility Matrix
+
+Expose compatibility directly:
+
+### 6.1 Platform Compatibility
+
+```text
+Workspace SDK
+    1.0
+
+Builder Runtime
+    1.x
+
+Agent Runtime
+    2.x
+
+Linux
+Windows
+macOS
+
+Vestara Desktop
+Vestara Server
+```
+
+### 6.2 Compatibility Display
+
+```text
+┌─────────────────────────────────────┐
+│ Compatibility                       │
+│                                     │
+│ ✓ Workspace SDK 1.0                 │
+│ ✓ Builder Runtime 1.x               │
+│ ✓ Linux, macOS, Windows             │
+│ ✓ Vestara Desktop                   │
+│ ✗ Vestara Server (not supported)    │
+└─────────────────────────────────────┘
+```
+
+### 6.3 Compatibility Rules
+
+```text
+Compatible
+    → All requirements met
+
+Partially Compatible
+    → Some features unavailable
+
+Incompatible
+    → Cannot install
+
+Unknown
+    → Not yet tested
+```
+
+---
+
+## 7. Builder Compatibility
+
+Since builders are canonical, every listing can declare builder compatibility:
+
+### 7.1 Builder Compatibility Declaration
+
+```text
+Works with
+
+Application Builder
+API Builder
+Database Builder
+Workflow Builder
+Infrastructure Builder
+Integration Builder
+Agent Builder
+Plugin Builder
+```
+
+### 7.2 Builder Compatibility Display
+
+```text
+┌─────────────────────────────────────┐
+│ Builder Compatibility               │
+│                                     │
+│ ✓ Application Builder               │
+│ ✓ API Builder                       │
+│ ✓ Database Builder                  │
+│ ✗ Workflow Builder (not supported)  │
+└─────────────────────────────────────┘
+```
+
+### 7.3 Builder Compatibility Benefits
+
+```text
+For Users
+    → Know which builders work together
+    → Understand integration points
+    → Make informed decisions
+
+For Publishers
+    → Declare integration capabilities
+    → Target specific builders
+    → Build compatible extensions
+```
+
+---
+
+## 8. Capability Matrix
+
+Instead of only permissions, show what the extension contributes:
+
+### 8.1 Capability Contributions
+
+```text
+Provides
+
+Search
+Commands
+Inspector
+Navigation
+Verification
+Telemetry
+Timeline
+Artifacts
+```
+
+### 8.2 Capability Display
+
+```text
+┌─────────────────────────────────────┐
+│ Capabilities                        │
+│                                     │
+│ ✓ Search (repositories)             │
+│ ✓ Commands (open, clone, create)    │
+│ ✓ Inspector (repository details)    │
+│ ✓ Navigation (sidebar)              │
+│ ✓ Verification (PR checks)          │
+│ ✗ Telemetry (not provided)          │
+│ ✗ Timeline (not provided)           │
+│ ✓ Artifacts (PR reviews)            │
+└─────────────────────────────────────┘
+```
+
+### 8.3 Capability Categories
+
+```text
+User Interface
+    → Navigation
+    → Commands
+    → Search
+    → Inspector
+    → Toolbar
+    → Sidebar
+    → Status
+
+Engineering
+    → Verification
+    → Evidence
+    → Artifacts
+    → Timeline
+    → Graph
+
+System
+    → Telemetry
+    → Logging
+    → Notifications
+    → Background Tasks
+```
+
+---
+
+## 9. Marketplace Analytics
+
+### 9.1 Usage Metrics
+
+```text
+Downloads
+Active Installs
+Verified Installations
+```
+
+### 9.2 Quality Metrics
+
+```text
+Crash Rate
+Memory Usage
+CPU Usage
+Average Startup
+```
+
+### 9.3 Maintenance Metrics
+
+```text
+Latest Update
+Publisher Reputation
+Response Time
+Issue Resolution
+```
+
+### 9.4 Analytics Display
+
+```text
+┌─────────────────────────────────────┐
+│ Analytics                           │
+│                                     │
+│ Downloads: 15,000                   │
+│ Active Installs: 8,500              │
+│ Crash Rate: 0.1%                    │
+│ Memory Usage: 12 MB avg             │
+│ CPU Usage: 2% avg                   │
+│ Average Startup: 250ms              │
+│ Latest Update: 2 days ago           │
+│ Publisher Reputation: 4.8/5.0       │
+└─────────────────────────────────────┘
+```
+
+---
+
+## 10. Engineering Readiness
+
+Since Vestara is engineering-centric, expose integration quality:
+
+### 10.1 Engineering Metrics
+
+```text
+Verification Coverage
+Evidence Support
+Engineering Graph Integration
+Session Aware
+Agent Compatible
+Builder Compatible
+Offline Support
+```
+
+### 10.2 Engineering Display
+
+```text
+┌─────────────────────────────────────┐
+│ Engineering Readiness               │
+│                                     │
+│ ✓ Verification Coverage: 85%        │
+│ ✓ Evidence Support: Full            │
+│ ✓ Engineering Graph: Integrated     │
+│ ✓ Session Aware: Yes                │
+│ ✓ Agent Compatible: Yes             │
+│ ✓ Builder Compatible: Yes           │
+│ ✓ Offline Support: Full             │
+└─────────────────────────────────────┘
+```
+
+### 10.3 Engineering Benefits
+
+```text
+Unique to Vestara
+    → Not just functional
+    → Platform integration quality
+    → Engineering workflow support
+
+For Users
+    → Understand integration depth
+    → Make informed decisions
+    → Know what to expect
+
+For Publishers
+    → Declare integration quality
+    → Target engineering workflows
+    → Build better extensions
+```
+
+---
+
+## 11. Marketplace as an Engineering Graph
+
+Model the Marketplace itself as a graph:
+
+### 11.1 Graph Relationships
+
+```text
+Application Builder
+        │
+        ├── depends on Builder Runtime
+        ├── recommends IDE
+        ├── compatible with GitHub
+        ├── produces Application Specification
+        ├── verified by Verification Center
+        └── visualized by Engineering Graph
+```
+
+### 11.2 Graph Queries
+
+```text
+What should I install next?
+    → Analyze dependencies and recommendations
+
+What depends on this module?
+    → Reverse dependency lookup
+
+If I uninstall this package, what breaks?
+    → Impact analysis
+
+What modules work together?
+    → Compatibility analysis
+
+What starter kits include this?
+    → Bundle membership lookup
+```
+
+### 11.3 Graph Visualization
+
+```text
+┌─────────────────────────────────────┐
+│ Dependency Graph                    │
+│                                     │
+│        ┌─────────┐                  │
+│        │ IDE     │                  │
+│        └────┬────┘                  │
+│             │                       │
+│    ┌────────┼────────┐              │
+│    │        │        │              │
+│ ┌──┴──┐ ┌──┴──┐ ┌──┴──┐            │
+│ │GitHub│ │Build│ │Test │            │
+│ └─────┘ └─────┘ └─────┘            │
+│                                     │
+│ [Expand] [Collapse] [Filter]        │
+└─────────────────────────────────────┘
+```
+
+### 11.4 Graph Benefits
+
+```text
+Discovery
+    → "What should I install next?"
+
+Impact Analysis
+    → "If I uninstall this, what breaks?"
+
+Compatibility
+    → "What modules work together?"
+
+Bundles
+    → "What starter kits include this?"
+
+Visualization
+    → See relationships visually
+```
+
+---
+
+## 12. Category Taxonomy
+
+### 12.1 Development
 
 ```text
 IDE
@@ -71,7 +881,7 @@ Visual Testing Studio
 Documentation Generator
 ```
 
-### 2.2 Communication
+### 12.2 Communication
 
 ```text
 Messages
@@ -91,7 +901,7 @@ Video Conferencing
 Team Announcements
 ```
 
-### 2.3 Project Management
+### 12.3 Project Management
 
 ```text
 Projects
@@ -110,7 +920,7 @@ Resource Planning
 Release Planning
 ```
 
-### 2.4 Builders
+### 12.4 Builders
 
 ```text
 Application Builder
@@ -131,7 +941,7 @@ Form Builder
 Report Builder
 ```
 
-### 2.5 AI and Agents
+### 12.5 AI and Agents
 
 ```text
 Agent Center
@@ -152,7 +962,7 @@ Conversation Studio
 Voice Assistant
 ```
 
-### 2.6 Engineering Intelligence
+### 12.6 Engineering Intelligence
 
 ```text
 Engineering Graph
@@ -172,7 +982,7 @@ Change Risk Analysis
 Build Intelligence
 ```
 
-### 2.7 Operations
+### 12.7 Operations
 
 ```text
 Operations Center
@@ -193,7 +1003,7 @@ Deployment Monitor
 Backup and Recovery
 ```
 
-### 2.8 Cloud and DevOps
+### 12.8 Cloud and DevOps
 
 ```text
 AWS Console
@@ -215,7 +1025,7 @@ Secrets Manager
 Certificate Manager
 ```
 
-### 2.9 Data
+### 12.9 Data
 
 ```text
 Database Explorer
@@ -236,7 +1046,7 @@ Spreadsheet
 CSV Explorer
 ```
 
-### 2.10 Business
+### 12.10 Business
 
 ```text
 CRM
@@ -257,7 +1067,7 @@ Payroll
 Business Analytics
 ```
 
-### 2.11 Productivity
+### 12.11 Productivity
 
 ```text
 Documents
@@ -277,7 +1087,7 @@ File Transfer
 Archive Manager
 ```
 
-### 2.12 Knowledge
+### 12.12 Knowledge
 
 ```text
 Knowledge Base
@@ -294,7 +1104,7 @@ Architecture Records
 Standards Library
 ```
 
-### 2.13 Design
+### 12.13 Design
 
 ```text
 UI Designer
@@ -311,7 +1121,7 @@ Brand Manager
 Accessibility Inspector
 ```
 
-### 2.14 Security
+### 12.14 Security
 
 ```text
 Security Center
@@ -329,7 +1139,7 @@ Identity Manager
 Authentication Manager
 ```
 
-### 2.15 Integrations
+### 12.15 Integrations
 
 ```text
 GitHub
@@ -356,273 +1166,30 @@ Zapier
 
 ---
 
-## 3. Listing Classification
+## 13. Asset State Model
 
-Every Marketplace listing has a practical classification:
-
-```text
-Module
-Package
-App
-Connector
-Builder
-Theme
-Agent
-Provider
-Verification Pack
-Standards Pack
-```
-
-### 3.1 Classification Definitions
-
-| Classification | Description |
-|----------------|-------------|
-| Module | Interactive Workspace experience |
-| Package | Capability added to existing runtime |
-| App | Standalone executable product |
-| Connector | Integration with external service |
-| Builder | Visual construction tool |
-| Theme | Visual customization |
-| Agent | AI agent configuration |
-| Provider | AI model provider adapter |
-| Verification Pack | Verification rules and strategies |
-| Standards Pack | Coding standards and rules |
-
----
-
-## 4. Filter Taxonomy
-
-The Marketplace exposes filters for discovery:
-
-```text
-Development
-Communication
-Builders
-AI
-Operations
-Cloud
-Data
-Business
-Productivity
-Knowledge
-Design
-Security
-Integrations
-```
-
-### 4.1 Filter Dimensions
-
-```text
-Category (user intent)
-    → Development
-    → Communication
-    → Project Management
-    → Builders
-    → AI and Agents
-    → Engineering Intelligence
-    → Operations
-    → Cloud and DevOps
-    → Data
-    → Business
-    → Productivity
-    → Knowledge
-    → Design
-    → Security
-    → Integrations
-
-Asset Kind
-    → Package
-    → Workspace Module
-    → App
-
-Trust Level
-    → First-party
-    → Verified
-    → Community
-
-Status
-    → Active
-    → Deprecated
-    → New
-
-Platform
-    → Linux
-    → macOS
-    → Windows
-
-Publisher
-    → Vestara
-    → Verified Publishers
-    → Community
-```
-
----
-
-## 5. Recommended First-Party Launch Set
-
-For the initial Marketplace, keep the catalog focused:
-
-```text
-IDE
-Messages
-Calendar
-Contacts
-GitHub
-GitLab
-Jira
-Linear
-Application Builder
-API Builder
-Database Builder
-Engineering Graph
-Evidence Center
-Verification Center
-Operations Center
-Runtime Monitor
-Knowledge Base
-Documents
-Whiteboard
-Marketplace Manager
-```
-
-### 5.1 Launch Set Rationale
-
-| Category | Launch Modules | Rationale |
-|----------|---------------|-----------|
-| Development | IDE | Core development experience |
-| Communication | Messages, Calendar, Contacts | Essential communication |
-| Integrations | GitHub, GitLab, Jira, Linear | Most-requested integrations |
-| Builders | Application Builder, API Builder, Database Builder | Core builder capabilities |
-| Engineering | Engineering Graph, Evidence Center, Verification Center | Engineering intelligence |
-| Operations | Operations Center, Runtime Monitor | System visibility |
-| Knowledge | Knowledge Base, Documents, Whiteboard | Knowledge management |
-| Platform | Marketplace Manager | Self-management |
-
----
-
-## 6. Relationships
-
-### 6.1 Entity Relationships
-
-```
-MarketplaceCatalog 1──* CatalogCategory
-CatalogCategory 1──* CatalogListing
-CatalogListing 1──1 AssetKind
-CatalogListing 1──1 TrustLevel
-CatalogListing 1──* CatalogFilter
-```
-
-### 6.2 Dependency Graph
-
-```
-Marketplace
-    ├── organizes: MarketplaceCatalog
-    ├── exposes: CatalogCategory[]
-    ├── displays: CatalogListing[]
-    └── filters: CatalogFilter[]
-
-CatalogCategory
-    ├── groups: CatalogListing[]
-    └── describedBy: UserIntent
-
-CatalogListing
-    ├── classifiedAs: AssetKind
-    ├── trustedBy: TrustLevel
-    └── filterableBy: CatalogFilter[]
-```
-
----
-
-## 7. Runtime Ownership
-
-### 7.1 Ownership Map
-
-| Entity | Runtime Owner | Responsibility |
-|--------|---------------|----------------|
-| MarketplaceCatalog | MarketplaceRegistry | Catalog management |
-| CatalogCategory | MarketplaceRegistry | Category management |
-| CatalogListing | MarketplaceRegistry | Listing management |
-| CatalogFilter | MarketplaceRegistry | Filter management |
-
-### 7.2 Ownership Rules
-
-1. **Single Owner**: Each entity has exactly one runtime owner
-2. **Intent-Based Grouping**: Categories are based on user intent
-3. **Classification Transparency**: Implementation type is visible but secondary
-4. **Filter Composability**: Filters can be combined
-5. **Search Integration**: Full-text search across all listings
-
----
-
-## 8. Events
-
-### 8.1 Catalog Events
-
-| Event | Payload | Trigger |
-|-------|---------|---------|
-| ListingPublished | CatalogListing | Publication |
-| ListingUpdated | CatalogListing, ChangeSet | Update |
-| ListingRemoved | CatalogListing, Reason | Removal |
-| CategoryCreated | CatalogCategory | Creation |
-| CategoryUpdated | CatalogCategory, ChangeSet | Update |
-| CategoryRemoved | CatalogCategory, Reason | Removal |
-
----
-
-## 9. Verification Requirements
-
-### 9.1 Catalog Verification
-
-| Verification Type | Requirements |
-|-------------------|--------------|
-| Listing Validation | Listing conforms to schema |
-| Category Validation | Category follows taxonomy |
-| Classification Validation | Classification is valid |
-| Filter Validation | Filters are composable |
-| Search Validation | Search is functional |
-
----
-
-## 10. Integration Points
-
-### 10.1 Platform Integrations
-
-| Integration | Purpose | Protocol |
-|-------------|---------|----------|
-| Marketplace Registry | Catalog management | Registry API |
-| Search Service | Full-text search | Search API |
-| Analytics Service | Usage analytics | Analytics API |
-| Recommendation Service | Personalized recommendations | Recommendation API |
-| Notification Service | Update notifications | Notification API |
-
----
-
-## 11. Asset State Model
-
-The Marketplace UI distinguishes three concepts:
-
-### 11.1 Installed
+### 13.1 Installed
 
 ```text
 Asset bytes and version exist locally
 Location: ~/.vestara/extensions/
 ```
 
-### 11.2 Enabled
+### 13.2 Enabled
 
 ```text
 Asset is active in this workspace
 Location: <workspace>/.vestara/extensions.lock
 ```
 
-### 11.3 Running
+### 13.3 Running
 
 ```text
 App or runtime process is currently executing
 Location: Process table
 ```
 
-### 11.4 State Examples
+### 13.4 State Examples
 
 ```text
 IDE Module
@@ -641,7 +1208,7 @@ Metallic Gold Theme
     Running: N/A (eager activation)
 ```
 
-### 11.5 State Rules
+### 13.5 State Rules
 
 ```text
 Installed ≠ Enabled ≠ Running
@@ -659,15 +1226,119 @@ An app may be:
 
 ---
 
-## 12. Open Questions
+## 14. Filter Taxonomy
 
-1. How should category evolution be managed?
-2. How should cross-category modules be handled?
-3. How should personalized recommendations work?
-4. How should catalog analytics be used?
-5. How should community contributions to taxonomy be managed?
+### 14.1 Filter Dimensions
+
+```text
+Capability (what you want to accomplish)
+Category (domain grouping)
+Asset Kind (package, workspace-module, app)
+Trust Level (first-party, verified, community)
+Status (active, deprecated, new)
+Platform (linux, macOS, windows)
+Publisher (Vestara, verified publishers, community)
+Builder Compatibility (which builders work)
+Engineering Readiness (integration quality)
+```
+
+---
+
+## 15. Relationships
+
+### 15.1 Entity Relationships
+
+```
+MarketplaceCatalog 1──* CapabilityLayer
+CapabilityLayer 1──* CatalogCategory
+CatalogCategory 1──* CatalogListing
+CatalogListing 1──1 AssetKind
+CatalogListing 1──* CatalogFilter
+CatalogListing 1──* MarketplaceBadge
+CatalogListing 1──1 CompatibilityMatrix
+CatalogListing 1──1 CapabilityMatrix
+CatalogListing 1──1 EngineeringReadiness
+
+SolutionBundle 1──* CatalogListing
+FeaturedCollection 1──* CatalogListing
+
+MarketplaceGraph 1──* GraphNode
+GraphNode 1──* GraphEdge
+```
+
+---
+
+## 16. Runtime Ownership
+
+### 16.1 Ownership Map
+
+| Entity | Runtime Owner | Responsibility |
+|--------|---------------|----------------|
+| MarketplaceCatalog | MarketplaceRegistry | Catalog management |
+| CapabilityLayer | MarketplaceRegistry | Capability mapping |
+| CatalogCategory | MarketplaceRegistry | Category management |
+| CatalogListing | MarketplaceRegistry | Listing management |
+| SolutionBundle | MarketplaceRegistry | Bundle management |
+| FeaturedCollection | MarketplaceRegistry | Collection management |
+| MarketplaceGraph | MarketplaceRegistry | Graph management |
+
+---
+
+## 17. Events
+
+### 17.1 Catalog Events
+
+| Event | Payload | Trigger |
+|-------|---------|---------|
+| ListingPublished | CatalogListing | Publication |
+| ListingUpdated | CatalogListing, ChangeSet | Update |
+| ListingRemoved | CatalogListing, Reason | Removal |
+| BundleCreated | SolutionBundle | Creation |
+| BundleInstalled | SolutionBundle, InstallationRecord | Installation |
+| CapabilityMapped | CapabilityLayer, CatalogListing[] | Mapping |
+| GraphUpdated | MarketplaceGraph, ChangeSet | Graph update |
+
+---
+
+## 18. Verification Requirements
+
+### 18.1 Catalog Verification
+
+| Verification Type | Requirements |
+|-------------------|--------------|
+| Listing Validation | Listing conforms to schema |
+| Capability Mapping | Capabilities map to listings |
+| Bundle Validation | Bundle dependencies resolvable |
+| Compatibility Matrix | Compatibility is accurate |
+| Capability Matrix | Capabilities are accurate |
+| Engineering Readiness | Metrics are accurate |
+
+---
+
+## 19. Integration Points
+
+### 19.1 Platform Integrations
+
+| Integration | Purpose | Protocol |
+|-------------|---------|----------|
+| Marketplace Registry | Catalog management | Registry API |
+| Search Service | Full-text search | Search API |
+| Analytics Service | Usage analytics | Analytics API |
+| Recommendation Service | Personalized recommendations | Recommendation API |
+| Notification Service | Update notifications | Notification API |
+| Engineering Graph | Relationship tracking | Graph API |
+
+---
+
+## 20. Open Questions
+
+1. How should capability mappings evolve?
+2. How should bundle curation work?
+3. How should graph queries be optimized?
+4. How should analytics be privacy-preserving?
+5. How should engineering readiness be measured?
 
 ---
 
 *This document defines the canonical Marketplace Catalog for Vestara.*
-*Intent-based grouping, not implementation type.*
+*Discover by intent, understand by implementation.*
