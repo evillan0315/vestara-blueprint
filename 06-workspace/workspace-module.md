@@ -195,8 +195,38 @@ interface CapabilityDefinition {
   version: string;
   required: boolean;
   fallback?: string;
+  description?: string;
+  provides?: CapabilityProvider[];
+  constraints?: CapabilityConstraint[];
+}
+
+interface CapabilityProvider {
+  api: string;
+  version: string;
+  methods: string[];
+}
+
+interface CapabilityConstraint {
+  type: 'version' | 'platform' | 'permission' | 'resource';
+  operator: 'equals' | 'gte' | 'lte' | 'contains';
+  value: string;
 }
 ```
+
+#### 2.5.1 Built-in Capability Types
+
+| Capability | Description | Provider API |
+|------------|-------------|--------------|
+| `workspace_core` | Core workspace functionality | WorkspaceRuntime |
+| `engineering_events` | Access to engineering event store | EventStore |
+| `engineering_graph` | Access to engineering graph | GraphAPI |
+| `search` | Full-text search capabilities | SearchService |
+| `commands` | Command palette integration | CommandService |
+| `inspector` | Inspector panel integration | InspectorService |
+| `notifications` | Notification system | NotificationService |
+| `storage` | Persistent storage | StorageService |
+| `telemetry` | Telemetry and analytics | TelemetryService |
+| `security` | Security and auth | SecurityService |
 
 ### 2.6 InspectorIntegrationDefinition
 
@@ -595,7 +625,207 @@ interface WorkspaceModuleManifest {
 
 ---
 
-## 8. Module Examples
+## 8. Canonical Extension Manifest
+
+### 8.1 Manifest Structure
+
+The canonical extension manifest is the single source of truth for module identity, capabilities, and extension points.
+
+```typescript
+interface CanonicalExtensionManifest {
+  // Identity
+  manifestVersion: '1.0';
+  id: string;
+  name: string;
+  version: string;
+  description: string;
+  author: string;
+  license: string;
+  repository: string;
+  tags: string[];
+  
+  // Capability Declarations
+  capabilities: {
+    requires: CapabilityRequirement[];
+    provides: CapabilityProviderDeclaration[];
+    optional?: string[];
+  };
+  
+  // Extension Points
+  extensionPoints: {
+    navigation?: NavigationDefinition;
+    projections?: ProjectionSourceDefinition[];
+    inspector?: InspectorIntegrationDefinition;
+    search?: SearchIntegrationDefinition;
+    commands?: CommandPaletteIntegrationDefinition;
+    routing?: RoutingDefinition;
+    deepLinking?: DeepLinkingDefinition;
+    toolbar?: ToolbarExtensionPoint[];
+    sidebar?: SidebarExtensionPoint[];
+    statusbar?: StatusbarExtensionPoint[];
+  };
+  
+  // Dependencies
+  dependencies: {
+    modules?: ModuleDependency[];
+    services?: ServiceDependency[];
+    capabilities?: CapabilityDependency[];
+  };
+  
+  // Configuration
+  configuration?: ExtensionConfiguration;
+  
+  // Lifecycle
+  lifecycle?: {
+    activate?: string;
+    deactivate?: string;
+    onSessionStart?: string;
+    onSessionEnd?: string;
+  };
+}
+
+interface CapabilityRequirement {
+  id: string;
+  version: string;
+  required: boolean;
+  fallback?: string;
+}
+
+interface CapabilityProviderDeclaration {
+  id: string;
+  version: string;
+  api: string;
+  description: string;
+}
+
+interface ModuleDependency {
+  id: string;
+  version: string;
+  required: boolean;
+  loader?: 'dynamic' | 'static';
+}
+
+interface ServiceDependency {
+  service: string;
+  version: string;
+  required: boolean;
+}
+
+interface CapabilityDependency {
+  capability: string;
+  version: string;
+  required: boolean;
+}
+
+interface ToolbarExtensionPoint {
+  id: string;
+  position: 'left' | 'center' | 'right';
+  component: string;
+  priority?: number;
+}
+
+interface SidebarExtensionPoint {
+  id: string;
+  position: 'top' | 'bottom';
+  component: string;
+  icon: string;
+  label: string;
+  order?: number;
+}
+
+interface StatusbarExtensionPoint {
+  id: string;
+  position: 'left' | 'center' | 'right';
+  component: string;
+  priority?: number;
+}
+
+interface ExtensionConfiguration {
+  schema: string;
+  defaults: Record<string, unknown>;
+  ui?: {
+    label: string;
+    description: string;
+    group?: string;
+  };
+}
+```
+
+### 8.2 Manifest Validation Rules
+
+| Rule | Description |
+|------|-------------|
+| Identity Required | `id`, `name`, `version` must be present |
+| Semantic Versioning | `version` must follow semver |
+| Capability Existence | Required capabilities must exist in platform |
+| Dependency Resolution | All dependencies must be resolvable |
+| No Circular Dependencies | Module dependency graph must be acyclic |
+| Extension Point Validity | Extension points must reference valid component names |
+| Configuration Schema | Configuration schema must be valid JSON Schema |
+
+### 8.3 Manifest Registration
+
+```typescript
+interface ManifestRegistration {
+  // Validation
+  validateManifest(manifest: CanonicalExtensionManifest): ValidationResult;
+  
+  // Registration
+  registerManifest(manifest: CanonicalExtensionManifest): Promise<RegistrationResult>;
+  
+  // Discovery
+  getManifest(moduleId: string): Promise<CanonicalExtensionManifest>;
+  listManifests(query?: ManifestQuery): Promise<ManifestSearchResult>;
+  
+  // Updates
+  updateManifest(moduleId: string, updates: Partial<CanonicalExtensionManifest>): Promise<void>;
+  unregisterManifest(moduleId: string): Promise<void>;
+}
+
+interface ValidationResult {
+  valid: boolean;
+  errors: ValidationError[];
+  warnings: ValidationWarning[];
+}
+
+interface ValidationError {
+  field: string;
+  message: string;
+  code: string;
+}
+
+interface ValidationWarning {
+  field: string;
+  message: string;
+  code: string;
+}
+
+interface RegistrationResult {
+  moduleId: string;
+  registeredAt: timestamp;
+  capabilities: string[];
+  conflicts: string[];
+}
+
+interface ManifestQuery {
+  tags?: string[];
+  capabilities?: string[];
+  author?: string;
+  search?: string;
+  limit?: number;
+  offset?: number;
+}
+
+interface ManifestSearchResult {
+  manifests: CanonicalExtensionManifest[];
+  total: number;
+  hasMore: boolean;
+}
+```
+
+---
+
+## 9. Module Examples
 
 ### 8.1 Messages Module Manifest
 

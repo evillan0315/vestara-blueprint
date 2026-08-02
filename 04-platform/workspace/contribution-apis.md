@@ -719,7 +719,212 @@ interface StatusMerging {
 
 ---
 
-## 15. Open Questions
+## 15. Versioned Contribution Contracts
+
+### 15.1 Versioning Strategy
+
+All contribution contracts follow semantic versioning to prevent breaking changes from invalidating older modules.
+
+```typescript
+interface VersionedContribution {
+  contributionVersion: string; // e.g., "1.0", "1.1", "2.0"
+  minPlatformVersion: string;  // Minimum platform version required
+  maxPlatformVersion?: string; // Maximum platform version supported
+  deprecated?: boolean;        // Whether this version is deprecated
+  deprecationMessage?: string; // Migration guidance
+  successor?: string;          // ID of successor contribution
+}
+```
+
+### 15.2 Version Compatibility Rules
+
+| Rule | Description |
+|------|-------------|
+| Minor Version | New features added, backward compatible |
+| Major Version | Breaking changes, requires module update |
+| Platform Version | Contribution must declare compatible platform range |
+| Deprecation Period | Minimum 6 months before removal |
+| Migration Path | Deprecated contributions must provide successor |
+
+### 15.3 Versioned Command Contribution
+
+```typescript
+interface CommandContributionV1 extends VersionedContribution {
+  contributionVersion: '1.0';
+  commands: CommandDefinitionV1[];
+  shortcuts: ShortcutDefinitionV1[];
+  categories: CommandCategoryV1[];
+}
+
+interface CommandDefinitionV1 {
+  id: string;
+  label: string;
+  description: string;
+  icon: string;
+  handler: string;
+  shortcut?: string;
+  category: string;
+  enabled: boolean;
+  when?: string;
+  context?: CommandContextV1;
+}
+
+interface CommandContextV1 {
+  when?: string;
+  enablement?: string;
+  arguments?: CommandArgumentV1[];
+}
+
+interface CommandArgumentV1 {
+  name: string;
+  type: 'string' | 'number' | 'boolean' | 'object';
+  required: boolean;
+  description?: string;
+  default?: unknown;
+}
+```
+
+### 15.4 Versioned Search Contribution
+
+```typescript
+interface SearchContributionV1 extends VersionedContribution {
+  contributionVersion: '1.0';
+  providers: SearchProviderDefinitionV1[];
+  facets: SearchFacetDefinitionV1[];
+  filters: SearchFilterDefinitionV1[];
+}
+
+interface SearchProviderDefinitionV1 {
+  id: string;
+  name: string;
+  version: string;
+  search: (query: string, options?: SearchOptionsV1) => Promise<SearchResultItemV1[]>;
+  getSuggestions?: (query: string) => Promise<SuggestionV1[]>;
+  getFacets?: () => Promise<FacetV1[]>;
+  capabilities?: SearchCapabilityV1[];
+}
+
+interface SearchCapabilityV1 {
+  id: string;
+  version: string;
+  features: string[];
+}
+```
+
+### 15.5 Versioned Inspector Contribution
+
+```typescript
+interface InspectorContributionV1 extends VersionedContribution {
+  contributionVersion: '1.0';
+  sections: InspectorSectionDefinitionV1[];
+  actions: InspectorActionDefinitionV1[];
+  metadata: InspectorMetadataDefinitionV1[];
+}
+
+interface InspectorSectionDefinitionV1 {
+  id: string;
+  label: string;
+  icon: string;
+  component: string;
+  order: number;
+  required: boolean;
+  capabilities?: string[];
+}
+```
+
+### 15.6 Versioned Sidebar Contribution
+
+```typescript
+interface SidebarContributionV1 extends VersionedContribution {
+  contributionVersion: '1.0';
+  nodes: SidebarNodeDefinitionV1[];
+  order: number;
+}
+
+interface SidebarNodeDefinitionV1 {
+  id: string;
+  label: string;
+  icon: string;
+  component?: string;
+  command?: string;
+  children?: SidebarNodeDefinitionV1[];
+  when?: string;
+  order?: number;
+}
+```
+
+### 15.7 Versioned Toolbar Contribution
+
+```typescript
+interface ToolbarContributionV1 extends VersionedContribution {
+  contributionVersion: '1.0';
+  toolbars: ToolbarDefinitionV1[];
+  items: ToolbarItemDefinitionV1[];
+}
+
+interface ToolbarDefinitionV1 {
+  id: string;
+  position: ToolbarPosition;
+  component: string;
+  priority: number;
+}
+
+interface ToolbarItemDefinitionV1 {
+  id: string;
+  type: ToolbarItemType;
+  label?: string;
+  icon?: string;
+  command?: string;
+  dropdown?: DropdownDefinitionV1;
+  separator?: boolean;
+  when?: string;
+}
+```
+
+### 15.8 Versioned Status Contribution
+
+```typescript
+interface StatusContributionV1 extends VersionedContribution {
+  contributionVersion: '1.0';
+  items: StatusItemDefinitionV1[];
+  priority: number;
+}
+
+interface StatusItemDefinitionV1 {
+  id: string;
+  label: string;
+  icon?: string;
+  value: string | number;
+  type: StatusItemType;
+  tooltip?: string;
+  command?: string;
+  priority: number;
+  when?: string;
+}
+```
+
+### 15.9 Version Migration
+
+```typescript
+interface ContributionMigration {
+  fromVersion: string;
+  toVersion: string;
+  transform: (contribution: unknown) => unknown;
+  validate: (contribution: unknown) => boolean;
+  rollback?: (contribution: unknown) => unknown;
+}
+
+interface MigrationResult {
+  success: boolean;
+  contribution: unknown;
+  warnings: string[];
+  errors: string[];
+}
+```
+
+---
+
+## 16. Open Questions
 
 1. How should contribution conflicts be resolved?
 2. How should contribution priorities be managed?
