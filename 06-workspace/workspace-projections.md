@@ -3,7 +3,7 @@ id: "workspace-projections"
 title: "Workspace Projections — Domain Contract Projection Rules"
 volume: "06-workspace"
 book: "Book 2: Platform Architecture"
-version: "1.0.0"
+version: "2.0.0"
 status: "approved"
 architecture-status: "accepted"
 implementation-status: "partial"
@@ -15,7 +15,7 @@ author: ["@frontend-engineer", "@chief-architect"]
 last-reviewed: "2026-08-02"
 next-review: "2027-02-02"
 canonical: true
-supersedes: []
+supersedes: "1.0.0"
 tags: ["workspace", "projections", "domain-contracts", "ui"]
 ---
 
@@ -32,9 +32,11 @@ tags: ["workspace", "projections", "domain-contracts", "ui"]
 ```
 Domain Contract
         ↓
-Runtime
+Runtime Owner
         ↓
-Engineering Graph
+Engineering Events
+        ↓
+Engineering Graph (projection layer)
         ↓
 Workspace Projection
         ↓
@@ -45,7 +47,26 @@ UI Component
 
 The Workspace is a **projection layer** over the Engineering Operating System. It does not own, define, or persist domain objects. Every entity displayed in the Workspace is a projection of a canonical domain contract defined elsewhere.
 
-### 1.2 Anti-Pattern
+### 1.2 Persistence Rule
+
+> **The Workspace may persist presentation preferences and transient interaction state, but it must not persist authoritative domain state independently of its canonical runtime owner.**
+
+**Allowed persistence:**
+- Panel layout and view state
+- Density and theme preferences
+- Dismissed notices
+- Saved filters and column visibility
+- Local drafts
+- Navigation history
+
+**Prohibited persistence:**
+- Domain entity state (Agent, Session, Execution, etc.)
+- Engineering events
+- Evidence records
+- Verification results
+- Any state that has a canonical runtime owner
+
+### 1.3 Anti-Pattern
 
 ```
 Workspace
@@ -62,23 +83,26 @@ This creates two competing sources of truth. The Workspace must not define busin
 
 ## 2. Domain Contract Sources
 
-| Domain Contract | Canonical Volume | Runtime Owner |
-|----------------|------------------|---------------|
-| Agent | Volume 08 (AI Agent) | AgentRuntime |
-| Assignment | Volume 08 (AI Agent) | AgentRuntime |
-| Execution | Volume 08 (AI Agent) | AgentRuntime |
-| Capability | Volume 08 (AI Agent) | AgentRuntime |
-| Evidence | Volume 14 (Engineering) | VerificationRuntime |
-| Verification | Volume 14 (Engineering) | VerificationRuntime |
-| Claim | Volume 14 (Engineering) | VerificationRuntime |
-| Artifact | Volume 14 (Engineering) | EngineeringGraph |
-| Plan | Volume 14 (Engineering) | PlanningService |
-| Task | Volume 14 (Engineering) | PlanningService |
-| Engineering Session | Volume 04 (Platform) | WorkspaceRuntime |
-| Engineering Event | Volume 04 (Platform) | EngineeringEventStore |
-| Engineering Graph | Volume 04 (Platform) | EngineeringGraph |
-| Runtime Health | Volume 04 (Platform) | Kernel |
-| Telemetry | Volume 04 (Platform) | Kernel |
+> **Exact canonical document references, not volume numbers.**
+
+| Domain Contract | Canonical Document | Runtime Owner |
+|----------------|-------------------|---------------|
+| Agent | `05-ai-core/agent-domain.md` | AgentRuntime |
+| Assignment | `05-ai-core/agent-domain.md` | AgentRuntime |
+| Execution | `04-platform/agent-harness-architecture.md` | AgentRuntime |
+| Capability | `05-ai-core/agent-domain.md` | AgentRuntime |
+| Evidence | `14-engineering/evidence-based-verification.md` | VerificationRuntime |
+| Verification | `14-engineering/evidence-based-verification.md` | VerificationRuntime |
+| Claim | `14-engineering/evidence-based-verification.md` | VerificationRuntime |
+| Artifact | `14-engineering/evidence-based-verification.md` | ArtifactStorage |
+| Plan | `14-engineering/engineering-principles.md` | PlanningService |
+| Task | `14-engineering/engineering-principles.md` | PlanningService |
+| Engineering Session | `04-platform/engineering-operating-system.md` | WorkspaceRuntime |
+| Engineering Event | `04-platform/engineering-event-architecture.md` | EngineeringEventStore |
+| Engineering Graph | `04-platform/engineering-event-architecture.md` | EngineeringGraph |
+| Runtime Health | `04-platform/engineering-operating-system.md` | Kernel |
+| Telemetry | `04-platform/engineering-operating-system.md` | Kernel |
+| Policy Action | `04-platform/engineering-operating-system.md` | PolicyRuntime |
 
 ---
 
@@ -98,7 +122,7 @@ Agent Center
     └── RecentEvents (from EngineeringEventStore)
 ```
 
-The Workspace does not define `Agent`. It projects the canonical `Agent` contract from Volume 08 through the Engineering Graph.
+The Workspace does not define `Agent`. It projects the canonical `Agent` contract from `05-ai-core/agent-domain.md` through the Engineering Graph.
 
 ### 3.2 Artifact Center
 
@@ -113,7 +137,18 @@ Artifact Center
     └── Relationships (from EngineeringGraph)
 ```
 
-The Workspace does not define `Artifact`. It projects the canonical `Artifact` contract from Volume 14 through the Engineering Graph.
+The Workspace does not define `Artifact`. It projects the canonical `Artifact` contract from `14-engineering/evidence-based-verification.md` through the Engineering Graph.
+
+**Ownership chain:**
+```
+ArtifactStorage (domain owner)
+    ↓
+Engineering events
+    ↓
+Engineering Graph projection
+    ↓
+Workspace projection
+```
 
 ### 3.3 Evidence Center
 
@@ -129,7 +164,7 @@ Evidence Center
     └── Integrity (from Evidence)
 ```
 
-The Workspace does not define `Evidence`. It projects the canonical `Evidence` contract from Volume 14 through the Engineering Graph.
+The Workspace does not define `Evidence`. It projects the canonical `Evidence` contract from `14-engineering/evidence-based-verification.md` through the Engineering Graph.
 
 ### 3.4 Verification Center
 
@@ -140,16 +175,17 @@ Verification Center
     ├── VerificationStatus (from Verification)
     ├── Claims (from Claim)
     ├── Checks (from Verification)
-    ├── ConfidenceScore (from Verification)
     ├── Evidence (from Evidence)
     └── CompletionEligibility (from Verification)
 ```
 
-The Workspace does not define `Verification`. It projects the canonical `Verification` contract from Volume 14 through the Engineering Graph.
+The Workspace does not define `Verification`. It projects the canonical `Verification` contract from `14-engineering/evidence-based-verification.md` through the Engineering Graph.
+
+**Note:** `ConfidenceScore` is not projected because historical confidence remains a proposed capability in the platform architecture. Only project confidence after a canonical domain contract defines its calculation and provenance.
 
 ### 3.5 Engineering Timeline
 
-> **Engineering Timeline is a projection of Engineering Event, ordered by timestamp.**
+> **Engineering Timeline is a projection of Engineering Event, ordered by event sequence.**
 
 ```
 Engineering Timeline
@@ -159,7 +195,12 @@ Engineering Timeline
     └── SubjectReferences (from any domain entity)
 ```
 
-The Workspace does not define `Timeline`. It projects the canonical `EngineeringEvent` contract from Volume 04 through the Engineering Graph.
+**Ordering rule:**
+- Primary ordering: event sequence (monotonic, from event store)
+- Display timestamp: event timestamp (for human readability)
+- Fallback ordering: sequence, then timestamp
+
+The Workspace does not define `Timeline`. It projects the canonical `EngineeringEvent` contract from `04-platform/engineering-event-architecture.md` through the Engineering Graph.
 
 ### 3.6 Operations Center
 
@@ -174,7 +215,7 @@ Operations Center
     └── Uptime (from Kernel)
 ```
 
-The Workspace does not define `ServiceHealth` or `Metrics`. It projects the canonical runtime contracts from Volume 04.
+The Workspace does not define `ServiceHealth` or `Metrics`. It projects the canonical runtime contracts from `04-platform/engineering-operating-system.md`.
 
 ### 3.7 Planning Workspace
 
@@ -191,7 +232,7 @@ Planning Workspace
     └── ApprovalStatus (from Approval)
 ```
 
-The Workspace does not define `Plan` or `Task`. It projects the canonical contracts from Volume 14 through the Engineering Graph.
+The Workspace does not define `Plan` or `Task`. It projects the canonical contracts from `14-engineering/engineering-principles.md` through the Engineering Graph.
 
 ---
 
@@ -227,50 +268,104 @@ Universal Inspector
 > **Workspace read model — not a domain contract.**
 
 ```typescript
-// Workspace projection rule
-interface ProjectionRule {
-  domainEntity: string;
-  volume: string;
-  runtime: string;
-  graphNodeType: string;
-  inspectorSections: string[];
-  availableActions: string[];
+type DomainEntityKind =
+  | 'agent'
+  | 'assignment'
+  | 'execution'
+  | 'artifact'
+  | 'evidence'
+  | 'verification'
+  | 'plan'
+  | 'task'
+  | 'engineering-session'
+  | 'engineering-event';
+
+interface DomainContractReference {
+  documentId: string;
+  repository: string;
+  path: string;
 }
 
-// Example projection rules
-const projectionRules: ProjectionRule[] = [
+interface WorkspaceProjectionDescriptor {
+  entityKind: DomainEntityKind;
+  contract: DomainContractReference;
+  runtimeOwner: string;
+  graphScheme: `${string}://`;
+  projectionId: string;
+  inspectorSectionIds: readonly string[];
+}
+
+// Example projection descriptors
+const projectionDescriptors: WorkspaceProjectionDescriptor[] = [
   {
-    domainEntity: 'Agent',
-    volume: '08-ai-agent',
-    runtime: 'AgentRuntime',
-    graphNodeType: 'agent://',
-    inspectorSections: ['identity', 'state', 'capabilities', 'assignments', 'history'],
-    availableActions: ['pause', 'redirect', 'view-session'],
+    entityKind: 'agent',
+    contract: {
+      documentId: 'agent-domain',
+      repository: 'evillan0315/vestara-ai-core',
+      path: '05-ai-core/agent-domain.md',
+    },
+    runtimeOwner: 'AgentRuntime',
+    graphScheme: 'agent://',
+    projectionId: 'agent-center',
+    inspectorSectionIds: ['identity', 'state', 'capabilities', 'assignments', 'history'],
   },
   {
-    domainEntity: 'Evidence',
-    volume: '14-engineering',
-    runtime: 'VerificationRuntime',
-    graphNodeType: 'evidence://',
-    inspectorSections: ['identity', 'provenance', 'claims', 'integrity', 'relationships'],
-    availableActions: ['view-raw', 'download', 'compare'],
+    entityKind: 'evidence',
+    contract: {
+      documentId: 'evidence-based-verification',
+      repository: 'evillan0315/vestara-blueprint',
+      path: '14-engineering/evidence-based-verification.md',
+    },
+    runtimeOwner: 'VerificationRuntime',
+    graphScheme: 'evidence://',
+    projectionId: 'evidence-center',
+    inspectorSectionIds: ['identity', 'provenance', 'claims', 'integrity', 'relationships'],
   },
   {
-    domainEntity: 'Artifact',
-    volume: '14-engineering',
-    runtime: 'EngineeringGraph',
-    graphNodeType: 'artifact://',
-    inspectorSections: ['identity', 'content', 'provenance', 'verification', 'relationships'],
-    availableActions: ['view-diff', 'view-file', 'quarantine'],
+    entityKind: 'artifact',
+    contract: {
+      documentId: 'evidence-based-verification',
+      repository: 'evillan0315/vestara-blueprint',
+      path: '14-engineering/evidence-based-verification.md',
+    },
+    runtimeOwner: 'ArtifactStorage',
+    graphScheme: 'artifact://',
+    projectionId: 'artifact-center',
+    inspectorSectionIds: ['identity', 'content', 'provenance', 'verification', 'relationships'],
   },
 ];
 ```
 
 ---
 
-## 6. Implementation Notes
+## 6. Action Projections
 
-### 6.1 Current State
+> **Actions are projected from the policy/action system, not defined by the Workspace.**
+
+```typescript
+interface WorkspaceActionProjection {
+  actionId: string;
+  labelToken: string;
+  availability: 'available' | 'disabled' | 'hidden';
+  decisionSource: string;
+  approvalRequired: boolean;
+  denialReason?: string;
+}
+```
+
+The Workspace projects the effective action set returned by:
+- Policy engine
+- Capability gates
+- Permissions
+- Runtime state
+
+It does not maintain its own list of valid interventions.
+
+---
+
+## 7. Implementation Notes
+
+### 7.1 Current State
 
 | Projection | Status | Notes |
 |-----------|--------|-------|
@@ -283,9 +378,9 @@ const projectionRules: ProjectionRule[] = [
 | Planning Workspace | Partial | Basic planning view exists |
 | Universal Inspector | Implemented | Inspector exists |
 
-### 6.2 Open Questions
+### 7.2 Open Questions
 
-1. How should projection rules be registered?
+1. How should projection descriptors be registered?
 2. How should projection state be synchronized with domain state?
 3. How should projection errors be handled?
 4. How should projection performance be optimized?
