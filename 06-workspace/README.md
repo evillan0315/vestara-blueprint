@@ -2,18 +2,20 @@
 title: "Workspace — Volume Overview"
 volume: "06-workspace"
 book: "Book 2: Platform Architecture"
-version: "1.0.0"
-status: "approved"
+version: "2.0.0"
+status: "ratified"
 owner: "@frontend-engineer"
-last-reviewed: "2025-07-23"
-next-review: "2026-01-23"
-tags: ["workspace", "ui", "experience", "overview"]
+last-reviewed: "2026-08-02"
+next-review: "2027-02-02"
+tags: ["workspace", "ui", "experience", "overview", "engineering-operating-system"]
+canonical: true
+supersedes: []
 ---
 
 # Volume 06: Workspace
-## The User's Daily Environment — Replacing the Traditional Desktop
+## The Engineering Operating System Experience
 
-> **Mission**: Create an AI-native workspace that replaces the traditional desktop — where projects, knowledge, memory, agents, and tools converge through an intelligent, adaptive interface.
+> **Mission**: Create an AI-native engineering workspace that replaces the traditional desktop — where plans, agents, workflows, evidence, artifacts, and knowledge converge through an intelligent, adaptive interface.
 
 ---
 
@@ -23,25 +25,49 @@ tags: ["workspace", "ui", "experience", "overview"]
 06-workspace/
 │
 ├── README.md                              ← This file
-├── WORKSPACE_OVERVIEW.md                  ← High-level workspace architecture
-├── UI_ARCHITECTURE.md                     ← Component hierarchy & rendering
-├── NAVIGATION.md                          ← Navigation model & command palette
-├── THEMING.md                             ← Theme system & design tokens
+├── WORKSPACE_UI_UX_IMPLEMENTATION.md      ← Complete Engineering Experience Specification (canonical)
 │
-├── dashboard/                             ← Home screen, stats, activity
-├── projects/                              ← Project management & Kanban
-├── editor/                                ← AI-native code/text editor
-├── terminal/                              ← Integrated terminal
-├── explorer/                              ← File & resource explorer
-├── chat/                                  ← AI chat interface
+├── engineering-session.md                 ← Engineering session model
+├── inspector.md                           ← Universal inspector system
+├── cli-workspace-integration.md          ← CLI + UI as shared runtime clients
+├── settings-architecture.md              ← Settings as a runtime control surface
+├── vestara-assist.md                      ← Vestara Assist implementation plan
+│
 ├── assistant/                             ← Persistent AI assistant
-├── settings/                              ← User & workspace settings
-├── marketplace/                           ← Plugin & extension browsing
+├── chat/                                  ← AI chat interface
+├── dashboard/                             ← Home screen, stats, activity
+├── editor/                                ← AI-native code/text editor
+├── explorer/                              ← File & resource explorer
 ├── knowledge/                             ← Knowledge base UI
+├── marketplace/                           ← Plugin & extension browsing
 ├── memory/                                ← Memory browser & editor
 ├── notifications/                         ← Notification center
-└── profile/                               ← User profile & preferences
+├── profile/                               ← User profile & preferences
+├── projects/                              ← Project management & Kanban
+├── settings/                              ← User & workspace settings
+└── terminal/                              ← Integrated terminal
 ```
+
+---
+
+## 🎯 Canonical Specification
+
+**[WORKSPACE_UI_UX_IMPLEMENTATION.md](WORKSPACE_UI_UX_IMPLEMENTATION.md)** is the canonical specification for the entire Vestara Engineering Workspace. It covers:
+
+- Workspace Philosophy and Core Beliefs
+- Engineering Session Model
+- Workspace Layout and Panel System
+- Navigation, Command Palette, Search, Shortcuts
+- Dashboard, Operations Center, Agent Workspace
+- Execution Pipeline, Engineering Graph, Evidence Center
+- Verification Center, Inspector System, Timeline
+- Telemetry, Runtime, Explorer, Knowledge, Artifacts
+- Collaboration, Terminal, Chat
+- Workspace Modes (Executive, Architect, Developer, Verification, Operations, Presentation)
+- Responsive Design, Accessibility, Motion System
+- UX Principles and Future Vision
+
+Every future Workspace implementation — web, desktop, terminal, mobile — follows this document.
 
 ---
 
@@ -49,6 +75,12 @@ tags: ["workspace", "ui", "experience", "overview"]
 
 | Principle | Description |
 |-----------|-------------|
+| **Engineering-First** | Every action serves engineering productivity |
+| **Observable** | Every action is visible and auditable |
+| **Evidence-Based** | Every decision produces evidence |
+| **Traceable** | Every artifact has lineage |
+| **Replayable** | Every execution can be replayed |
+| **Inspectable** | Every entity can be examined |
 | **Keyboard-First** | Every action accessible via command palette |
 | **Context-Preserving** | Never lose state — scroll, cursor, selection, memory |
 | **Progressive Disclosure** | Simple by default, powerful on demand |
@@ -66,18 +98,22 @@ tags: ["workspace", "ui", "experience", "overview"]
 |--------|--------------|
 | `04-platform` | Platform services power workspace modules |
 | `05-ai-core` | AI subsystems exposed through workspace UI |
-| `22-user-experience` | Design system, animations, accessibility |
+| `13-design-system` | Design tokens, components, patterns |
+| `22-user-experience` | UX research, animations, accessibility |
 | `10-developer-platform` | SDK for extending the workspace |
 
 ---
 
-## Current Architecture (reconciled)
+## 📚 Existing Documentation
 
 - [engineering-session.md](engineering-session.md) — the engineering session
 - [inspector.md](inspector.md) — universal inspector
 - [cli-workspace-integration.md](cli-workspace-integration.md) — CLI + UI as shared runtime clients
 - [settings-architecture.md](settings-architecture.md) — settings as a runtime control surface
+- [vestara-assist.md](vestara-assist.md) — Vestara Assist implementation plan
+
+---
 
 **END OF WORKSPACE VOLUME OVERVIEW**
 
-*The workspace is where users spend their time. Every pixel serves their productivity.*
+*The workspace is where engineering happens. Every pixel serves the engineering process.*
