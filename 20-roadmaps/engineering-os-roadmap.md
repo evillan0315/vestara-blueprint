@@ -81,10 +81,18 @@ execution path (ADR-120).
 
 ### Phase 3 — Enable parallel engineering
 
-1. Worktree leases and environment isolation.
-2. Dependency-aware task assignment and supervisor orchestration.
-3. Conflict detection, merge preparation, and integration verification.
-4. Agent swimlanes in the workflow projection (multi-agent runs).
+1. Worktree leases and environment isolation — `packages/worktree-runtime/`
+   (lease store, recovery).
+2. Dependency-aware task assignment and supervisor orchestration — delivered
+   via the multi-agent `WorkflowOrchestrator` (ADR-118): task-graph DAG waves,
+   bounded retry/revision, review/test stages, Approval Gateway, parallel
+   waves, capability-based assignment (PCS-025 Phases 1-3).
+3. Conflict detection, merge preparation, and integration verification —
+   partial: `FileLockRegistry` + bounded lock-wait prevents concurrent writers;
+   apply-time `originalContent` conflict detection and merge prep remain.
+4. Agent swimlanes in the workflow projection (multi-agent runs) — partial:
+   `projectWorkflowAcrossThreads` aggregates per-agent harness threads into one
+   projection with lanes; stage attribution is wired and settling.
 
 ### Phase 4 — Enable long-running work
 
