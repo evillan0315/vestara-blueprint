@@ -15,63 +15,47 @@ Documents       ↗
 Evidence        ↗
 ```
 
-## Schema
+## Schema (stable)
+
+The core shape is small and immutable. Everything else lives in referenced
+documents. This keeps the catalog acting as the index, not the encyclopedia.
 
 ```yaml
-id: capability.<domain>.<name>
-version: <semver>
-title: Human-readable name
-owner: "@role or package"
+id: capability.<domain>.<name>    # stable identifier
+version: <semver>                  # capability version
+owner: "@role"                     # single owner
 status: proposed | accepted | implemented | verified | operationally-proven
 
+# Identity
 introduced:
   adr: "ADR-XXX"
   commit: "<sha>"
   date: "YYYY-MM-DD"
 
-implemented:
-  repository: evillan0315/vestara-ai-core
-  packages:
-    - packages/<name>
-  paths:
-    - src/<path>
-
-verification:
-  runId: "verification-<sha>-<seq>"
-  commands:
-    - pnpm test -- <path>
-  evidence:
-    - type: test
-      reference: packages/<name>/__tests__
-
-maturity:
-  architecture: accepted | proposed
-  implementation: implemented | partial | not-started
-  verification: verified | partial | unverified
-
 # Relationships — the dependency graph
 depends_on: []        # capabilities this one requires
 required_by: []       # capabilities that require this one
+owns: {}              # runtimes, packages, documents this capability owns
+implemented_by: {}    # where this capability lives (packages, runtimes, services)
+
+# Behavioral contract
 produces: []          # artifacts this capability creates
 consumes: []          # artifacts this capability reads
 emits: []             # events this capability emits
 reads: []             # data stores this capability reads
 writes: []            # data stores this capability writes
 
-documents:
-  blueprint:
-    - 00-governance/adr/ADR-XXX-<name>.md
-  core:
-    - docs/Architecture/<Name>.md
-    - docs/ADR/ADR-XXX-<name>.md
+# Maturity
+maturity:
+  architecture: accepted | proposed
+  implementation: implemented | partial | not-started
+  verification: verified | partial | unverified
 
+# History
 history:
   - commit: "<sha>"
     date: "YYYY-MM-DD"
     change: "<description>"
-
-gaps: []
-future-adr: null
 ```
 
 ## Relationship types
@@ -223,6 +207,15 @@ depends_on:
 required_by:
   - capability.harness.tool-execution
 
+owns:
+  runtime: FilesystemRuntime
+  package: "@vestara/filesystem-runtime"
+
+implemented_by:
+  packages:
+    - packages/filesystem-runtime
+  runtime: FilesystemRuntime
+
 produces:
   - FsObservation
   - engineering-event
@@ -241,12 +234,6 @@ reads:
 writes:
   - repository
   - engineering-event-store
-
-documents:
-  blueprint:
-    - 00-governance/adr/ADR-117-filesystem-runtime.md
-  core:
-    - docs/ADR/ADR-003-filesystem-runtime.md
 
 history:
   - commit: eb3fd3d
@@ -272,6 +259,17 @@ depends_on:
 required_by:
   - capability.ui.execution-center
 
+owns:
+  runtime: AgentHarness
+  package: "@vestara/agent-harness"
+  thread: "@vestara/thread-runtime"
+
+implemented_by:
+  packages:
+    - packages/agent-harness
+    - packages/thread-runtime
+  runtime: AgentHarness
+
 produces:
   - ExecutionResult
   - VerificationOutcome
@@ -295,13 +293,6 @@ reads:
 writes:
   - thread-runtime
   - engineering-event-store
-
-documents:
-  blueprint:
-    - 04-platform/agent-harness-architecture.md
-  core:
-    - docs/Architecture/Agent-Orchestration.md
-    - docs/ADR/ADR-001-runtime.md
 
 history:
   - commit: 4a76027
@@ -330,6 +321,16 @@ required_by:
   - capability.filesystem.delete
   - capability.harness.tool-execution
 
+owns:
+  runtime: AgentCapabilityManager
+  package: "@vestara/workspace"
+
+implemented_by:
+  packages:
+    - packages/workspace/src/agent-capability-manager.ts
+    - packages/workspace/src/agent-capability.ts
+  runtime: AgentCapabilityManager
+
 produces:
   - PermissionResult
   - AuditEvent
@@ -350,14 +351,77 @@ reads:
 writes:
   - audit-log
 
-documents:
-  blueprint:
-    - 00-governance/adr/ADR-116-capability-system.md
-  core:
-    - docs/ADR/ADR-002-capability-system.md
-
 history:
   - commit: eb3fd3d
     date: 2026-08-02
     change: "12 filesystem capabilities, 43 tests"
+```
+
+### Documentation Governance — full relationship map
+
+```yaml
+id: capability.documentation.governance
+version: 1.0.0
+owner: "@chief-architect"
+status: implemented
+
+depends_on:
+  - capability.graph.entities
+  - capability.graph.relationships
+
+required_by: []
+
+owns:
+  documents:
+    - 99-appendix/capability-catalog.md
+    - 99-appendix/document-registry.md
+    - 99-appendix/commit-capability-map.md
+    - 99-appendix/canonical-engineering-model.md
+    - 99-appendix/architecture-validation-engine.md
+    - 99-appendix/evidence-bundle-standard.md
+    - 99-appendix/reconciliation-report-2026-08-02.md
+
+implemented_by:
+  documents:
+    - vestara-blueprint/99-appendix/
+
+produces:
+  - DocumentRegistry
+  - CapabilityCatalog
+  - ValidationReport
+  - ReconciliationReport
+
+consumes:
+  - GitCommit
+  - Capability
+  - ADR
+  - Package
+
+emits:
+  - docs.reconciliation.completed
+  - docs.validation.failed
+
+reads:
+  - git-history
+  - package-manifests
+  - capability-catalog
+
+writes:
+  - document-registry
+  - capability-catalog
+  - validation-reports
+
+history:
+  - commit: acf5dcb
+    date: 2026-08-02
+    change: "Initial governance: authority hierarchy, canonical metadata"
+  - commit: 5831d84
+    date: 2026-08-02
+    change: "Commit-to-capability map, document registry"
+  - commit: 3e570bd
+    date: 2026-08-02
+    change: "Capability catalog, canonical engineering model, evidence standard"
+  - commit: 4033ea9
+    date: 2026-08-02
+    change: "Relationships, versioning, architecture validation engine"
 ```

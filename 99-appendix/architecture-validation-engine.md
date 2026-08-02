@@ -7,9 +7,25 @@ failure is an engineering issue, not a documentation issue. The validator
 checks that capabilities, architectures, packages, evidence, and documents
 form a coherent, dependency-resolved graph.
 
-## Validation rules
+## Rule categories
 
-### Rule 1: Capability existence
+Rules are classified into five categories. Each category answers a different
+question about the engineering system.
+
+```text
+Structural    — Does the graph exist and reference correctly?
+Behavioral    — Do the data flows make sense?
+Governance    — Is everything owned and authorized?
+Evidence      — Is everything proven?
+Historical    — Is everything versioned and traceable?
+```
+
+## Structural rules
+
+These validate that the graph has no dangling references, orphan nodes,
+or impossible cycles.
+
+### S1: Capability existence
 
 ```
 Every capability in the catalog
@@ -21,32 +37,228 @@ must have an owner
 must have a status
 ```
 
-### Rule 2: Architecture completeness
+### S2: Reference integrity
 
 ```
 Every capability
   ↓
-must reference an architecture (ADR or document)
+depends_on references must exist in the catalog
   ↓
-the referenced architecture must exist
+required_by references must be consistent
   ↓
-the architecture must be accepted or proposed (not deprecated)
+owns references must exist
+  ↓
+implemented_by references must exist
 ```
 
-### Rule 3: Implementation traceability
+### S3: No cycles
+
+```
+The dependency graph
+  ↓
+must be a directed acyclic graph (DAG)
+  ↓
+no capability may depend on itself, directly or transitively
+```
+
+### S4: Document references
+
+```
+Every capability
+  ↓
+documents.blueprint references must exist in vestara-blueprint
+  ↓
+documents.core references must exist in vestara-ai-core/docs
+  ↓
+no broken links
+```
+
+## Behavioral rules
+
+These validate that the data flows between capabilities make sense.
+
+### B1: Produces/consumes consistency
+
+```
+Every capability
+  ↓
+if it produces an artifact
+  ↓
+some other capability must consume it (or it's a terminal artifact)
+  ↓
+if it consumes an artifact
+  ↓
+some capability must produce it (or it's an external input)
+```
+
+### B2: Reads/writes consistency
+
+```
+Every capability
+  ↓
+if it writes to a data store
+  ↓
+it must also read from it (or it's a write-only store, which is suspicious)
+  ↓
+if it reads from a data store
+  ↓
+some capability must write to it (or it's an external store)
+```
+
+### B3: Event consistency
+
+```
+Every capability
+  ↓
+if it emits an event
+  ↓
+the event type must be defined in the event schema
+  ↓
+if it consumes an event
+  ↓
+some capability must emit it
+```
+
+### B4: Data flow completeness
+
+```
+Every capability
+  ↓
+must have at least one input (consumes, reads, or depends_on)
+  ↓
+must have at least one output (produces, writes, or emits)
+  ↓
+except leaf capabilities that only transform
+```
+
+## Governance rules
+
+These validate that everything is owned, authorized, and canonical.
+
+### G1: Owner existence
+
+```
+Every capability
+  ↓
+must have an owner
+  ↓
+the owner must be a valid role or team
+```
+
+### G2: ADR authorization
+
+```
+Every capability
+  ↓
+must be introduced by an ADR
+  ↓
+the ADR must exist
+  ↓
+the ADR must be accepted or proposed (not deprecated)
+```
+
+### G3: Canonical uniqueness
+
+```
+Every architectural concern
+  ↓
+must have exactly one canonical document
+  ↓
+no two documents may claim canonicality for the same concern
+```
+
+### G4: Supersession integrity
+
+```
+Every document
+  ↓
+if supersededBy is set
+  ↓
+the superseding document must exist
+  ↓
+if supersedes is set
+  ↓
+the superseded documents must exist
+```
+
+## Evidence rules
+
+These validate that everything is proven and mature.
+
+### E1: Maturity justification
+
+```
+Every capability
+  ↓
+maturity.implementation must match actual package status
+  ↓
+maturity.verification must match actual evidence status
+  ↓
+if maturity is "implemented" but verification is "unverified" → WARNING
+```
+
+### E2: Verification requirements
+
+```
+Every capability with status "verified"
+  ↓
+must have a verification runId
+  ↓
+the runId must reference an evidence bundle
+  ↓
+the evidence bundle must contain metadata.json
+  ↓
+the evidence bundle must contain verification.json
+```
+
+### E3: Implementation traceability
 
 ```
 Every capability with status "implemented" or "verified"
   ↓
-must reference at least one package
+implemented_by must reference at least one package
   ↓
 the referenced package must exist in vestara-ai-core
   ↓
 the package must have a package.json
 ```
 
-### Rule 4: Evidence requirements
+## Historical rules
 
+These validate that everything is versioned and traceable.
+
+### H1: Version consistency
+
+```
+Every capability
+  ↓
+version must follow semver
+  ↓
+if status is "implemented", version must be >= 1.0.0
+  ↓
+if status is "proposed", version must be < 1.0.0
+```
+
+### H2: History integrity
+
+```
+Every capability
+  ↓
+history entries must reference valid commits
+  ↓
+history must be chronologically ordered
+  ↓
+first history entry must match introduced.commit
+```
+
+### H3: Change traceability
+
+```
+Every commit that changes a capability
+  ↓
+must be recorded in the capability's history
+  ↓
+or flagged as undocumented
 ```
 Every capability with status "verified"
   ↓
