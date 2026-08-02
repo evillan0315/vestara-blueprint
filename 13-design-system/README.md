@@ -55,7 +55,8 @@ VDS is not a component library. It is the specification for how Vestara looks, f
 ├── 14-design-tokens.md          ─ Token taxonomy, naming, platform distribution
 ├── 15-accessibility.md          ─ WCAG targets, focus, screen reader, motion
 ├── 16-theme-engine.md           ─ Dark/light, brand theming, custom themes
-└── 17-terminal-console.md       ─ Terminal/TUI layout, input, routing, confirmations
+├── 17-terminal-console.md       ─ Terminal/TUI layout, input, routing, confirmations
+└── 18-cross-surface-provider-ux.md ─ Provider/model configuration across surfaces
 ```
 
 ---
@@ -72,6 +73,17 @@ VDS is not a component library. It is the specification for how Vestara looks, f
 | **Governed** | Effective policy, side effects, and approvals remain visible |
 
 ## Cross-surface invariants
+
+### Current contract (VDS 1.1)
+
+VDS 1.1 is the cross-surface contract for semantic tokens, interaction states,
+provider configuration, and accessibility. The Workspace UI, native TUI, and
+CLI may use different rendering primitives, but they MUST expose the same
+meaning for a state and MUST preserve the same action/approval boundaries.
+
+The canonical provider states are `healthy`, `degraded`, `unavailable`,
+`disabled`, `authentication-required`, `approval-required`, `conflict`,
+`saving`, `saved`, `failed`, `blocked`, `pending`, and `working`.
 
 Every implementation MUST preserve the same semantic hierarchy, status
 meanings, participant attribution, routing intent, confirmation boundaries, and

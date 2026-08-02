@@ -12,6 +12,31 @@ tags: ["vds", "tokens", "theming", "platform"]
 
 # VDS Design Tokens
 
+## VDS 1.1 semantic implementation contract
+
+The web implementation exposes the semantic contract as `--vestara-*` CSS
+custom properties. These names are implementation-stable aliases for the VDS
+roles and are consumed by Workspace settings, provider management, and shared
+layout primitives.
+
+Required role families:
+
+```text
+color-bg-app
+color-surface-panel | color-surface-raised | color-surface-interactive-hover
+color-border-subtle | color-border-default | color-border-strong
+color-text-primary | color-text-secondary | color-text-muted | color-text-dim
+color-focus-ring
+status-healthy | status-degraded | status-unavailable | status-disabled
+status-authentication | status-approval | status-conflict | status-saving
+status-saved | status-failed | status-blocked | status-pending
+```
+
+Status colors are never the sole signal: each surface also renders a text
+label and a semantic icon or ASCII fallback. TUI and CLI adapters map these
+roles to terminal colors and glyphs without exposing provider-specific state
+names.
+
 ## Token Taxonomy
 
 All VDS tokens follow a flat, semantic naming convention:
