@@ -407,7 +407,61 @@ App Runtime
 
 ---
 
-## 10. Open Questions
+## 10. Catalog Taxonomy
+
+### 10.1 Intent-Based Grouping
+
+The Marketplace catalog groups installable modules by user intent, not by implementation type. See `10-developer-platform/marketplace-catalog.md` for the complete taxonomy.
+
+```text
+Development
+Communication
+Project Management
+Builders
+AI and Agents
+Engineering Intelligence
+Operations
+Cloud and DevOps
+Data
+Business
+Productivity
+Knowledge
+Design
+Security
+Integrations
+```
+
+### 10.2 Listing Classification
+
+Every listing has a practical classification:
+
+```text
+Module
+Package
+App
+Connector
+Builder
+Theme
+Agent
+Provider
+Verification Pack
+Standards Pack
+```
+
+### 10.3 Filter Dimensions
+
+```text
+Category (user intent)
+Asset Kind (package, workspace-module, app)
+Trust Level (first-party, verified, community)
+Status (active, deprecated, new)
+Platform (linux, macOS, windows)
+Publisher (Vestara, verified publishers, community)
+```
+
+---
+
+## 11. Open Questions
 
 1. How should cross-asset-kind dependencies be resolved?
 2. How should mixed-asset packages be versioned?
