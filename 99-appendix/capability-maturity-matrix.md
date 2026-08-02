@@ -91,6 +91,18 @@ Precise states only; no checkmarks for unknown status.
 | Bootable Vestara ISO / portable disk image | yes | proposed | not started | unverified | draft |
 | Immutable A/B updates and recovery | yes | proposed | not started | unverified | draft |
 | Secure / measured boot integration | yes | accepted target | not started | unverified | draft |
+| Workspace UX Contract (projection model, ownership rules) | yes | accepted | specified | unverified | complete |
+| Engineering Session (primary object, lifecycle, operations) | yes | accepted | implemented | verified | complete |
+| Execution Experience (cognitive lifecycle, pipeline stages) | yes | accepted | partial | partial | complete |
+| Evidence Center (first-class entity, provenance, claims) | yes | accepted | partial | partial | complete |
+| Operations Center (live telemetry vs historical truth) | yes | accepted | partial | partial | complete |
+| Agent Intervention (governance controls, state-dependent) | yes | accepted | partial | partial | complete |
+| Universal Inspector (entity-specific projections) | yes | accepted | implemented | verified | complete |
+| Verification Center (claims, checks, confidence) | yes | accepted | partial | partial | complete |
+| Engineering Timeline (chronological event visualization) | yes | accepted | partial | partial | complete |
+| Artifact Center (generated artifact management) | yes | accepted | partial | partial | complete |
+| Agent Center (agent management, assignment) | yes | accepted | partial | partial | complete |
+| Runtime Observability (service health, metrics) | yes | accepted | partial | partial | complete |
 
 ## Notes on evidence
 
