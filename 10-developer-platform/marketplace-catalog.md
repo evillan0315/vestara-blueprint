@@ -597,7 +597,69 @@ CatalogListing
 
 ---
 
-## 11. Open Questions
+## 11. Asset State Model
+
+The Marketplace UI distinguishes three concepts:
+
+### 11.1 Installed
+
+```text
+Asset bytes and version exist locally
+Location: ~/.vestara/extensions/
+```
+
+### 11.2 Enabled
+
+```text
+Asset is active in this workspace
+Location: <workspace>/.vestara/extensions.lock
+```
+
+### 11.3 Running
+
+```text
+App or runtime process is currently executing
+Location: Process table
+```
+
+### 11.4 State Examples
+
+```text
+IDE Module
+    Installed: Yes
+    Enabled in vestara-ai-core: Yes
+    Running: Loaded on demand
+
+Local Model Manager
+    Installed: Yes
+    Enabled in vestara-ai-core: Yes
+    Running: No
+
+Metallic Gold Theme
+    Installed: Yes
+    Enabled in vestara-ai-core: Yes
+    Running: N/A (eager activation)
+```
+
+### 11.5 State Rules
+
+```text
+Installed ≠ Enabled ≠ Running
+
+A module may be:
+- Installed but not enabled in any workspace
+- Enabled but not yet loaded (on-demand)
+- Loaded but not actively running
+
+An app may be:
+- Installed but not started
+- Started but not healthy
+- Healthy but not serving requests
+```
+
+---
+
+## 12. Open Questions
 
 1. How should category evolution be managed?
 2. How should cross-category modules be handled?
