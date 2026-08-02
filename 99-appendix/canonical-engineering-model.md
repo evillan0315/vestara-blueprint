@@ -80,11 +80,12 @@ architecture:
   current: >
     Foundation implemented: harness runtime, turn lifecycle, tool request,
     capability check, observation, steering interface, durable thread target.
-    Integration with WorkspaceRuntime via thin adapter in agent-runtime.ts.
+    Revision loops for verification-driven self-correction. Interruptive steering
+    that aborts active inference. Integration with WorkspaceRuntime via thin
+    adapter in agent-runtime.ts.
   target: >
-    Complete agent harness with full steering, interruption, retry,
-    revision loops, durable execution sessions, cross-provider verification,
-    and correlation envelope.
+    Complete agent harness with streaming, concurrent tool execution,
+    durable execution sessions, cross-provider verification, and correlation envelope.
   constraints:
     - Agent never self-authorizes or self-verifies
     - All filesystem access through AgentCapabilityManager
@@ -139,14 +140,14 @@ maturity:
   verification: partial
 
 known-gaps:
-  - Full steering and interruption not yet implemented
-  - Revision loops not implemented
+  - Streaming not implemented
+  - Concurrent tool execution not implemented
   - Durable execution sessions partially implemented
   - Cross-provider verification not implemented
   - Correlation envelope not implemented
 
 future-adrs:
-  - "ADR for complete agent harness lifecycle"
+  - "ADR for streaming inference"
   - "ADR for durable execution sessions"
 ```
 
