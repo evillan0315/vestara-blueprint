@@ -3,7 +3,7 @@ id: "marketplace-implementation"
 title: "Marketplace Implementation — Incremental Build Plan"
 volume: "10-developer-platform"
 book: "Book 2: Platform Architecture"
-version: "2.0.0"
+version: "3.0.0"
 status: "approved"
 architecture-status: "accepted"
 implementation-status: "in-progress"
@@ -15,7 +15,7 @@ author: ["@chief-architect", "@frontend-engineer"]
 last-reviewed: "2026-08-03"
 next-review: "2027-02-03"
 canonical: true
-supersedes: ["marketplace-implementation-v1"]
+supersedes: ["marketplace-implementation-v1", "marketplace-implementation-v2"]
 tags: ["marketplace", "implementation", "milestones", "incremental", "canonical"]
 ---
 
@@ -75,12 +75,11 @@ The Marketplace produces install plans, not execution. Execution belongs to Exte
 ```text
 packages/
 ├── marketplace/
-│   ├── catalog/
+│   ├── contracts/
 │   ├── registry/
-│   ├── search/
 │   ├── resolver/
-│   ├── compatibility/
-│   └── planning/
+│   ├── planner/
+│   └── validation/
 │
 ├── extension-contracts/
 ├── extension-runtime/
@@ -97,14 +96,22 @@ Do not create a second lifecycle authority inside `packages/marketplace`.
 
 ## 3. Core Interfaces
 
-### 3.1 Marketplace Service
+### 3.1 MarketplaceRuntime (Orchestrator)
+
+The MarketplaceRuntime is an orchestrator, not an installer.
 
 ```typescript
-interface MarketplaceService {
-  registries: MarketplaceRegistry[];
-  resolver: MarketplaceResolver;
-  compatibility: MarketplaceCompatibilityService;
-  planner: MarketplaceInstallPlanner;
+interface MarketplaceRuntime {
+  readonly registries: MarketplaceRegistry[];
+  readonly resolver: MarketplaceResolver;
+  readonly compatibility: MarketplaceCompatibilityService;
+  readonly planner: MarketplaceInstallPlanner;
+  readonly validation: MarketplaceValidationService;
+
+  // Orchestration
+  search(query: MarketplaceQuery): Promise<MarketplaceSearchResult>;
+  plan(request: MarketplaceInstallRequest): Promise<MarketplaceInstallPlan>;
+  validate(manifest: ExtensionManifest): Promise<ValidationResult>;
 }
 ```
 
@@ -153,14 +160,51 @@ interface MarketplaceInstallRequest {
 }
 
 interface MarketplaceInstallPlan {
+  // Identity
   operationId: string;
+  schemaVersion: string;
+  
+  // Request
+  request: MarketplaceInstallRequest;
+  
+  // Resolution
   asset: ResolvedAsset;
   dependencies: ResolvedDependency[];
   conflicts: DependencyConflict[];
+  
+  // Validation
   compatibility: CompatibilityResult;
   permissions: PermissionRequest[];
   integrity: IntegrityPlan;
+  
+  // Actions
   actions: InstallAction[];
+  
+  // Evidence
+  evidence: InstallEvidence;
+  
+  // Attribution
+  attribution: PlanAttribution;
+  
+  // Metadata
+  createdAt: timestamp;
+  expiresAt: timestamp;
+}
+
+interface PlanAttribution {
+  userId: string;
+  workspaceId?: string;
+  source: 'marketplace-ui' | 'cli' | 'api' | 'programmatic';
+  requestId?: string;
+}
+
+interface InstallEvidence {
+  manifestVerified: boolean;
+  signatureValid: boolean;
+  compatibilityVerified: boolean;
+  dependenciesResolved: boolean;
+  permissionsAccepted: boolean;
+  integrityHashVerified: boolean;
 }
 ```
 
@@ -234,7 +278,191 @@ interface AppProcessState {
 
 ---
 
-## 5. Milestones
+## 5. InstallPlan as Engineering Artifact
+
+The InstallPlan is a first-class engineering artifact, not just a configuration object.
+
+### 5.1 Engineering Artifact Properties
+
+```text
+Inspectable
+    → Human-readable plan details
+    → Machine-parseable structure
+
+Replayable
+    → Same inputs produce same plan
+    → Deterministic resolution
+
+Versioned
+    → Plan schema versioned
+    → Backward compatibility
+
+Attributable
+    → Plan linked to user and workspace
+    → Plan linked to asset and version
+
+Verifiable
+    → Plan integrity verifiable
+    → Plan execution auditable
+```
+
+### 5.2 InstallPlan Flow
+
+```text
+Resolve GitHub Module
+    ↓
+MarketplaceInstallPlan
+    ↓
+Review
+    ↓
+Approve
+    ↓
+Extension Runtime
+```
+
+---
+
+## 6. Installation Evidence
+
+Every installation should automatically produce evidence.
+
+### 6.1 Evidence Package
+
+```typescript
+interface InstallationEvidencePackage {
+  operationId: string;
+  assetId: string;
+  version: string;
+  
+  // Evidence items
+  manifestVerified: EvidenceItem;
+  signatureValid: EvidenceItem;
+  compatibilityVerified: EvidenceItem;
+  dependenciesResolved: EvidenceItem;
+  permissionsAccepted: EvidenceItem;
+  integrityHashVerified: EvidenceItem;
+  activationSuccessful: EvidenceItem;
+  contributionRegistrationSuccessful: EvidenceItem;
+  
+  // Summary
+  overallResult: 'passed' | 'failed' | 'partial';
+  timestamp: timestamp;
+}
+
+interface EvidenceItem {
+  status: 'passed' | 'failed' | 'skipped';
+  details?: string;
+  timestamp: timestamp;
+  duration?: number;
+}
+```
+
+### 6.2 Evidence Collection
+
+```text
+Manifest verified
+    ↓
+Signature valid
+    ↓
+Compatibility verified
+    ↓
+Dependencies resolved
+    ↓
+Permissions accepted
+    ↓
+Integrity hash verified
+    ↓
+Activation successful
+    ↓
+Contribution registration successful
+    ↓
+Evidence package complete
+```
+
+---
+
+## 7. Transaction Viewer
+
+A transaction viewer provides visibility into installation operations.
+
+### 7.1 Transaction View
+
+```text
+Operations
+
+Install GitHub
+
+──────────────
+
+Resolve
+✓
+
+Compatibility
+✓
+
+Dependencies
+✓
+
+Permission Review
+✓
+
+Integrity
+✓
+
+Activation
+✓
+
+Sidebar Registered
+✓
+
+Completed
+```
+
+### 7.2 Transaction Structure
+
+```typescript
+interface InstallationTransaction {
+  transactionId: string;
+  operationId: string;
+  plan: MarketplaceInstallPlan;
+  
+  // Steps
+  steps: TransactionStep[];
+  
+  // State
+  state: TransactionState;
+  
+  // Timing
+  startedAt: timestamp;
+  completedAt?: timestamp;
+  duration?: number;
+  
+  // Evidence
+  evidence: InstallationEvidencePackage;
+}
+
+interface TransactionStep {
+  stepId: string;
+  name: string;
+  status: 'pending' | 'in-progress' | 'completed' | 'failed' | 'skipped';
+  startedAt?: timestamp;
+  completedAt?: timestamp;
+  duration?: number;
+  details?: string;
+  error?: string;
+}
+
+type TransactionState = 
+  | 'pending'
+  | 'in-progress'
+  | 'completed'
+  | 'failed'
+  | 'rolled-back';
+```
+
+---
+
+## 8. Milestones
 
 ### MP-001 — Marketplace Contracts and Planning
 
@@ -702,9 +930,127 @@ vestara marketplace publish --registry vestara-public
 
 ---
 
-## 6. First Vertical Slice
+## 9. Marketplace Events
 
-### 6.1 Metallic Gold Theme (Package)
+Define events before writing code.
+
+### 9.1 Event Types
+
+```text
+MarketplaceAssetDiscovered
+MarketplaceAssetUpdated
+MarketplaceInstallPlanned
+MarketplaceInstallApproved
+MarketplaceInstallDelegated
+MarketplaceInstallCompleted
+MarketplaceInstallFailed
+MarketplaceRollbackStarted
+MarketplaceRollbackCompleted
+MarketplaceAssetEnabled
+MarketplaceAssetDisabled
+```
+
+### 9.2 Event Structure
+
+```typescript
+interface MarketplaceEvent {
+  eventId: string;
+  type: MarketplaceEventType;
+  assetId: string;
+  version: string;
+  timestamp: timestamp;
+  data: Record<string, unknown>;
+  attribution: EventAttribution;
+}
+
+type MarketplaceEventType = 
+  | 'marketplace-asset-discovered'
+  | 'marketplace-asset-updated'
+  | 'marketplace-install-planned'
+  | 'marketplace-install-approved'
+  | 'marketplace-install-delegated'
+  | 'marketplace-install-completed'
+  | 'marketplace-install-failed'
+  | 'marketplace-rollback-started'
+  | 'marketplace-rollback-completed'
+  | 'marketplace-asset-enabled'
+  | 'marketplace-asset-disabled';
+
+interface EventAttribution {
+  userId: string;
+  workspaceId?: string;
+  source: 'marketplace-ui' | 'cli' | 'api' | 'programmatic';
+  correlationId?: string;
+}
+```
+
+### 9.3 Event Integration
+
+These events feed the Engineering Event Store and make Marketplace activity visible alongside the rest of the platform.
+
+---
+
+## 10. Metrics
+
+Since Vestara is engineering-centric, Marketplace should expose operational metrics from day one.
+
+### 10.1 Metrics Types
+
+```text
+Assets installed
+Modules enabled
+Apps running
+Average install duration
+Dependency resolution duration
+Rollback count
+Activation failures
+Manifest validation failures
+```
+
+### 10.2 Metrics Structure
+
+```typescript
+interface MarketplaceMetrics {
+  // Counts
+  assetsInstalled: number;
+  modulesEnabled: number;
+  appsRunning: number;
+  
+  // Durations
+  averageInstallDuration: number;
+  averageResolutionDuration: number;
+  averageActivationDuration: number;
+  
+  // Failures
+  rollbackCount: number;
+  activationFailureCount: number;
+  manifestValidationFailureCount: number;
+  dependencyResolutionFailureCount: number;
+  
+  // Timestamps
+  lastCalculated: timestamp;
+}
+```
+
+### 10.3 Metrics Collection
+
+```text
+Install operation
+    ↓
+Emit metrics events
+    ↓
+Aggregate metrics
+    ↓
+Expose via API
+    ↓
+Display in UI
+```
+
+---
+
+## 11. First Vertical Slice
+
+### 11.1 Metallic Gold Theme (Package)
 
 ```text
 Local catalog contains Metallic Gold Theme
@@ -743,7 +1089,7 @@ Previous package version becomes active
 - Events
 - Rollback
 
-### 6.2 Messages (Workspace Module)
+### 11.2 Messages (Workspace Module)
 
 ```text
 Install Messages module
@@ -773,7 +1119,7 @@ Click Messages → Inbox view loads
 - Search contribution
 - Inspector contribution
 
-### 6.3 Local Model Manager (App)
+### 11.3 Local Model Manager (App)
 
 ```text
 Install Local Model Manager
@@ -801,64 +1147,9 @@ App removed from running processes
 
 ---
 
-## 7. Engineering Integration
+## 12. Data Model
 
-### 7.1 Marketplace Events
-
-Every Marketplace operation becomes an Engineering Event.
-
-```text
-Install Requested
-    ↓
-Dependency Resolution
-    ↓
-Permission Review
-    ↓
-Downloaded
-    ↓
-Verified
-    ↓
-Activated
-    ↓
-Health Checked
-    ↓
-Completed
-```
-
-### 7.2 Event Types
-
-```typescript
-interface MarketplaceEvent {
-  eventId: string;
-  type: MarketplaceEventType;
-  assetId: string;
-  version: string;
-  timestamp: timestamp;
-  data: Record<string, unknown>;
-}
-
-type MarketplaceEventType = 
-  | 'install-requested'
-  | 'dependency-resolution'
-  | 'permission-review'
-  | 'downloaded'
-  | 'verified'
-  | 'activated'
-  | 'health-checked'
-  | 'completed'
-  | 'failed'
-  | 'rolled-back';
-```
-
-### 7.3 Replay Capability
-
-The user should be able to replay an installation exactly like an engineering session.
-
----
-
-## 8. Data Model
-
-### 8.1 Initial Registry
+### 12.1 Initial Registry
 
 A JSON index is enough initially.
 
@@ -877,7 +1168,7 @@ interface LocalAssetEntry {
 }
 ```
 
-### 8.2 Migration Path
+### 12.2 Migration Path
 
 ```text
 JSON Index (MVP)
@@ -889,9 +1180,9 @@ PostgreSQL (Service)
 
 ---
 
-## 9. Repository Structure
+## 13. Repository Structure
 
-### 9.1 Final Layout
+### 13.1 Final Layout
 
 ```text
 apps/
@@ -910,7 +1201,7 @@ packages/
 └── app-runtime/
 ```
 
-### 9.2 Package Dependencies
+### 13.2 Package Dependencies
 
 ```text
 marketplace
@@ -934,9 +1225,9 @@ cli
 
 ---
 
-## 10. Implementation Priority
+## 14. Implementation Priority
 
-### 10.1 This Week
+### 14.1 This Week
 
 1. `packages/marketplace` with core contracts and types
 2. Registry abstraction and local implementation
@@ -946,31 +1237,31 @@ cli
 6. Install Metallic Gold Theme and see it apply
 7. Install Messages and see it appear in sidebar
 
-### 10.2 Expected Outcome
+### 14.2 Expected Outcome
 
 An end-to-end vertical slice—from discovery to activation—while keeping the implementation manageable.
 
 ---
 
-## 11. Risk Mitigation
+## 15. Risk Mitigation
 
-### 11.1 Incremental Delivery
+### 15.1 Incremental Delivery
 
 Each milestone produces working software. No big-bang integration.
 
-### 11.2 Vertical Slices
+### 15.2 Vertical Slices
 
 Each milestone includes tests. No untested code.
 
-### 11.3 Local First
+### 15.3 Local First
 
 Network dependency is introduced only in MP-006. Earlier milestones work offline.
 
-### 11.4 SDK Validation
+### 15.4 SDK Validation
 
 The Marketplace itself proves the SDK works. No separate SDK validation needed.
 
-### 11.5 Ownership Clarity
+### 15.5 Ownership Clarity
 
 Marketplace plans, Extension Runtime executes, Workspace Runtime activates. No authority conflicts.
 
