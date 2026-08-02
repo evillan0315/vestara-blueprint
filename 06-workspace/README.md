@@ -1,119 +1,121 @@
 ---
-title: "Workspace — Volume Overview"
-volume: "06-workspace"
+id: "workspace-volume"
+title: "Volume 06 — Workspace"
 book: "Book 2: Platform Architecture"
-version: "2.0.0"
+version: "2.1.0"
 status: "ratified"
 owner: "@frontend-engineer"
+author: ["@frontend-engineer", "@chief-architect"]
 last-reviewed: "2026-08-02"
 next-review: "2027-02-02"
-tags: ["workspace", "ui", "experience", "overview", "engineering-operating-system"]
-canonical: true
-supersedes: []
+supersedes: "2.0.0"
 ---
 
-# Volume 06: Workspace
-## The Engineering Operating System Experience
+# Volume 06 — Workspace
 
-> **Mission**: Create an AI-native engineering workspace that replaces the traditional desktop — where plans, agents, workflows, evidence, artifacts, and knowledge converge through an intelligent, adaptive interface.
+> **Vestara Workspace is a temporal, evidence-driven projection of an Engineering Session—not a collection of AI tools arranged in a sidebar.**
 
----
+## Canonical Specification
 
-## 📋 Volume Contents
+The Workspace is defined by a session-centric architecture where the Engineering Session is the primary object. All UI views are projections of that model.
+
+**Core Architecture:**
+- `02-workspace-architecture.md` — Canonical model, design decisions, projection contract
+- `05-engineering-session.md` — Primary object structure, lifecycle, operations
+- `06-workspace-modes.md` — Adaptive interface contexts and transitions
+
+## Volume Contents
+
+### Core Specifications
+
+| Document | Purpose |
+|----------|---------|
+| `02-workspace-architecture.md` | Canonical model and design decisions |
+| `05-engineering-session.md` | Primary workspace object |
+| `06-workspace-modes.md` | Adaptive interface contexts |
+
+### Planned Specifications
+
+| Directory | Purpose |
+|-----------|---------|
+| `engineering/` | Session views: project, planning, execution, timeline, graph, artifacts, evidence, verification |
+| `agents/` | Agent center, orchestration, runtime view, inspector, collaboration |
+| `operations/` | Operations center, runtime observability, telemetry, event stream, terminal, browser, health |
+| `inspector/` | Universal inspector, entity/relationship/historical inspection |
+| `tools/` | Code editor, terminal, browser, diff viewer, visual verification |
+| `implementation/` | Frontend architecture, state management, realtime events, routing, permissions, performance, testing, roadmap |
+
+## Architectural Model
 
 ```
-06-workspace/
-│
-├── README.md                              ← This file
-├── WORKSPACE_UI_UX_IMPLEMENTATION.md      ← Complete Engineering Experience Specification (canonical)
-│
-├── engineering-session.md                 ← Engineering session model
-├── inspector.md                           ← Universal inspector system
-├── cli-workspace-integration.md          ← CLI + UI as shared runtime clients
-├── settings-architecture.md              ← Settings as a runtime control surface
-├── vestara-assist.md                      ← Vestara Assist implementation plan
-│
-├── assistant/                             ← Persistent AI assistant
-├── chat/                                  ← AI chat interface
-├── dashboard/                             ← Home screen, stats, activity
-├── editor/                                ← AI-native code/text editor
-├── explorer/                              ← File & resource explorer
-├── knowledge/                             ← Knowledge base UI
-├── marketplace/                           ← Plugin & extension browsing
-├── memory/                                ← Memory browser & editor
-├── notifications/                         ← Notification center
-├── profile/                               ← User profile & preferences
-├── projects/                              ← Project management & Kanban
-├── settings/                              ← User & workspace settings
-└── terminal/                              ← Integrated terminal
+Human Intent
+    ↓
+Engineering Session
+    ↓
+Plan
+    ↓
+Workflow
+    ↓
+Agent Executions
+    ↓
+Artifacts and File Changes
+    ↓
+Verification
+    ↓
+Evidence
+    ↓
+Engineering Event History
 ```
 
----
+## Design Decisions
 
-## 🎯 Canonical Specification
+### 1. Universal Inspector
+Every entity resolves through one Inspector contract with entity-specific sections.
 
-**[WORKSPACE_UI_UX_IMPLEMENTATION.md](WORKSPACE_UI_UX_IMPLEMENTATION.md)** is the canonical specification for the entire Vestara Engineering Workspace. It covers:
+### 2. Live State vs. Historical Truth
+The interface distinguishes ephemeral progress from persisted evidence.
 
-- Workspace Philosophy and Core Beliefs
-- Engineering Session Model
-- Workspace Layout and Panel System
-- Navigation, Command Palette, Search, Shortcuts
-- Dashboard, Operations Center, Agent Workspace
-- Execution Pipeline, Engineering Graph, Evidence Center
-- Verification Center, Inspector System, Timeline
-- Telemetry, Runtime, Explorer, Knowledge, Artifacts
-- Collaboration, Terminal, Chat
-- Workspace Modes (Executive, Architect, Developer, Verification, Operations, Presentation)
-- Responsive Design, Accessibility, Motion System
-- UX Principles and Future Vision
+### 3. Evidence as First-Class Entity
+Every evidence item has identity, provenance, and verification status.
 
-Every future Workspace implementation — web, desktop, terminal, mobile — follows this document.
+### 4. Intervention Controls
+The Workspace exposes pause, resume, cancel, redirect, explain, verify, approve, rollback, and quarantine.
 
----
+### 5. Maturity Markers
+Every specification identifies its implementation state.
 
-## 🎨 Workspace Principles
-
-| Principle | Description |
-|-----------|-------------|
-| **Engineering-First** | Every action serves engineering productivity |
-| **Observable** | Every action is visible and auditable |
-| **Evidence-Based** | Every decision produces evidence |
-| **Traceable** | Every artifact has lineage |
-| **Replayable** | Every execution can be replayed |
-| **Inspectable** | Every entity can be examined |
-| **Keyboard-First** | Every action accessible via command palette |
-| **Context-Preserving** | Never lose state — scroll, cursor, selection, memory |
-| **Progressive Disclosure** | Simple by default, powerful on demand |
-| **Dark-First** | Dark mode default, light mode available |
-| **Responsive** | Adapts to any screen size — desktop, tablet, mobile |
-| **Offline-Capable** | Full interface works without network |
-| **AI-Native** | AI is woven into every panel, not a separate chat |
-| **Extensible** | Panels, themes, commands all plugin-defined |
-
----
-
-## 🔗 Cross-References
+## Relationship to Other Volumes
 
 | Volume | Relationship |
 |--------|--------------|
-| `04-platform` | Platform services power workspace modules |
-| `05-ai-core` | AI subsystems exposed through workspace UI |
-| `13-design-system` | Design tokens, components, patterns |
-| `22-user-experience` | UX research, animations, accessibility |
-| `10-developer-platform` | SDK for extending the workspace |
+| Volume 02 (Platform) | Workspace is the primary UI layer |
+| Volume 08 (AI Agent) | Workspace visualizes agent execution |
+| Volume 13 (Design System) | Visual design tokens and components |
+| Volume 17 (Event Bus) | Real-time event streaming |
+
+## Implementation References
+
+| Package | Path | Purpose |
+|---------|------|---------|
+| workspace | `packages/workspace/` | Core workspace runtime |
+| workspace-ui | `apps/workspace/` | React UI implementation |
+| kernel | `packages/kernel/` | Service orchestration |
+| engineering-graph | `packages/engineering-graph/` | Graph queries and visualization |
+
+## Build Sequence
+
+1. Application Shell
+2. Engineering Session
+3. Universal Inspector
+4. Activity Timeline
+5. Execution Pipeline
+6. Evidence & Verification
+7. Agent Center
+8. Operations Center
+9. Engineering Graph
+10. Historical Replay
 
 ---
 
-## 📚 Existing Documentation
-
-- [engineering-session.md](engineering-session.md) — the engineering session
-- [inspector.md](inspector.md) — universal inspector
-- [cli-workspace-integration.md](cli-workspace-integration.md) — CLI + UI as shared runtime clients
-- [settings-architecture.md](settings-architecture.md) — settings as a runtime control surface
-- [vestara-assist.md](vestara-assist.md) — Vestara Assist implementation plan
-
----
-
-**END OF WORKSPACE VOLUME OVERVIEW**
-
-*The workspace is where engineering happens. Every pixel serves the engineering process.*
+*This volume defines the behavioral and information architecture for the Vestara Workspace.*
+*Visual design tokens and component semantics are defined in Volume 13 (Design System).*
