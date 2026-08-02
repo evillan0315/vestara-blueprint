@@ -4,7 +4,12 @@ title: "Agent Center — Agent Management and Assignment"
 volume: "06-workspace"
 book: "Book 2: Platform Architecture"
 version: "1.0.0"
-status: "ratified"
+status: "approved"
+architecture-status: "accepted"
+implementation-status: "partial"
+verification-status: "partial"
+implementation-repository: "evillan0315/vestara-ai-core"
+implementation-ref: "local main (workspace-ui, agent-runtime)"
 owner: "@frontend-engineer"
 author: ["@frontend-engineer", "@chief-architect"]
 last-reviewed: "2026-08-02"
@@ -12,7 +17,6 @@ next-review: "2027-02-02"
 canonical: true
 supersedes: []
 tags: ["workspace", "agents", "management", "assignment"]
-implementation-ref: "local main (workspace-ui, agent-runtime)"
 ---
 
 # Agent Center
@@ -23,33 +27,34 @@ implementation-ref: "local main (workspace-ui, agent-runtime)"
 
 ---
 
-## 1. Agent Contract
+## 1. Agent Center Projection
+
+> **All contracts in this document are Workspace read projections, not domain contracts. They project runtime state into the UI without redefining `AgentRuntime`.**
 
 ```typescript
-interface Agent {
+// Workspace read model — not a domain contract
+interface AgentCenterProjection {
+  agent: AgentIdentity;
+  runtimeState: AgentRuntimeState;
+  activeAssignment?: AgentAssignmentSummary;
+  capabilitySummary: CapabilityProjection[];
+  performance?: AgentPerformanceProjection;
+  recentEvents: EngineeringEventReference[];
+}
+
+interface AgentIdentity {
   id: string;
   name: string;
   type: AgentType;
   agentType: 'workspace' | 'registry';
-  
-  // Capabilities
-  capabilities: AgentCapability[];
-  specializations: string[];
-  
-  // State
+}
+
+interface AgentRuntimeState {
   status: AgentStatus;
   currentSession?: string;
   currentExecution?: string;
-  
-  // Configuration
   provider: string;
   model: string;
-  
-  // Metrics
-  metrics: AgentMetrics;
-  
-  // History
-  history: AgentEvent[];
 }
 
 type AgentStatus = 
@@ -59,18 +64,42 @@ type AgentStatus =
   | 'error'
   | 'offline';
 
-interface AgentCapability {
+// Capability levels (not numerical confidence)
+type CapabilityLevel = 
+  | 'primary'        // Main capability, frequently used
+  | 'secondary'      // Supporting capability, used occasionally
+  | 'declared'       // Advertised but not yet demonstrated
+  | 'observed'       // Demonstrated in past executions
+  | 'verified'       // Validated through evidence
+  | 'insufficient';  // Not enough data to assess
+
+interface CapabilityProjection {
   id: string;
   name: string;
   description: string;
-  confidence: number;
+  level: CapabilityLevel;
+  evidenceCount: number;
+  lastUsed?: string;
 }
 
-interface AgentMetrics {
+interface AgentPerformanceProjection {
   totalExecutions: number;
   successRate: number;
   averageDuration: number;
   lastActive: string;
+}
+
+interface AgentAssignmentSummary {
+  sessionId: string;
+  executionId?: string;
+  task: string;
+  startedAt: string;
+}
+
+interface EngineeringEventReference {
+  eventId: string;
+  timestamp: string;
+  type: string;
 }
 ```
 
@@ -98,9 +127,10 @@ interface AgentMetrics {
 ### 2.2 Custom Agents
 
 ```typescript
-interface CustomAgent extends Agent {
-  type: 'custom';
-  source: 'workspace' | 'registry';
+// Workspace read model — not a domain contract
+interface CustomAgentProjection extends AgentCenterProjection {
+  agentType: 'workspace' | 'registry';
+  source: string;
   version?: string;
   configuration: Record<string, unknown>;
 }
@@ -124,7 +154,7 @@ interface CustomAgent extends Agent {
 │                                                                 │
 │  ┌─────────────────────────────────────────────────────────┐   │
 │  │ ● developer-01                         [Busy]           │   │
-│  │   Type: workspace | Provider: openai/gpt-4             │   │
+│  │   Type: workspace | Provider: selected provider        │   │
 │  │   Session: session-001 | Execution: execution-001      │   │
 │  │   Task: Edit runtime.ts                                 │   │
 │  │   Success Rate: 95% | Avg Duration: 2m 30s             │   │
@@ -132,7 +162,7 @@ interface CustomAgent extends Agent {
 │                                                                 │
 │  ┌─────────────────────────────────────────────────────────┐   │
 │  │ ● architect-01                         [Idle]           │   │
-│  │   Type: workspace | Provider: openai/gpt-4             │   │
+│  │   Type: workspace | Provider: selected provider        │   │
 │  │   Session: - | Execution: -                            │   │
 │  │   Capabilities: Planning, Design, Review               │   │
 │  │   Success Rate: 98% | Avg Duration: 1m 45s             │   │
@@ -140,7 +170,7 @@ interface CustomAgent extends Agent {
 │                                                                 │
 │  ┌─────────────────────────────────────────────────────────┐   │
 │  │ ✗ debugger-01                          [Error]          │   │
-│  │   Type: workspace | Provider: openai/gpt-4             │   │
+│  │   Type: workspace | Provider: selected provider        │   │
 │  │   Session: session-002 | Error: Provider timeout       │   │
 │  │   Success Rate: 85% | Avg Duration: 3m 15s             │   │
 │  └─────────────────────────────────────────────────────────┘   │
@@ -158,14 +188,14 @@ interface CustomAgent extends Agent {
 │  Identity                                                      │
 │  ├── ID: developer-01                                          │
 │  ├── Type: workspace                                           │
-│  ├── Provider: openai/gpt-4                                    │
-│  └── Model: gpt-4                                              │
+│  ├── Provider: selected provider                               │
+│  └── Model: resolved routing assignment                         │
 │                                                                 │
 │  Capabilities                                                  │
-│  ├── Coding (confidence: 95%)                                  │
-│  ├── Testing (confidence: 90%)                                 │
-│  ├── Debugging (confidence: 85%)                               │
-│  └── Review (confidence: 80%)                                  │
+│  ├── Coding (primary)                                          │
+│  ├── Testing (primary)                                         │
+│  ├── Debugging (secondary)                                     │
+│  └── Review (secondary)                                        │
 │                                                                 │
 │  Current State                                                 │
 │  ├── Status: Busy                                              │
@@ -230,7 +260,7 @@ type AssignmentStatus =
 │  Assigned Agents:                                              │
 │  ├── developer-01 → Edit runtime.ts                           │
 │  │   Status: Active | Started: 01:42:08                       │
-│  │   Provider: openai/gpt-4 | Model: gpt-4                   │
+│  │   Provider: selected provider | Model: resolved routing  │
 │  │                                                             │
 │  └── architect-01 → Review plan                               │
 │      Status: Completed | Duration: 1m 30s                     │
@@ -307,31 +337,42 @@ type CollaborationStatus =
 
 ### 6.1 Capability Contract
 
+> **Workspace read model — not a domain contract.**
+
 ```typescript
-interface AgentCapability {
+interface AgentCapabilityProjection {
   id: string;
   name: string;
   description: string;
-  confidence: number;
+  level: CapabilityLevel;
+  evidenceCount: number;
+  lastUsed?: string;
   requirements: string[];
   limitations: string[];
 }
+
+// Capability levels (not numerical confidence)
+type CapabilityLevel = 
+  | 'primary'        // Main capability, frequently used
+  | 'secondary'      // Supporting capability, used occasionally
+  | 'declared'       // Advertised but not yet demonstrated
+  | 'observed'       // Demonstrated in past executions
+  | 'verified'       // Validated through evidence
+  | 'insufficient';  // Not enough data to assess
 ```
 
 ### 6.2 Capability Matrix
 
 | Capability | architect | developer | verifier | reviewer | debugger |
 |------------|-----------|-----------|----------|----------|----------|
-| Planning | ✓ | ○ | ○ | ○ | ○ |
-| Coding | ○ | ✓ | ○ | ○ | ○ |
-| Testing | ○ | ✓ | ✓ | ○ | ○ |
-| Review | ✓ | ○ | ○ | ✓ | ○ |
-| Debugging | ○ | ✓ | ○ | ○ | ✓ |
-| Documentation | ✓ | ○ | ○ | ✓ | ○ |
-| Security | ○ | ○ | ✓ | ✓ | ○ |
-| Performance | ○ | ✓ | ✓ | ○ | ✓ |
-
-Legend: ✓ = primary, ○ = secondary
+| Planning | primary | secondary | secondary | secondary | secondary |
+| Coding | secondary | primary | secondary | secondary | secondary |
+| Testing | secondary | primary | primary | secondary | secondary |
+| Review | primary | secondary | secondary | primary | secondary |
+| Debugging | secondary | primary | secondary | secondary | primary |
+| Documentation | primary | secondary | secondary | primary | secondary |
+| Security | secondary | secondary | primary | primary | secondary |
+| Performance | secondary | primary | primary | secondary | primary |
 
 ---
 

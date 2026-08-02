@@ -4,7 +4,12 @@ title: "Evidence Center — First-Class Evidence Entity"
 volume: "06-workspace"
 book: "Book 2: Platform Architecture"
 version: "1.0.0"
-status: "ratified"
+status: "approved"
+architecture-status: "accepted"
+implementation-status: "partial"
+verification-status: "partial"
+implementation-repository: "evillan0315/vestara-ai-core"
+implementation-ref: "local main (workspace-ui, verification-center)"
 owner: "@frontend-engineer"
 author: ["@frontend-engineer", "@chief-architect"]
 last-reviewed: "2026-08-02"
@@ -12,7 +17,6 @@ next-review: "2027-02-02"
 canonical: true
 supersedes: []
 tags: ["workspace", "evidence", "verification", "provenance"]
-implementation-ref: "local main (workspace-ui, verification-center)"
 ---
 
 # Evidence Center
