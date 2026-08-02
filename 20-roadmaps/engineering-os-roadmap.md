@@ -28,25 +28,38 @@ implemented runtime and the identified architecture gaps.
 
 - WorkspaceRuntime + kernel lifecycle
 - AgentRuntime + capability-governed execution
+- Durable agent execution via `AgentHarnessRuntime` — the single execution
+  path (multi-tool deterministic ordering, approval suspension with restart-
+  safe pending-call queue, idempotent approval resolution, durable
+  `pendingApprovals`, cancellation/steering/resume). The legacy capability
+  orchestrator loop is removed (ADR-120).
+- Provider context compaction preserving instruction, steering, tool-call IDs,
+  changed files, failed attempts, verification, and approvals.
+- Engineering event projection — `harness.*` bridge and `change.*`
+  filesystem/diff projection derived from actual filesystem + Git state
+  (ADR-121).
+- Real-time workflow lifecycle — canonical eight-stage projection, incremental
+  push protocol with monotonic sequences, hybrid stage derivation, and a live
+  TUI workflow view (ADR-122).
 - Telemetry
 - Engineering Graph + Temporal Event Store (session-only)
 - Verification pipeline + evidence
 - Visual screenshot verification (subset verified)
 - Workspace UI modules (Docs, Diagnostics, Execution, Graph + Universal
-  Inspector)
+  Inspector, Workforce, harness thread timelines)
 - Provider-neutral routing domain, versioned assignments, shared API/CLI/UI
   controls, and Ink Console
 
 ## Next milestones
 
-### Phase 1 — Complete the Agent Harness
+### Phase 1 — Complete the Agent Harness ✅
 
-1. Durable task/thread/turn/item schemas and event persistence.
-2. Agent Harness coordinator over current agent, provider, context, capability,
-   and verification services.
-3. Unified Tool Runtime envelope and adapters for existing tools.
-4. Policy/approval evaluation for every proposed tool call.
-5. Structured observations, cancellation, steering, and resume.
+Durable task/thread/turn/item schemas and event persistence, the Agent Harness
+coordinator (model→tool→approval→verification), the unified Tool Runtime
+envelope, policy/approval evaluation, structured observations, cancellation,
+steering, resume, multi-tool deterministic ordering, restart-safe pending-call
+queues, and provider context compaction are all delivered and are the default
+execution path (ADR-120).
 
 ### Phase 2 — Make results trustworthy
 
@@ -60,10 +73,12 @@ implemented runtime and the identified architecture gaps.
 1. Worktree leases and environment isolation.
 2. Dependency-aware task assignment and supervisor orchestration.
 3. Conflict detection, merge preparation, and integration verification.
+4. Agent swimlanes in the workflow projection (multi-agent runs).
 
 ### Phase 4 — Enable long-running work
 
-1. Context compaction and durable resume.
+1. Context compaction and durable resume — delivered (ADR-120); full
+   long-horizon verification remains.
 2. Cloud/remote environments and cross-device steering.
 3. Automation that creates ordinary task threads.
 4. Durable engineering memory derived from completed threads.
@@ -76,6 +91,13 @@ implemented runtime and the identified architecture gaps.
 4. Provider platform extensions and cross-provider verification.
 5. Extension platform and Marketplace — local foundation and Workspace
    experience shipped (ADR-115); remote distribution and publishing remain.
+
+### Phase 6 — Real-Time Workflow Lifecycle (in progress)
+
+Canonical workflow projection, incremental push protocol, hybrid stage
+derivation, and the TUI lifecycle rail are shipped (ADR-122). Remaining:
+agent swimlanes, the premium Workspace diagram consuming the canonical
+projection, and temporal replay controls.
 
 ## Related
 

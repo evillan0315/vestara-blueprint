@@ -50,16 +50,25 @@ storage.
 
 ## Current implementation
 
-The Harness Foundation is implemented at `vestara-ai-core@4a76027`.
-`@vestara/agent-harness` coordinates one durable turn across provider inference,
-context assembly, tools, policy and approval decisions, observations,
-verification, steering, cancellation, and terminal outcome. Authoritative
-history is delegated to `@vestara/thread-runtime`; specialist services retain
-their ownership.
+`@vestara/agent-harness` is the single execution path for ordinary agent work
+(ADR-120). `AgentRuntime.run()` is a thin adapter that delegates to the harness,
+creating a durable thread and linked ExecutionSession for every run. Key
+capabilities delivered:
 
-This verifies the central coordinator contract, not the entire target. Durable
-cross-process recovery, environment provisioning, worktree leases, compaction,
-browser demonstration, and full automation integration remain incomplete.
+- Multi-tool deterministic execution; invalid tool names/arguments produce
+  structured failures the model can react to.
+- Approval suspension with a restart-safe pending-call queue and idempotent
+  approval resolution; `pendingApprovals(threadId)` is durable.
+- Provider context compaction preserving instruction, steering, tool-call IDs,
+  changed files, failed attempts, verification, and approvals.
+- `harness.*` engineering-event bridge and `change.*` filesystem/diff
+  projection (ADR-121) and the real-time workflow lifecycle (ADR-122).
+- The legacy capability orchestrator loop is removed — there is no duplicate
+  model→tool loop.
+
+Authoritative history remains `@vestara/thread-runtime`; the engineering event
+store and graph are projections. Environment provisioning, worktree leases,
+browser demonstration, and remote/cloud execution remain future work.
 
 ## Harness state
 
@@ -235,27 +244,34 @@ not currently qualify as independent runtimes.
 |------------------------|--------------|------------------|
 | Kernel + `WorkspaceRuntime` | host/lifecycle composition | retained |
 | `SessionOrchestrator`, planning, implementation services | Orchestration Runtime strategies | adapt |
-| `AgentRuntime` executions | Agent Harness Runtime | evolve |
+| `AgentRuntime` (harness adapter) | Agent Harness Runtime | migrated — single execution path |
+| `AgentHarnessRuntime` durable loop | Agent Harness Runtime | delivered (ADR-120) |
 | conversation sessions/events | Task and Thread Runtime | consolidate durably |
 | filesystem capability manager + tool packages | Tool + Policy Runtimes | unify contract |
 | workspace fingerprint/understanding/knowledge | Context Runtime sources | adapt |
 | verification/evaluation/screenshots | Verification and Evidence Runtime | consolidate |
 | provider-runtime routing | harness model/provider selection | retain |
 | scheduler/jobs/workers | Automation + Orchestration | adapt |
-| Engineering Event Store + Graph | Event/Audit Runtime + projection | persist and extend |
+| Engineering Event Store + Graph | Event/Audit Runtime + projection | persist and extend — `harness.*` + `change.*` projections shipped (ADR-121) |
+| workflow lifecycle + TUI rail | Workflow Runtime | shipped (ADR-122) |
 
 ## Delivery phases
 
-1. Complete the harness: thread/item schemas, harness coordinator, unified tool
-   envelope, policy evaluation, structured observations, cancellation, steering.
+1. Complete the harness ✅ — thread/item schemas, harness coordinator, unified
+   tool envelope, policy evaluation, structured observations, cancellation,
+   steering, resume, multi-tool ordering, restart-safe approvals, and context
+   compaction (ADR-120).
 2. Make results trustworthy: repeated verification, evidence artifacts, browser
    tools, demonstration mode, repair loop.
 3. Enable safe parallel work: worktree leases, parallel tasks, supervisor,
-   conflict detection, integration verification.
-4. Support long-running work: compaction, resume, remote/cloud environments,
-   automation, cross-device steering, durable memory.
+   conflict detection, integration verification, agent swimlanes.
+4. Support long-running work: cloud/remote environments, automation,
+   cross-device steering, durable memory.
 5. Improve from outcomes: failure-pattern extraction, skills, repository
    instructions, policy refinement, and agent evaluation.
+6. Real-time workflow lifecycle: canonical projection, incremental push
+   protocol, hybrid stage derivation, TUI rail (shipped, ADR-122); premium
+   Workspace diagram + temporal replay remain.
 
 ## Strategic objective
 

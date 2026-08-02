@@ -11,7 +11,7 @@ deciders: ["@chief-architect", "@ai-engineer"]
 consulted: ["@security-engineer"]
 informed: ["@team"]
 tags: ["capabilities", "agents", "permissions", "security", "reconciliation"]
-depends_on: ["adr-025", "adr-033", "adr-034", "adr-111"]
+depends_on: ["adr-103", "adr-104", "adr-111", "adr-117"]
 referenced_by:
   - type: "runtime"
     target: "vestara-ai-core/packages/workspace/src/agent-capability-manager.ts"
@@ -68,4 +68,4 @@ Agent → requests capability → AgentCapabilityManager → runtime adapter →
 ---
 
 - Supersedes: the read-only `AgentFileSystem` interface on `AgentRuntime`
-- Dependencies: ADR-025, ADR-033, ADR-034, ADR-111, ADR-117
+- Dependencies: ADR-103, ADR-104, ADR-111, ADR-117

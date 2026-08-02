@@ -11,7 +11,7 @@ deciders: ["@chief-architect", "@engineering-manager", "@product-manager"]
 consulted: ["@ai-engineer", "@backend-engineer"]
 informed: ["@team"]
 tags: ["workflow", "orchestration", "agents", "events", "state-machine", "reconciliation"]
-depends_on: ["adr-024", "adr-026", "adr-027", "adr-111", "adr-116", "adr-117"]
+depends_on: ["adr-103", "adr-104", "adr-111", "adr-116", "adr-117"]
 referenced_by:
   - type: "blueprint"
     target: "05-ai-core/agent-runtime.md"
@@ -77,4 +77,4 @@ records the decision and rationale.
 ---
 
 - Supersedes: the `AgentWorkflowService` single-workflow prototype
-- Dependencies: ADR-024, ADR-026, ADR-027, ADR-111, ADR-116, ADR-117
+- Dependencies: ADR-103, ADR-104, ADR-111, ADR-116, ADR-117

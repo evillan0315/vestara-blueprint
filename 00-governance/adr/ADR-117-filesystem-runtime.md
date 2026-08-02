@@ -11,7 +11,7 @@ deciders: ["@chief-architect", "@backend-engineer", "@security-engineer"]
 consulted: ["@security-engineer"]
 informed: ["@team"]
 tags: ["filesystem", "security", "sandbox", "approvals", "reconciliation"]
-depends_on: ["adr-111", "adr-116"]
+depends_on: ["adr-103", "adr-111"]
 referenced_by:
   - type: "runtime"
     target: "vestara-ai-core/packages/filesystem-runtime/src/index.ts"
