@@ -39,8 +39,13 @@ implemented runtime and the identified architecture gaps.
   filesystem/diff projection derived from actual filesystem + Git state
   (ADR-121).
 - Real-time workflow lifecycle — canonical eight-stage projection, incremental
-  push protocol with monotonic sequences, hybrid stage derivation, and a live
-  TUI workflow view (ADR-122).
+  push protocol with monotonic sequences, hybrid stage derivation, a live TUI
+  workflow view, and eight-stage owning-agent attribution with human names
+  (ADR-122, ADR-123).
+- Workspace UI surfaces the lifecycle from the one canonical projection:
+  Dashboard "Live Engineering Workflow", Sessions harness ExecutionSessions,
+  Agent Control workflow rails, Artifacts "Live Change Projection",
+  Documentation "System Milestones".
 - Telemetry
 - Engineering Graph + Temporal Event Store (session-only)
 - Verification pipeline + evidence
@@ -95,9 +100,10 @@ execution path (ADR-120).
 ### Phase 6 — Real-Time Workflow Lifecycle (in progress)
 
 Canonical workflow projection, incremental push protocol, hybrid stage
-derivation, and the TUI lifecycle rail are shipped (ADR-122). Remaining:
-agent swimlanes, the premium Workspace diagram consuming the canonical
-projection, and temporal replay controls.
+derivation, eight-stage owning-agent attribution, and the TUI lifecycle rail
+are shipped (ADR-122, ADR-123). Remaining: agent swimlanes (ADR-118), the
+premium Workspace diagram consuming the canonical projection, and temporal
+replay controls.
 
 ## Related
 

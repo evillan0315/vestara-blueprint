@@ -63,8 +63,17 @@ capabilities delivered:
   changed files, failed attempts, verification, and approvals.
 - `harness.*` engineering-event bridge and `change.*` filesystem/diff
   projection (ADR-121) and the real-time workflow lifecycle (ADR-122).
+- Eight-stage workflow agent attribution (ADR-123): each stage names its
+  owning agent (actual `payload.agentId` or a per-stage role default), with
+  human names resolved from the agent registry.
 - The legacy capability orchestrator loop is removed — there is no duplicate
   model→tool loop.
+
+The Workspace UI renders the lifecycle everywhere from the one canonical
+projection: the Dashboard "Live Engineering Workflow" section, harness
+ExecutionSessions (Sessions), per-agent workflow rails (Agent Control),
+"Live Change Projection" (Artifacts), and a "System Milestones" strip
+(Documentation). The TUI shows the same state via `/workflow`.
 
 Authoritative history remains `@vestara/thread-runtime`; the engineering event
 store and graph are projections. Environment provisioning, worktree leases,
