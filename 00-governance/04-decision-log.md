@@ -2304,6 +2304,51 @@ Architecture has become infrastructure for learning rather than the destination 
 
 ---
 
+### ADR-119: Agent Type Selection — Workspace vs Registry Agents
+
+**Date**: 2026-08-02
+**Status**: Accepted
+**Category**: Implementation
+**Deciders**: @chief-architect, @ai-engineer
+**Consulted**: @security-engineer
+
+**Context**:
+The Agent Control Center allows users to create and manage agents, but all agents
+are treated identically regardless of their origin. Some agents are created locally
+within the workspace (workspace agents), while others are installed from the
+marketplace registry (registry agents). This distinction affects:
+
+1. **Configuration**: Registry agents source their provider/model from the
+   marketplace package, while workspace agents use locally configured providers.
+2. **Lifecycle**: Registry agents can be updated/uninstalled via the marketplace,
+   while workspace agents are managed entirely within the workspace.
+3. **Discovery**: Users need to distinguish between agents they created and agents
+   installed from the registry.
+
+Without an explicit agent type, the system cannot properly route configuration,
+lifecycle management, or display appropriate UI controls.
+
+**Decision**:
+Introduce an `agentType` field on `AgentDefinition` with two values:
+- `'workspace'` — Local agents created in the workspace
+- `'registry'` — Agents installed from the marketplace registry
+
+**Implementation**:
+- Added `agentType: AgentType` to `AgentDefinition` interface
+- Added `agent_type TEXT DEFAULT 'workspace'` column to agents table
+- Updated `saveAgent()` and `rowToAgent()` to persist/read the field
+- Added radio button selector in Agent Registry Modal
+- When "Registry Agent" selected, provider/model replaced with registry source/version
+- POST/PUT API handlers read `body.agentType` with workspace default
+
+**Consequences**:
+- Agent CRUD operations now include `agentType` in request/response payloads
+- Agent list UI can filter/display by type (future enhancement)
+- Marketplace integration can auto-set `agentType: 'registry'` on install
+- All built-in agents default to workspace type
+
+---
+
 **END OF DECISION LOG**
 
 *This log is append-only. Decisions are never deleted — only superseded with new ADR.*

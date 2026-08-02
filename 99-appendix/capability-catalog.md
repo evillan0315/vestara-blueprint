@@ -425,3 +425,66 @@ history:
     date: 2026-08-02
     change: "Relationships, versioning, architecture validation engine"
 ```
+
+### Agent Type Selection — full relationship map
+
+```yaml
+id: capability.agent.type-selection
+version: 1.0.0
+owner: "@ai-engineer"
+status: implemented
+
+introduced:
+  adr: "ADR-119"
+  commit: "pending"
+  date: "2026-08-02"
+
+depends_on:
+  - capability.runtime.agent
+  - capability.system.permission-gate
+
+required_by: []
+
+owns:
+  types:
+    - AgentType
+    - AgentDefinition.agentType
+  packages:
+    - packages/workspace/src/types.ts
+    - packages/workspace/src/agent-storage.ts
+  ui:
+    - apps/workspace/src/pages/Agents/AgentRegistryModal.tsx
+  api:
+    - apps/api/src/routes/agents.ts
+
+implemented_by:
+  packages:
+    - packages/workspace/src/types.ts
+    - packages/workspace/src/agent-storage.ts
+  ui:
+    - apps/workspace/src/pages/Agents/AgentRegistryModal.tsx
+  api:
+    - apps/api/src/routes/agents.ts
+
+produces:
+  - AgentType
+  - AgentDefinition
+
+consumes:
+  - AgentDefinition
+  - MarketplaceAsset
+
+emits: []
+
+reads:
+  - agent-definitions
+  - marketplace-registry
+
+writes:
+  - agent-definitions
+
+history:
+  - commit: "pending"
+    date: 2026-08-02
+    change: "Workspace vs Registry agent type selection"
+```

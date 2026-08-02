@@ -1,0 +1,345 @@
+commit acf5dcbcf310606a290506a73912a5fb7583188c
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-02T20:17:14+08:00
+
+    docs: tighten authority hierarchy, remove stale assumptions, add canonical metadata
+    
+    - README: fix volume numbering (23-conversation, not 14), replace 'frozen' with change-controlled per ADR-109
+    - Constitution: separate product identity from implementation state, remove obsolete OpenCode default, reference engineering standards for implementation rules
+    - Decision log: add canonical metadata, update version and review dates
+    - Architecture docs: add canonical/supersession frontmatter to engineering-operating-system, maturity matrix, implementation-alignment
+    - Provider references: replace 'OpenCode default' with provider-agnostic local inference across 7 files
+    - Evidence: pin implementation-ref to commit SHA, add addressability note to maturity matrix
+    - Agent instructions: update .windsurfrules, copilot-instructions, AGENTS.md, AI_INSTRUCTION.md
+
+ .github/copilot-instructions.md             |  4 +-
+ .windsurfrules                              |  4 +-
+ 00-governance/01-ai-constitution.md         | 63 ++++++++++++++++-------------
+ 00-governance/04-decision-log.md            |  8 ++--
+ 00-governance/05-compatibility.md           |  2 +-
+ 01-company/01-mission-vision-values.md      |  2 +-
+ 03-product/01-product-strategy.md           |  2 +-
+ 04-platform/engineering-operating-system.md |  5 +++
+ 05-ai-core/README.md                        |  2 +-
+ 99-appendix/capability-maturity-matrix.md   |  8 +++-
+ 99-appendix/implementation-alignment.md     |  4 +-
+ AGENTS.md                                   |  2 +-
+ AI_INSTRUCTION.md                           |  2 +-
+ README.md                                   |  8 ++--
+ 14 files changed, 70 insertions(+), 46 deletions(-)
+
+commit a142450bcc2846db6daf8604aa3db8ff78e7799f
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-02T20:03:20+08:00
+
+    feat: add ADR-116-118 (capability system, filesystem runtime, multi-agent workflow) and roadmap rows
+
+ 00-governance/04-decision-log.md                   | 12 ++++
+ 00-governance/adr/ADR-116-capability-system.md     | 71 +++++++++++++++++++
+ 00-governance/adr/ADR-117-filesystem-runtime.md    | 73 ++++++++++++++++++++
+ .../ADR-118-multi-agent-workflow-orchestration.md  | 80 ++++++++++++++++++++++
+ 20-roadmaps/V1.0-ROADMAP.md                        |  2 +
+ 5 files changed, 238 insertions(+)
+
+commit e66f1c2664b3f7dc0450dfc4360b7d999d923855
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-02T17:39:48+08:00
+
+    docs: update VDS design tokens and cross-surface provider UX
+
+ 13-design-system/14-design-tokens.md             | 25 ++++++++++++++++
+ 13-design-system/18-cross-surface-provider-ux.md | 36 ++++++++++++++++++++++++
+ 13-design-system/README.md                       | 14 ++++++++-
+ 3 files changed, 74 insertions(+), 1 deletion(-)
+
+commit e595a586b37e12cf82e23a04d5bd02cd97a2a5f7
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-02T17:39:25+08:00
+
+    docs: reconcile marketplace foundation and workspace experience
+
+ 00-governance/04-decision-log.md                   |   6 ++
+ ...ketplace-foundation-and-workspace-experience.md | 103 +++++++++++++++++++++
+ 04-platform/engineering-operating-system.md        |   9 +-
+ 10-developer-platform/extension-platform.md        |  55 ++++++++---
+ 20-roadmaps/engineering-os-roadmap.md              |   3 +-
+ 20-roadmaps/extension-platform-roadmap.md          |  38 ++++++--
+ 99-appendix/capability-maturity-matrix.md          |  13 ++-
+ 99-appendix/implementation-alignment.md            |  10 +-
+ AGENTS.md                                          |  33 ++++---
+ 9 files changed, 222 insertions(+), 48 deletions(-)
+
+commit 3e4178b1e897efe14e1aa9c8b6991a7e598c4ee5
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-01T17:00:45+08:00
+
+    docs: define and reconcile OS-0 host integration
+
+ 00-governance/04-decision-log.md                   |   5 +
+ ...-agent-harness-centered-runtime-architecture.md |  13 ++
+ ...extension-platform-and-local-package-manager.md |   2 +
+ .../ADR-114-linux-host-integration-foundation.md   |  82 +++++++++++++
+ 00-governance/adr/README.md                        |   7 ++
+ 04-platform/agent-harness-architecture.md          |  21 +++-
+ 04-platform/engineering-operating-system.md        |  14 ++-
+ 07-operating-system/README.md                      |  23 +++-
+ 07-operating-system/os-0-host-integration.md       | 135 +++++++++++++++++++++
+ 10-developer-platform/extension-platform.md        |   2 +-
+ 11-security/README.md                              |  19 ++-
+ 13-design-system/17-terminal-console.md            |  12 +-
+ 15-devops/README.md                                |  14 ++-
+ 20-roadmaps/V1.0-ROADMAP.md                        |   6 +-
+ 20-roadmaps/extension-platform-roadmap.md          |   6 +-
+ 99-appendix/capability-maturity-matrix.md          |  19 ++-
+ 99-appendix/implementation-alignment.md            |  17 ++-
+ 17 files changed, 362 insertions(+), 35 deletions(-)
+
+commit 41396d7bc038df9632e2e20670d30b0b11679979
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-01T16:27:46+08:00
+
+    docs: establish native TUI architecture
+
+ ...ative-tui-as-canonical-interactive-interface.md | 59 ++++++++++++++++++++++
+ 00-governance/adr/README.md                        |  6 +++
+ 04-platform/engineering-operating-system.md        |  5 +-
+ 13-design-system/17-terminal-console.md            | 41 +++++++++++----
+ 4 files changed, 98 insertions(+), 13 deletions(-)
+
+commit 9febfe09039c7fbc0edd8789eb558789c3edaa47
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-01T16:10:25+08:00
+
+    docs: define extension platform foundation
+
+ ...extension-platform-and-local-package-manager.md | 82 ++++++++++++++++++++++
+ 00-governance/adr/README.md                        |  7 ++
+ 10-developer-platform/extension-platform.md        | 31 +++++---
+ 20-roadmaps/extension-platform-roadmap.md          | 27 ++++---
+ 99-appendix/capability-maturity-matrix.md          |  5 +-
+ 5 files changed, 130 insertions(+), 22 deletions(-)
+
+commit 86d7ae351cc9b287309e3951eb1130459210cc2e
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-01T15:28:39+08:00
+
+    docs: center runtime architecture on agent harness
+
+ 00-governance/04-decision-log.md                   |  13 +-
+ ...-agent-harness-centered-runtime-architecture.md | 140 ++++++++++++
+ 00-governance/adr/README.md                        |   7 +
+ 04-platform/README.md                              |   1 +
+ 04-platform/agent-harness-architecture.md          | 250 +++++++++++++++++++++
+ 04-platform/engineering-operating-system.md        |  33 ++-
+ 05-ai-core/engineering-orchestration.md            |  11 +-
+ 20-roadmaps/engineering-os-roadmap.md              |  49 +++-
+ 99-appendix/capability-maturity-matrix.md          |  14 +-
+ 99-appendix/implementation-alignment.md            |   6 +
+ 10 files changed, 508 insertions(+), 16 deletions(-)
+
+commit 3e3aaffa1a98768090cbb6638872b8831cdd0c73
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-01T15:16:13+08:00
+
+    docs: specify VDS routing console experience
+
+ ...rovider-neutral-engineering-provider-runtime.md | 13 +++-
+ 04-platform/engineering-operating-system.md        | 21 ++++--
+ 05-ai-core/engineering-orchestration.md            | 12 ++-
+ 05-ai-core/provider-architecture.md                | 45 +++++++----
+ 06-workspace/settings-architecture.md              | 10 ++-
+ 13-design-system/01-design-philosophy.md           | 13 +++-
+ 13-design-system/02-brand-identity.md              | 13 +++-
+ 13-design-system/03-color-system.md                | 14 +++-
+ 13-design-system/04-typography.md                  | 13 +++-
+ 13-design-system/05-grid-layout.md                 | 14 +++-
+ 13-design-system/06-spacing.md                     | 11 ++-
+ 13-design-system/07-icons.md                       | 11 ++-
+ 13-design-system/08-motion.md                      | 11 ++-
+ 13-design-system/09-components.md                  | 22 +++++-
+ 13-design-system/10-design-patterns.md             | 23 +++++-
+ 13-design-system/11-agent-identity.md              | 21 +++++-
+ 13-design-system/12-conversation-ui.md             | 18 ++++-
+ 13-design-system/13-dashboard-design.md            | 11 ++-
+ 13-design-system/14-design-tokens.md               | 14 +++-
+ 13-design-system/15-accessibility.md               | 20 ++++-
+ 13-design-system/16-theme-engine.md                | 12 ++-
+ 13-design-system/17-terminal-console.md            | 86 ++++++++++++++++++++++
+ 13-design-system/README.md                         | 25 +++++--
+ 14-engineering/evidence-based-verification.md      |  9 ++-
+ 20-roadmaps/engineering-os-roadmap.md              | 16 ++--
+ 20-roadmaps/provider-platform-roadmap.md           | 22 ++++--
+ 99-appendix/capability-maturity-matrix.md          |  8 +-
+ 99-appendix/implementation-alignment.md            | 15 ++--
+ 28 files changed, 411 insertions(+), 112 deletions(-)
+
+commit 9f3fd7fd3bda855bf5b84c42d058e0af639f9ff0
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-01T04:37:09+08:00
+
+    docs: add approved owner registry
+
+ docs/documentation-owners.json | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+commit 2006449864dcf274fb13e1ada85b7208eac83c9e
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-01T00:27:56+08:00
+
+    docs(blueprint): reconcile architecture with engineering runtime
+
+ 00-governance/04-decision-log.md                   |  35 ++--
+ 00-governance/11-language.md                       |   2 +-
+ 00-governance/adr/ADR-100-ai-organization.md       |   6 +-
+ .../adr/ADR-101-conversation-architecture.md       |  12 +-
+ .../adr/ADR-103-workspace-native-context.md        |   2 +-
+ .../adr/ADR-105-event-sourced-engineering-graph.md |  65 +++++++
+ ...rovider-neutral-engineering-provider-runtime.md |  59 +++++++
+ ...rkspace-ui-and-cli-as-shared-runtime-clients.md |  57 ++++++
+ ...-visual-evidence-and-screenshot-verification.md |  56 ++++++
+ ...-blueprint-implementation-alignment-metadata.md |  66 +++++++
+ .../adr/ADR-110-blueprint-volume-renumbering.md    |  58 ++++++
+ 00-governance/adr/README.md                        |   8 +-
+ 04-platform/01-platform-overview.md                |  19 +-
+ 04-platform/README.md                              |   6 +
+ 04-platform/engineering-event-architecture.md      | 156 +++++++++++++++++
+ 04-platform/engineering-operating-system.md        | 191 ++++++++++++++++++++
+ 05-ai-core/README.md                               |   6 +
+ 05-ai-core/engineering-orchestration.md            | 126 +++++++++++++
+ 05-ai-core/provider-architecture.md                | 145 +++++++++++++++
+ 05-ai-core/trust-and-confidence.md                 | 100 +++++++++++
+ 06-workspace/README.md                             |   9 +-
+ 06-workspace/cli-workspace-integration.md          | 106 +++++++++++
+ 06-workspace/engineering-session.md                | 112 ++++++++++++
+ 06-workspace/inspector.md                          |  91 ++++++++++
+ 06-workspace/settings-architecture.md              | 103 +++++++++++
+ 07-operating-system/provider-installation.md       |  71 ++++++++
+ 10-developer-platform/extension-platform.md        | 106 +++++++++++
+ 12-data/engineering-event-store.md                 |  67 +++++++
+ 13-design-system/README.md                         |   2 +-
+ 14-engineering/README.md                           |  15 +-
+ 14-engineering/evidence-based-verification.md      | 105 +++++++++++
+ 14-engineering/visual-verification.md              | 158 +++++++++++++++++
+ 20-roadmaps/README.md                              |   7 +
+ 20-roadmaps/engineering-os-roadmap.md              |  54 ++++++
+ 20-roadmaps/extension-platform-roadmap.md          |  51 ++++++
+ 20-roadmaps/provider-platform-roadmap.md           |  54 ++++++
+ .../README.md                                      |   4 +-
+ .../01-conversation-runtime.md                     |   2 +-
+ .../02-message-bus.md                              |   2 +-
+ .../03-agent-collaboration.md                      |   2 +-
+ .../04-group-chat.md                               |   2 +-
+ .../05-voice-conversations.md                      |   2 +-
+ .../06-presence.md                                 |   2 +-
+ .../07-mentions.md                                 |   2 +-
+ {14-conversation => 23-conversation}/08-threads.md |   2 +-
+ .../09-conversation-memory.md                      |   2 +-
+ .../10-conversation-artifacts.md                   |   2 +-
+ .../11-multi-agent-delegation.md                   |   2 +-
+ {14-conversation => 23-conversation}/README.md     |   4 +-
+ 99-appendix/README.md                              |   5 +
+ 99-appendix/capability-maturity-matrix.md          |  83 +++++++++
+ 99-appendix/implementation-alignment.md            | 104 +++++++++++
+ README.md                                          |  38 ++--
+ scripts/validate-blueprint.mjs                     | 194 +++++++++++++++++++++
+ 54 files changed, 2675 insertions(+), 65 deletions(-)
+
+commit 7c077af910a9cf5af0dfc8ddc43b7ae362ba4628
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-07-31T18:26:23+08:00
+
+    feat: Vestara Blueprint — governance, architecture, specifications, roadmaps
+
+ .github/copilot-instructions.md                    |   45 +
+ .github/workflows/blueprint-ci.yml                 |   96 +
+ .windsurfrules                                     |   39 +
+ 00-governance/01-ai-constitution.md                |  415 ++++
+ 00-governance/02-engineering-rules.md              |  514 +++++
+ 00-governance/03-ai-development-lifecycle.md       |  848 ++++++++
+ 00-governance/04-decision-log.md                   | 2262 ++++++++++++++++++++
+ 00-governance/05-compatibility.md                  |  324 +++
+ 00-governance/06-ai-development-framework.md       |  400 ++++
+ .../07-ai-operating-system-architecture.md         |  584 +++++
+ 00-governance/08-product-constitution.md           |  108 +
+ 00-governance/09-capability-catalog.md             |  191 ++
+ .../10-capability-validation-framework.md          |  355 +++
+ 00-governance/11-language.md                       |   82 +
+ 00-governance/README.md                            |   98 +
+ 00-governance/adr/ADR-100-ai-organization.md       |   93 +
+ .../adr/ADR-101-conversation-architecture.md       |   92 +
+ .../adr/ADR-102-vds-framework-agnostic.md          |   83 +
+ .../adr/ADR-103-workspace-native-context.md        |   89 +
+ .../adr/ADR-104-evidence-based-verification.md     |   92 +
+ 00-governance/adr/README.md                        |  127 ++
+ 01-company/01-mission-vision-values.md             |  212 ++
+ 01-company/README.md                               |   47 +
+ 02-business/01-business-model.md                   |  254 +++
+ 02-business/README.md                              |   46 +
+ 03-product/01-product-strategy.md                  |  220 ++
+ 03-product/README.md                               |   31 +
+ 04-platform/01-platform-overview.md                |  333 +++
+ 04-platform/PLATFORM_OVERVIEW.md                   |  223 ++
+ 04-platform/README.md                              |   77 +
+ 05-ai-core/AI_CONSTITUTION.md                      |  136 ++
+ 05-ai-core/AI_OVERVIEW.md                          |  300 +++
+ 05-ai-core/BRAIN-ARCHITECTURE.md                   |  221 ++
+ 05-ai-core/COGNITIVE-ARCHITECTURE.md               |  207 ++
+ 05-ai-core/README.md                               |   98 +
+ 05-ai-core/memory/01-memory-architecture.md        |  111 +
+ 05-ai-core/providers/01-provider-manager.md        |  130 ++
+ 06-workspace/README.md                             |   76 +
+ 07-operating-system/README.md                      |   73 +
+ 08-cloud/README.md                                 |   69 +
+ 09-mobile/README.md                                |   31 +
+ 10-developer-platform/README.md                    |   71 +
+ 11-security/README.md                              |   70 +
+ 12-data/README.md                                  |   67 +
+ 13-design-system/01-design-philosophy.md           |   25 +
+ 13-design-system/02-brand-identity.md              |   15 +
+ 13-design-system/03-color-system.md                |   15 +
+ 13-design-system/04-typography.md                  |   15 +
+ 13-design-system/05-grid-layout.md                 |   15 +
+ 13-design-system/06-spacing.md                     |   15 +
+ 13-design-system/07-icons.md                       |   15 +
+ 13-design-system/08-motion.md                      |   15 +
+ 13-design-system/09-components.md                  |   15 +
+ 13-design-system/10-design-patterns.md             |   15 +
+ 13-design-system/11-agent-identity.md              |   15 +
+ 13-design-system/12-conversation-ui.md             |   15 +
+ 13-design-system/13-dashboard-design.md            |   15 +
+ 13-design-system/14-design-tokens.md               |   47 +
+ 13-design-system/15-accessibility.md               |   15 +
+ 13-design-system/16-theme-engine.md                |   15 +
+ 13-design-system/README.md                         |   85 +
+ 13-user-experience/README.md                       |   66 +
+ 14-conversation/01-conversation-runtime.md         |   45 +
+ 14-conversation/02-message-bus.md                  |   15 +
+ 14-conversation/03-agent-collaboration.md          |   15 +
+ 14-conversation/04-group-chat.md                   |  175 ++
+ 14-conversation/05-voice-conversations.md          |   15 +
+ 14-conversation/06-presence.md                     |   15 +
+ 14-conversation/07-mentions.md                     |   15 +
+ 14-conversation/08-threads.md                      |   15 +
+ 14-conversation/09-conversation-memory.md          |   15 +
+ 14-conversation/10-conversation-artifacts.md       |   15 +
+ 14-conversation/11-multi-agent-delegation.md       |   15 +
+ 14-conversation/README.md                          |   79 +
+ 14-engineering/README.md                           |   66 +
+ 15-devops/README.md                                |   66 +
+ 16-operations/README.md                            |   65 +
+ 17-marketing/README.md                             |   40 +
+ 18-sales/README.md                                 |   40 +
+ 19-investor/README.md                              |   40 +
+ 20-roadmaps/README.md                              |   53 +
+ 20-roadmaps/V1.0-ROADMAP.md                        |  145 ++
+ 21-research/README.md                              |   52 +
+ 99-appendix/README.md                              |   44 +
+ AGENTS.md                                          |  260 +++
+ AI_AGENTS.md                                       |  142 ++
+ AI_CONTEXT.md                                      |  161 ++
+ AI_INSTRUCTION.md                                  |  489 +++++
+ AI_RULES.md                                        |   91 +
+ CLAUDE.md                                          |   46 +
+ README.md                                          |  255 +++
+ VESTARA_CONSTITUTION.md                            |  457 ++++
+ 92 files changed, 13419 insertions(+)

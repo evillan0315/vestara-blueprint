@@ -448,3 +448,84 @@ future-adrs:
   - "ADR for installable provider packages"
   - "ADR for cross-provider verification"
 ```
+
+### 7. Agent Type Selection
+
+```yaml
+domain: agent-type-selection
+title: Agent Type Selection — Workspace vs Registry
+owner: "@ai-engineer"
+
+purpose:
+  statement: "Distinguish between workspace-created agents and marketplace-installed agents with type-specific configuration and lifecycle management."
+  canonical-document: "00-governance/adr/ADR-119-agent-type-selection.md"
+  core-document: "00-governance/adr/ADR-119-agent-type-selection.md"
+
+architecture:
+  current: >
+    AgentDefinition includes an agentType field ('workspace' | 'registry') that
+    distinguishes local agents from marketplace-installed agents. The Agent
+    Registry Modal provides a radio selector for type, with conditional fields
+    for registry agents (source, version). All built-in agents default to workspace type.
+  target: >
+    Registry agents will have version tracking, update notifications, and
+    automatic lifecycle management via marketplace integration. Workspace agents
+    remain fully local.
+  constraints:
+    - agentType field is required on AgentDefinition
+    - Default value is 'workspace' for backward compatibility
+    - Registry agents require source and version fields
+    - Workspace agents use provider/model from local configuration
+  adr:
+    accepted:
+      - "ADR-119"
+      - "ADR-116"
+    proposed: []
+
+implementation:
+  repository: evillan0315/vestara-ai-core
+  packages:
+    - name: workspace (types)
+      path: packages/workspace/src/types.ts
+      status: implemented
+    - name: workspace (agent-storage)
+      path: packages/workspace/src/agent-storage.ts
+      status: implemented
+  ui:
+    - name: AgentRegistryModal
+      path: apps/workspace/src/pages/Agents/AgentRegistryModal.tsx
+      status: implemented
+  routes:
+    - POST /api/agents
+    - PUT /api/agents/:id
+  commands: []
+  surfaces:
+    - Agent type selector in Agent Registry Modal
+    - Agent type displayed in agent list (future)
+
+evidence:
+  verification:
+    run-id: "verification-pending"
+    date: "2026-08-02"
+    status: pending
+    commands:
+      - pnpm test -- packages/workspace
+  tests: []
+  screenshots: []
+  walkthroughs: []
+
+maturity:
+  architecture: accepted
+  implementation: implemented
+  verification: pending
+
+known-gaps:
+  - No agent type filter in agent list UI
+  - No marketplace integration for auto-setting registry type
+  - No version tracking for registry agents
+  - No update notifications for registry agents
+
+future-adrs:
+  - "ADR for registry agent version tracking"
+  - "ADR for marketplace auto-install integration"
+```

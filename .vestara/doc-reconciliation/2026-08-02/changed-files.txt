@@ -1,0 +1,333 @@
+commit acf5dcbcf310606a290506a73912a5fb7583188c
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-02T20:17:14+08:00
+
+    docs: tighten authority hierarchy, remove stale assumptions, add canonical metadata
+    
+    - README: fix volume numbering (23-conversation, not 14), replace 'frozen' with change-controlled per ADR-109
+    - Constitution: separate product identity from implementation state, remove obsolete OpenCode default, reference engineering standards for implementation rules
+    - Decision log: add canonical metadata, update version and review dates
+    - Architecture docs: add canonical/supersession frontmatter to engineering-operating-system, maturity matrix, implementation-alignment
+    - Provider references: replace 'OpenCode default' with provider-agnostic local inference across 7 files
+    - Evidence: pin implementation-ref to commit SHA, add addressability note to maturity matrix
+    - Agent instructions: update .windsurfrules, copilot-instructions, AGENTS.md, AI_INSTRUCTION.md
+
+M	.github/copilot-instructions.md
+M	.windsurfrules
+M	00-governance/01-ai-constitution.md
+M	00-governance/04-decision-log.md
+M	00-governance/05-compatibility.md
+M	01-company/01-mission-vision-values.md
+M	03-product/01-product-strategy.md
+M	04-platform/engineering-operating-system.md
+M	05-ai-core/README.md
+M	99-appendix/capability-maturity-matrix.md
+M	99-appendix/implementation-alignment.md
+M	AGENTS.md
+M	AI_INSTRUCTION.md
+M	README.md
+
+commit a142450bcc2846db6daf8604aa3db8ff78e7799f
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-02T20:03:20+08:00
+
+    feat: add ADR-116-118 (capability system, filesystem runtime, multi-agent workflow) and roadmap rows
+
+M	00-governance/04-decision-log.md
+A	00-governance/adr/ADR-116-capability-system.md
+A	00-governance/adr/ADR-117-filesystem-runtime.md
+A	00-governance/adr/ADR-118-multi-agent-workflow-orchestration.md
+M	20-roadmaps/V1.0-ROADMAP.md
+
+commit e66f1c2664b3f7dc0450dfc4360b7d999d923855
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-02T17:39:48+08:00
+
+    docs: update VDS design tokens and cross-surface provider UX
+
+M	13-design-system/14-design-tokens.md
+A	13-design-system/18-cross-surface-provider-ux.md
+M	13-design-system/README.md
+
+commit e595a586b37e12cf82e23a04d5bd02cd97a2a5f7
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-02T17:39:25+08:00
+
+    docs: reconcile marketplace foundation and workspace experience
+
+M	00-governance/04-decision-log.md
+A	00-governance/adr/ADR-115-marketplace-foundation-and-workspace-experience.md
+M	04-platform/engineering-operating-system.md
+M	10-developer-platform/extension-platform.md
+M	20-roadmaps/engineering-os-roadmap.md
+M	20-roadmaps/extension-platform-roadmap.md
+M	99-appendix/capability-maturity-matrix.md
+M	99-appendix/implementation-alignment.md
+M	AGENTS.md
+
+commit 3e4178b1e897efe14e1aa9c8b6991a7e598c4ee5
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-01T17:00:45+08:00
+
+    docs: define and reconcile OS-0 host integration
+
+M	00-governance/04-decision-log.md
+M	00-governance/adr/ADR-111-agent-harness-centered-runtime-architecture.md
+M	00-governance/adr/ADR-112-extension-platform-and-local-package-manager.md
+A	00-governance/adr/ADR-114-linux-host-integration-foundation.md
+M	00-governance/adr/README.md
+M	04-platform/agent-harness-architecture.md
+M	04-platform/engineering-operating-system.md
+M	07-operating-system/README.md
+A	07-operating-system/os-0-host-integration.md
+M	10-developer-platform/extension-platform.md
+M	11-security/README.md
+M	13-design-system/17-terminal-console.md
+M	15-devops/README.md
+M	20-roadmaps/V1.0-ROADMAP.md
+M	20-roadmaps/extension-platform-roadmap.md
+M	99-appendix/capability-maturity-matrix.md
+M	99-appendix/implementation-alignment.md
+
+commit 41396d7bc038df9632e2e20670d30b0b11679979
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-01T16:27:46+08:00
+
+    docs: establish native TUI architecture
+
+A	00-governance/adr/ADR-113-native-tui-as-canonical-interactive-interface.md
+M	00-governance/adr/README.md
+M	04-platform/engineering-operating-system.md
+M	13-design-system/17-terminal-console.md
+
+commit 9febfe09039c7fbc0edd8789eb558789c3edaa47
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-01T16:10:25+08:00
+
+    docs: define extension platform foundation
+
+A	00-governance/adr/ADR-112-extension-platform-and-local-package-manager.md
+M	00-governance/adr/README.md
+M	10-developer-platform/extension-platform.md
+M	20-roadmaps/extension-platform-roadmap.md
+M	99-appendix/capability-maturity-matrix.md
+
+commit 86d7ae351cc9b287309e3951eb1130459210cc2e
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-01T15:28:39+08:00
+
+    docs: center runtime architecture on agent harness
+
+M	00-governance/04-decision-log.md
+A	00-governance/adr/ADR-111-agent-harness-centered-runtime-architecture.md
+M	00-governance/adr/README.md
+M	04-platform/README.md
+A	04-platform/agent-harness-architecture.md
+M	04-platform/engineering-operating-system.md
+M	05-ai-core/engineering-orchestration.md
+M	20-roadmaps/engineering-os-roadmap.md
+M	99-appendix/capability-maturity-matrix.md
+M	99-appendix/implementation-alignment.md
+
+commit 3e3aaffa1a98768090cbb6638872b8831cdd0c73
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-01T15:16:13+08:00
+
+    docs: specify VDS routing console experience
+
+M	00-governance/adr/ADR-106-provider-neutral-engineering-provider-runtime.md
+M	04-platform/engineering-operating-system.md
+M	05-ai-core/engineering-orchestration.md
+M	05-ai-core/provider-architecture.md
+M	06-workspace/settings-architecture.md
+M	13-design-system/01-design-philosophy.md
+M	13-design-system/02-brand-identity.md
+M	13-design-system/03-color-system.md
+M	13-design-system/04-typography.md
+M	13-design-system/05-grid-layout.md
+M	13-design-system/06-spacing.md
+M	13-design-system/07-icons.md
+M	13-design-system/08-motion.md
+M	13-design-system/09-components.md
+M	13-design-system/10-design-patterns.md
+M	13-design-system/11-agent-identity.md
+M	13-design-system/12-conversation-ui.md
+M	13-design-system/13-dashboard-design.md
+M	13-design-system/14-design-tokens.md
+M	13-design-system/15-accessibility.md
+M	13-design-system/16-theme-engine.md
+A	13-design-system/17-terminal-console.md
+M	13-design-system/README.md
+M	14-engineering/evidence-based-verification.md
+M	20-roadmaps/engineering-os-roadmap.md
+M	20-roadmaps/provider-platform-roadmap.md
+M	99-appendix/capability-maturity-matrix.md
+M	99-appendix/implementation-alignment.md
+
+commit 9f3fd7fd3bda855bf5b84c42d058e0af639f9ff0
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-01T04:37:09+08:00
+
+    docs: add approved owner registry
+
+A	docs/documentation-owners.json
+
+commit 2006449864dcf274fb13e1ada85b7208eac83c9e
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-08-01T00:27:56+08:00
+
+    docs(blueprint): reconcile architecture with engineering runtime
+
+M	00-governance/04-decision-log.md
+M	00-governance/11-language.md
+M	00-governance/adr/ADR-100-ai-organization.md
+M	00-governance/adr/ADR-101-conversation-architecture.md
+M	00-governance/adr/ADR-103-workspace-native-context.md
+A	00-governance/adr/ADR-105-event-sourced-engineering-graph.md
+A	00-governance/adr/ADR-106-provider-neutral-engineering-provider-runtime.md
+A	00-governance/adr/ADR-107-workspace-ui-and-cli-as-shared-runtime-clients.md
+A	00-governance/adr/ADR-108-visual-evidence-and-screenshot-verification.md
+A	00-governance/adr/ADR-109-blueprint-implementation-alignment-metadata.md
+A	00-governance/adr/ADR-110-blueprint-volume-renumbering.md
+M	00-governance/adr/README.md
+M	04-platform/01-platform-overview.md
+M	04-platform/README.md
+A	04-platform/engineering-event-architecture.md
+A	04-platform/engineering-operating-system.md
+M	05-ai-core/README.md
+A	05-ai-core/engineering-orchestration.md
+A	05-ai-core/provider-architecture.md
+A	05-ai-core/trust-and-confidence.md
+M	06-workspace/README.md
+A	06-workspace/cli-workspace-integration.md
+A	06-workspace/engineering-session.md
+A	06-workspace/inspector.md
+A	06-workspace/settings-architecture.md
+A	07-operating-system/provider-installation.md
+A	10-developer-platform/extension-platform.md
+A	12-data/engineering-event-store.md
+M	13-design-system/README.md
+M	14-engineering/README.md
+A	14-engineering/evidence-based-verification.md
+A	14-engineering/visual-verification.md
+M	20-roadmaps/README.md
+A	20-roadmaps/engineering-os-roadmap.md
+A	20-roadmaps/extension-platform-roadmap.md
+A	20-roadmaps/provider-platform-roadmap.md
+R097	13-user-experience/README.md	22-user-experience/README.md
+R097	14-conversation/01-conversation-runtime.md	23-conversation/01-conversation-runtime.md
+R094	14-conversation/02-message-bus.md	23-conversation/02-message-bus.md
+R094	14-conversation/03-agent-collaboration.md	23-conversation/03-agent-collaboration.md
+R099	14-conversation/04-group-chat.md	23-conversation/04-group-chat.md
+R094	14-conversation/05-voice-conversations.md	23-conversation/05-voice-conversations.md
+R093	14-conversation/06-presence.md	23-conversation/06-presence.md
+R094	14-conversation/07-mentions.md	23-conversation/07-mentions.md
+R093	14-conversation/08-threads.md	23-conversation/08-threads.md
+R094	14-conversation/09-conversation-memory.md	23-conversation/09-conversation-memory.md
+R094	14-conversation/10-conversation-artifacts.md	23-conversation/10-conversation-artifacts.md
+R094	14-conversation/11-multi-agent-delegation.md	23-conversation/11-multi-agent-delegation.md
+R098	14-conversation/README.md	23-conversation/README.md
+M	99-appendix/README.md
+A	99-appendix/capability-maturity-matrix.md
+A	99-appendix/implementation-alignment.md
+M	README.md
+A	scripts/validate-blueprint.mjs
+
+commit 7c077af910a9cf5af0dfc8ddc43b7ae362ba4628
+Author: Eddie Villanueva <evillan0315@gmail.com>
+Date:   2026-07-31T18:26:23+08:00
+
+    feat: Vestara Blueprint — governance, architecture, specifications, roadmaps
+
+A	.github/copilot-instructions.md
+A	.github/workflows/blueprint-ci.yml
+A	.windsurfrules
+A	00-governance/01-ai-constitution.md
+A	00-governance/02-engineering-rules.md
+A	00-governance/03-ai-development-lifecycle.md
+A	00-governance/04-decision-log.md
+A	00-governance/05-compatibility.md
+A	00-governance/06-ai-development-framework.md
+A	00-governance/07-ai-operating-system-architecture.md
+A	00-governance/08-product-constitution.md
+A	00-governance/09-capability-catalog.md
+A	00-governance/10-capability-validation-framework.md
+A	00-governance/11-language.md
+A	00-governance/README.md
+A	00-governance/adr/ADR-100-ai-organization.md
+A	00-governance/adr/ADR-101-conversation-architecture.md
+A	00-governance/adr/ADR-102-vds-framework-agnostic.md
+A	00-governance/adr/ADR-103-workspace-native-context.md
+A	00-governance/adr/ADR-104-evidence-based-verification.md
+A	00-governance/adr/README.md
+A	01-company/01-mission-vision-values.md
+A	01-company/README.md
+A	02-business/01-business-model.md
+A	02-business/README.md
+A	03-product/01-product-strategy.md
+A	03-product/README.md
+A	04-platform/01-platform-overview.md
+A	04-platform/PLATFORM_OVERVIEW.md
+A	04-platform/README.md
+A	05-ai-core/AI_CONSTITUTION.md
+A	05-ai-core/AI_OVERVIEW.md
+A	05-ai-core/BRAIN-ARCHITECTURE.md
+A	05-ai-core/COGNITIVE-ARCHITECTURE.md
+A	05-ai-core/README.md
+A	05-ai-core/memory/01-memory-architecture.md
+A	05-ai-core/providers/01-provider-manager.md
+A	06-workspace/README.md
+A	07-operating-system/README.md
+A	08-cloud/README.md
+A	09-mobile/README.md
+A	10-developer-platform/README.md
+A	11-security/README.md
+A	12-data/README.md
+A	13-design-system/01-design-philosophy.md
+A	13-design-system/02-brand-identity.md
+A	13-design-system/03-color-system.md
+A	13-design-system/04-typography.md
+A	13-design-system/05-grid-layout.md
+A	13-design-system/06-spacing.md
+A	13-design-system/07-icons.md
+A	13-design-system/08-motion.md
+A	13-design-system/09-components.md
+A	13-design-system/10-design-patterns.md
+A	13-design-system/11-agent-identity.md
+A	13-design-system/12-conversation-ui.md
+A	13-design-system/13-dashboard-design.md
+A	13-design-system/14-design-tokens.md
+A	13-design-system/15-accessibility.md
+A	13-design-system/16-theme-engine.md
+A	13-design-system/README.md
+A	13-user-experience/README.md
+A	14-conversation/01-conversation-runtime.md
+A	14-conversation/02-message-bus.md
+A	14-conversation/03-agent-collaboration.md
+A	14-conversation/04-group-chat.md
+A	14-conversation/05-voice-conversations.md
+A	14-conversation/06-presence.md
+A	14-conversation/07-mentions.md
+A	14-conversation/08-threads.md
+A	14-conversation/09-conversation-memory.md
+A	14-conversation/10-conversation-artifacts.md
+A	14-conversation/11-multi-agent-delegation.md
+A	14-conversation/README.md
+A	14-engineering/README.md
+A	15-devops/README.md
+A	16-operations/README.md
+A	17-marketing/README.md
+A	18-sales/README.md
+A	19-investor/README.md
+A	20-roadmaps/README.md
+A	20-roadmaps/V1.0-ROADMAP.md
+A	21-research/README.md
+A	99-appendix/README.md
+A	AGENTS.md
+A	AI_AGENTS.md
+A	AI_CONTEXT.md
+A	AI_INSTRUCTION.md
+A	AI_RULES.md
+A	CLAUDE.md
+A	README.md
+A	VESTARA_CONSTITUTION.md

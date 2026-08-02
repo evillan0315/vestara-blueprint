@@ -1,0 +1,6 @@
+.vestara/doc-reconciliation/2026-08-02/staged-stat.txt
+.vestara/doc-reconciliation/2026-08-02/staged.patch
+.vestara/doc-reconciliation/2026-08-02/status.txt
+.vestara/doc-reconciliation/2026-08-02/unstaged-stat.txt
+.vestara/doc-reconciliation/2026-08-02/unstaged.patch
+.vestara/doc-reconciliation/2026-08-02/untracked.txt

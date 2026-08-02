@@ -1,0 +1,2 @@
+origin	https://github.com/evillan0315/vestara-blueprint.git (fetch)
+origin	https://github.com/evillan0315/vestara-blueprint.git (push)
