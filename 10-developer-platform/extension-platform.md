@@ -124,10 +124,26 @@ mediation remain proposed.
 
 See `20-roadmaps/extension-platform-roadmap.md`.
 
+## Unified Asset Model
+
+The Marketplace distributes three asset kinds through one installer (ADR-124):
+
+```text
+Marketplace Asset
+├── Package
+├── Workspace Module
+└── App
+```
+
+All three share identity, versioning, integrity, dependency resolution, permissions, transactions, rollback, events, and Engineering Graph projection. They differ only in activation model and runtime boundary.
+
+See `10-developer-platform/marketplace-asset-model.md` for the canonical taxonomy.
+
 ## Related ADRs
 
 - `../00-governance/adr/ADR-112-extension-platform-and-local-package-manager.md`
 - `../00-governance/adr/ADR-115-marketplace-foundation-and-workspace-experience.md`
+- `../00-governance/adr/ADR-124-unified-marketplace-asset-model.md`
 
 ## Related implementation
 
