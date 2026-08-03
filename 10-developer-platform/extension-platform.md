@@ -3,18 +3,18 @@ id: "developer-platform-extension-platform"
 title: "Extension Platform"
 volume: "10-developer-platform"
 book: "Book 2: Platform Architecture"
-version: "1.2.0"
+version: "1.3.0"
 status: "approved"
 owner: "@chief-architect"
 created: "2026-08-01"
-last-reviewed: "2026-08-02"
-next-review: "2026-11-01"
+last-reviewed: "2026-08-04"
+next-review: "2026-11-04"
 architecture-status: "accepted"
 implementation-status: "partial"
 verification-status: "verified"
 implementation-repository: "evillan0315/vestara-ai-core"
 implementation-ref: "45e670d; packages/extension-contracts; packages/extension-runtime; packages/marketplace"
-tags: ["extension-platform", "plugins", "modules", "marketplace", "reconciliation"]
+tags: ["extension-platform", "plugins", "modules", "marketplace", "publishers", "commerce", "offline", "reconciliation"]
 ---
 
 # Extension Platform
@@ -23,7 +23,7 @@ tags: ["extension-platform", "plugins", "modules", "marketplace", "reconciliatio
 
 Define the extension architecture — modules, plugins, providers, agent packs,
 and the Marketplace — as the distribution mechanism of the Vestara
-engineering operating system.
+engineering operating system and the wider Vestara platform ecosystem.
 
 ## Current state
 
@@ -48,8 +48,9 @@ install review, and a WebSocket-driven operation center). Installation,
 activation, rollback, and uninstall delegate to `extension-runtime` — one
 authority.
 
-Remote registries, publishing, signatures, archive extraction, storefront
-polish, and out-of-process isolation remain proposed.
+Remote registries, publishing, signatures, archive extraction, commercial
+services, publisher identity, entitlements, payouts, offline catalog snapshots,
+and out-of-process isolation remain proposed.
 
 ## Terminology
 
@@ -64,7 +65,12 @@ Provider      An installable adapter that supplies model or engineering
 
 Agent Pack    Roles, policies, prompts, workflows, and capability requirements.
 
-Marketplace   Discovery, trust metadata, distribution, updates, and installation.
+Marketplace   The primary platform operating center for discovery, trust,
+              distribution, configuration, updates, commerce, publishing,
+              and installation.
+
+Publisher     An individual or organization that owns and distributes one or
+              more Marketplace products and releases.
 ```
 
 Do not freeze these definitions without an ADR if they shift architectural
@@ -76,6 +82,7 @@ meaning.
 Extension Platform
 ├── Package manifest
 ├── Package identity
+├── Publisher identity
 ├── Module lifecycle
 ├── Plugin lifecycle
 ├── Provider packages
@@ -93,6 +100,10 @@ Extension Platform
 ├── Rollback
 ├── Removal
 ├── Telemetry
+├── Offline catalog
+├── Publishing pipeline
+├── Licensing and entitlement
+├── Commerce and payouts
 └── Marketplace distribution
 ```
 
@@ -103,7 +114,12 @@ Extension Platform
 - Providers remain governed by Vestara; extensions declare requested
   permissions and capability usage.
 - The Marketplace is not just a catalog UI; it is discovery + trust metadata +
-  distribution + updates + installation.
+  distribution + configuration + updates + publishing + optional commerce.
+- Official Vestara products remain free to install and operate when self-hosted;
+  premium value comes from managed services, assurance, collaboration,
+  certification, distribution, and support.
+- Third-party publishing does not bypass lifecycle, security, verification,
+  evidence, licensing, or user-data ownership rules.
 
 ## Security
 
@@ -117,12 +133,37 @@ implemented in the local foundation. The Marketplace additionally enforces
 read-only discovery, malformed-package isolation, bounded scans, and registry
 failure isolation; permission-gated installs surface an explicit
 awaiting-permission state before any lifecycle action. Signatures, SBOM
-enforcement, revocation, community isolation, resource limits, and secret
-mediation remain proposed.
+enforcement, revocation, community isolation, resource limits, secret
+mediation, publisher verification, commercial entitlement, and moderation
+remain proposed.
+
+## Marketplace operating modes
+
+```text
+Offline
+├── bundled official Vestara products
+├── installed official products
+├── cached official metadata
+├── organization-provisioned packages
+└── clearly separated local or unverified imports
+
+Online
+├── official Vestara products
+├── certified partners
+├── verified publishers
+├── community publishers
+├── organization-private catalogs
+└── free and paid products and managed services
+```
+
+Offline mode must remain a complete and useful official Vestara experience.
+Online mode expands discovery and commerce without weakening provenance,
+capability controls, verification, or uninstall safety.
 
 ## Future direction
 
-See `20-roadmaps/extension-platform-roadmap.md`.
+See `20-roadmaps/extension-platform-roadmap.md` and
+`marketplace-creator-ecosystem.md`.
 
 ## Unified Asset Model
 
@@ -135,15 +176,24 @@ Marketplace Asset
 └── App
 ```
 
-All three share identity, versioning, integrity, dependency resolution, permissions, transactions, rollback, events, and Engineering Graph projection. They differ only in activation model and runtime boundary.
+All three share identity, versioning, integrity, dependency resolution,
+permissions, transactions, rollback, events, and Engineering Graph projection.
+They differ only in activation model and runtime boundary.
 
-See `10-developer-platform/marketplace-asset-model.md` for the canonical taxonomy.
+Products and solution bundles may compose multiple assets, services,
+microservices, workspaces, agents, verification profiles, and documentation
+under one commercial or free listing.
+
+See `10-developer-platform/marketplace-asset-model.md` for the canonical taxonomy
+and `10-developer-platform/marketplace-creator-ecosystem.md` for publishing,
+commerce, offline behavior, and creator opportunity.
 
 ## Related ADRs
 
 - `../00-governance/adr/ADR-112-extension-platform-and-local-package-manager.md`
 - `../00-governance/adr/ADR-115-marketplace-foundation-and-workspace-experience.md`
 - `../00-governance/adr/ADR-124-unified-marketplace-asset-model.md`
+- `../00-governance/adr/ADR-125-marketplace-creator-economy-and-offline-catalog.md`
 
 ## Related implementation
 
