@@ -934,6 +934,69 @@ interface MigrationResult {
 
 ---
 
+## 17. Versioned Contribution Contracts
+
+Contribution APIs are versioned to ensure backward compatibility and smooth migration paths.
+
+### 17.1 Versioning Strategy
+
+```typescript
+interface ContributionContractVersion {
+  version: string;           // SemVer (e.g., "1.0.0")
+  schemaVersion: string;     // Schema version (e.g., "1.0")
+  compatibility: {
+    minVersion: string;      // Minimum compatible version
+    maxVersion: string;      // Maximum compatible version
+  };
+  migration?: {
+    from: string;            // Version to migrate from
+    transform: string;       // Migration function name
+    validate: string;        // Validation function name
+  };
+}
+```
+
+### 17.2 Versioned Contribution Types
+
+| Contribution Type | Current Version | Previous Versions | Migration Path |
+|-------------------|-----------------|-------------------|----------------|
+| CommandContribution | V1 | - | N/A |
+| SearchContribution | V1 | - | N/A |
+| InspectorContribution | V1 | - | N/A |
+| SidebarContribution | V1 | - | N/A |
+| ToolbarContribution | V1 | - | N/A |
+| StatusContribution | V1 | - | N/A |
+
+### 17.3 Version Migration Example
+
+```typescript
+interface ContributionMigration {
+  fromVersion: string;
+  toVersion: string;
+  transform: (contribution: unknown) => unknown;
+  validate: (contribution: unknown) => boolean;
+  rollback?: (contribution: unknown) => unknown;
+}
+
+interface MigrationResult {
+  success: boolean;
+  contribution: unknown;
+  warnings: string[];
+  errors: string[];
+}
+```
+
+### 17.4 Version Compatibility Matrix
+
+| Workspace Version | Contribution API Version | Supported Features |
+|-------------------|--------------------------|-------------------|
+| >=1.0.0 | 1.0 | Commands, Search, Inspector, Sidebar |
+| >=1.1.0 | 1.1 | + Toolbar, Status |
+| >=1.2.0 | 1.2 | + Versioned contributions |
+| >=2.0.0 | 2.0 | + Breaking changes (if needed) |
+
+---
+
 *This document defines the canonical Contribution APIs for Vestara.*
 *Every module contributes commands, search, inspector, sidebar, toolbar, and status items.*
 *The Workspace merges them into one unified experience.*

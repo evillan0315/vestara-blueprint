@@ -1000,5 +1000,109 @@ const messagesModuleManifest: WorkspaceModuleManifest = {
 
 ---
 
+## 12. Canonical Extension Manifest Reference
+
+Workspace modules are declared via the **Extension Manifest** (`extension-manifest.md`). The manifest defines identity, capabilities, dependencies, permissions, and activation model for all Marketplace assets.
+
+### 12.1 Manifest Structure
+
+```typescript
+interface ExtensionManifest {
+  schemaVersion: '1.0';
+  id: string;
+  name: string;
+  version: string;
+  kind: 'workspace-module';  // AssetKind
+  description?: string;
+  publisher: PublisherIdentity;
+  compatibility: CompatibilityConstraints;
+  entrypoints: Entrypoints;
+  dependencies: Dependencies;
+  permissions: PermissionDeclaration;
+  contributions?: ContributionDeclaration;
+  integrity: IntegrityDeclaration;
+  signatures?: SignatureDeclaration;
+  lifecycle?: LifecycleDeclaration;
+  configuration?: ConfigurationDeclaration;
+  metadata?: MetadataDeclaration;
+}
+```
+
+### 12.2 Capability Declarations
+
+Workspace modules declare required capabilities in the manifest. Capabilities are provided by the Workspace Runtime and other modules.
+
+```typescript
+interface CapabilityDeclaration {
+  id: string;
+  name: string;
+  version: string;
+  required: boolean;
+  fallback?: string;
+  description?: string;
+  provides?: CapabilityProvider[];
+  constraints?: CapabilityConstraint[];
+}
+```
+
+#### Built-in Capability Types
+
+| Capability | Description | Provider API |
+|------------|-------------|--------------|
+| `workspace_core` | Core workspace functionality | WorkspaceRuntime |
+| `engineering_events` | Access to engineering event store | EventStore |
+| `engineering_graph` | Access to engineering graph | GraphAPI |
+| `search` | Full-text search capabilities | SearchService |
+| `commands` | Command palette integration | CommandService |
+| `inspector` | Inspector panel integration | InspectorService |
+| `notifications` | Notification system | NotificationService |
+| `storage` | Persistent storage | StorageService |
+| `telemetry` | Telemetry and analytics | TelemetryService |
+| `security` | Security and auth | SecurityService |
+
+### 12.3 Workspace Module Example
+
+```json
+{
+  "schemaVersion": "1.0",
+  "id": "@vestara/messages",
+  "name": "Messages",
+  "version": "1.0.0",
+  "kind": "workspace-module",
+  "description": "Unified messaging module for email, SMS, and chat",
+  "publisher": {
+    "id": "vestara",
+    "name": "Vestara",
+    "verified": true
+  },
+  "compatibility": {
+    "workspace": ">=1.0.0",
+    "platform": ["linux-x64", "darwin-x64"]
+  },
+  "entrypoints": {
+    "workspace": "./dist/index.js"
+  },
+  "dependencies": [],
+  "permissions": [
+    { "capability": "workspace_core", "scope": "read" },
+    { "capability": "engineering_events", "scope": "read" },
+    { "capability": "search", "scope": "write" }
+  ],
+  "contributions": {
+    "commands": [
+      { "id": "new-message", "label": "New Message", "icon": "edit" }
+    ],
+    "sidebar": [
+      { "id": "messages", "label": "Messages", "icon": "message-square", "path": "/tools/messages" }
+    ]
+  },
+  "integrity": {
+    "hash": "sha256:abc123..."
+  }
+}
+```
+
+---
+
 *This document defines the canonical Workspace Module contract for Vestara.*
 *Every workspace module implements this contract for one consistent extension model.*
