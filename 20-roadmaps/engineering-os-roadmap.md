@@ -141,7 +141,13 @@ execution path (ADR-120).
    long-horizon verification remains.
 2. Cloud/remote environments and cross-device steering.
 3. Automation that creates ordinary task threads.
-4. Durable engineering memory derived from completed threads.
+4. Durable engineering memory derived from completed threads — delivered:
+   `EngineeringMemoryProjection` (`@vestara/memory`) subscribes to
+   `harness.*` events from completed threads (model decisions, tool
+   outcomes, thread completion/failure) and projects them into the memory
+   runtime as long-term, provenance-tagged memories (`engineering-thread`
+   source). Wired at the API composition root alongside the harness event
+   bridge.
 
 ### Phase 5 — Improve from outcomes
 
