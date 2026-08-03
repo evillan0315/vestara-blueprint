@@ -159,13 +159,23 @@ What did we decide? Be specific.
 > (ADR-025/033/034 realized for agent execution): agents reach the filesystem only
 > through `AgentCapabilityManager` (ADR-116) into the sandboxed, approval-gated
 > `FilesystemRuntime` (ADR-117), and multi-agent project execution is designed
-> around a `WorkflowOrchestrator` (ADR-118, accepted — Phase 1 orchestration core
-> is implemented in `packages/workflow-orchestrator/`; see
-> `vestara-ai-core/docs/PCS-025-multi-agent-project-management.md` and
-> `vestara-ai-core/docs/PCS-025-phase-1-implementation-plan.md`).
+> around a `WorkflowOrchestrator` (ADR-118, accepted — orchestration core Phases
+> 1-3 are implemented in `packages/workflow-orchestrator/`: project/plan/task
+> state machines, stores, retry/revision policy, task-graph waves,
+> checkpoint/resume, harness-backed dispatch, review/test stages, Approval
+> Gateway, parallel waves, token budgets, and event-sourced reconcile; see
+> `vestara-ai-core/docs/PCS-025-multi-agent-project-management.md`).
 > Implementation ADRs mirror these decisions in `vestara-ai-core/docs/ADR/`
 > (ADR-001 runtime, ADR-002 capability system, ADR-003 filesystem runtime,
-> ADR-004 multi-agent workflow).
+> ADR-004 multi-agent workflow, ADR-005 intent, ADR-006 ownership, ADR-007
+> decision pipeline, ADR-008 marketplace, ADR-009 recovery, ADR-010 dashboard,
+> ADR-011 remote worker).
+> ADR-024 through ADR-030 are **accepted with implemented runtime packages**:
+> `@vestara/job` (ADR-024), `@vestara/worker` + `@vestara/scheduler`
+> (ADR-025), `@vestara/intent` (ADR-026), `@vestara/ownership` (ADR-027),
+> `@vestara/verification` + `@vestara/trust` (ADR-028), the kernel
+> `FailureBudget` + worker quarantine (ADR-029), and the composed
+> `@vestara/kernel` boot (ADR-030).
 
 > **Foundational ADRs (100+)** define the architectural philosophy that governs all other decisions. Each has a standalone document in `00-governance/adr/`.
 | ADR-023 | Core Runtime Model — Everything is a Runtime | superseded by ADR-111 | 2026-07-27 | 07-operating-system, all subsystems |
@@ -607,7 +617,7 @@ tags: ["operating-system", "architecture", "runtime"]
 adr: "ADR-024"
 title: "Job Model — Standard Operation Lifecycle"
 date: "2026-07-27"
-status: "proposed"
+status: "accepted"
 author: "@chief-architect"
 deciders: ["@chief-architect", "@engineering-manager"]
 consulted: ["@backend-engineer"]
@@ -628,7 +638,7 @@ tags: ["operating-system", "jobs", "architecture"]
 adr: "ADR-025"
 title: "Worker Model & Capability Scheduling"
 date: "2026-07-27"
-status: "proposed"
+status: "accepted"
 author: "@chief-architect"
 deciders: ["@chief-architect", "@engineering-manager"]
 consulted: ["@ai-engineer", "@backend-engineer"]
@@ -649,7 +659,7 @@ tags: ["operating-system", "workers", "scheduling"]
 adr: "ADR-026"
 title: "Intent Model — Goals to Execution Plans"
 date: "2026-07-27"
-status: "proposed"
+status: "accepted"
 author: "@chief-architect"
 deciders: ["@chief-architect", "@engineering-manager"]
 consulted: ["@ai-engineer"]
@@ -670,7 +680,7 @@ tags: ["ai", "architecture", "planning"]
 adr: "ADR-027"
 title: "Ownership & Resource Locking"
 date: "2026-07-27"
-status: "proposed"
+status: "accepted"
 author: "@chief-architect"
 deciders: ["@chief-architect", "@engineering-manager"]
 consulted: ["@backend-engineer", "@security-engineer"]
@@ -687,7 +697,7 @@ tags: ["operating-system", "security", "resources"]
 adr: "ADR-028"
 title: "Verification & Trust Engine"
 date: "2026-07-27"
-status: "proposed"
+status: "accepted"
 author: "@chief-architect"
 deciders: ["@chief-architect", "@engineering-manager"]
 consulted: ["@ai-engineer", "@security-engineer"]
@@ -704,7 +714,7 @@ tags: ["operating-system", "security", "verification"]
 adr: "ADR-029"
 title: "Recovery & Failure Budget"
 date: "2026-07-27"
-status: "proposed"
+status: "accepted"
 author: "@chief-architect"
 deciders: ["@chief-architect", "@engineering-manager"]
 consulted: ["@backend-engineer"]
@@ -721,7 +731,7 @@ tags: ["operating-system", "recovery", "reliability"]
 adr: "ADR-030"
 title: "Kernel Architecture — Runtime Composition"
 date: "2026-07-27"
-status: "proposed"
+status: "accepted"
 author: "@chief-architect"
 deciders: ["@chief-architect", "@engineering-manager"]
 consulted: ["@backend-engineer"]

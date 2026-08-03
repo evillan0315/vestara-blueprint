@@ -3,12 +3,12 @@ id: "roadmap-engineering-os"
 title: "Engineering OS Roadmap"
 volume: "20-roadmaps"
 book: "Book 6: Future Technologies"
-version: "1.2.0"
+version: "1.3.0"
 status: "review"
 owner: "@chief-architect"
 created: "2026-08-01"
-last-reviewed: "2026-08-01"
-next-review: "2026-11-01"
+last-reviewed: "2026-08-03"
+next-review: "2026-11-03"
 architecture-status: "accepted"
 implementation-status: "partial"
 verification-status: "partial"
@@ -45,22 +45,40 @@ implemented runtime and the identified architecture gaps.
 - Engineering evidence pipeline (PCS-026) — collectors → content-addressed
   artifacts → immutable manifest → `VerificationEvidenceBundle` (checks,
   provenance, replay descriptor, derived six-factor confidence); visual
-  comparison + human-reviewed baselines; Workspace Evidence viewer; harness
+  comparison + human-reviewed baselines with an approve/reject governance API;
+  bundle corrections via `supersedes`; Workspace Evidence viewer; harness
   verification persists a bundle per run.
 - Distributed worker cluster (PCS-027) — `TaskDispatcher` over a WebSocket
-  transport; node registration/heartbeats, capability + least-load scheduling,
-  lease + executionId idempotency; orchestrator dispatches through the cluster
-  when nodes are online (fallback to the harness); Workspace Workers view.
+  transport; node registration/heartbeats (projected into the event store),
+  capability scheduling (wildcard opt-in), lease + executionId idempotency,
+  lease reaping, evidence on remote results; orchestrator dispatches through
+  the cluster when nodes are online (fallback to the harness); Workspace
+  Workers view.
 - Workspace UI surfaces the lifecycle from the one canonical projection:
   Dashboard "Live Engineering Workflow", Sessions harness ExecutionSessions,
   Agent Control workflow rails, Artifacts "Live Change Projection",
   Documentation "System Milestones".
-- Multi-agent workflow orchestration core (ADR-118, Phase 1): `WorkflowOrchestrator`
+- Multi-agent workflow orchestration core (ADR-118, Phases 1-3): `WorkflowOrchestrator`
   + project/plan/task state machines, task/artifact/file-lock stores, bounded
-  retry/revision policy, task-graph waves, checkpoint/resume in
-  `packages/workflow-orchestrator/`; tasks execute through the harness
-  (`HarnessTaskDispatcher`), `orchestration.*` events project into the temporal
-  event store, and `/api/orchestration/*` exposes the lifecycle.
+  retry/revision policy, task-graph waves, checkpoint/resume, review/test
+  stages, high-risk Approval Gateway, parallel waves, token budgets, and
+  event-sourced reconcile in `packages/workflow-orchestrator/`; tasks execute
+  through the harness (`HarnessTaskDispatcher`), `orchestration.*` events
+  project into the temporal event store, and `/api/orchestration/*` exposes
+  the lifecycle.
+- Runtime model (ADR-024..030): `@vestara/job`, `@vestara/worker`,
+  `@vestara/scheduler`, `@vestara/intent` (goal → execution plan),
+  `@vestara/ownership` (locks + ownership), `@vestara/verification` +
+  `@vestara/trust`, kernel `FailureBudget` + worker quarantine, and the
+  composed kernel boot (16-step runtime layer). Dashboard runs as a kernel
+  client (`@vestara/widget-runtime` composed at boot).
+- Remote worker executors (v10.0): `DockerWorker` (`docker run` via
+  child_process), `CIWorker` (subprocess), `MCPWorker` (stdio JSON-RPC MCP),
+  and `RemoteWorker` (injected dispatcher or HTTP POST) in `@vestara/worker`.
+- Marketplace capabilities (v2.8 / ADR-115 follow-on): `RemoteMarketplaceRegistry`
+  (JSON registry index), `MarketplacePublisher` (digest + Ed25519 sign),
+  signature enforcement, and `MarketplaceVersionTracker` (persisted update
+  notifications).
 - Telemetry
 - Engineering Graph + Temporal Event Store (session-only)
 - Verification pipeline + evidence
@@ -112,9 +130,10 @@ execution path (ADR-120).
 5. Distributed worker cluster — delivered (PCS-027 slices 1-2): the
    `TaskDispatcher` worker boundary made physical over a WebSocket transport
    (`/ws/worker`); node registration + heartbeats, capability + least-load
-   scheduling, leases with executionId idempotency, and the orchestrator
-   dispatching through the cluster when nodes are online (fallback to the
-   harness). Multi-node hardening and gRPC/K8s transports remain.
+   scheduling, leases with executionId idempotency, lease reaping, evidence on
+   remote results, and the orchestrator dispatching through the cluster when
+   nodes are online (fallback to the harness). Shared-token auth on the worker
+   endpoint (§9), multi-node hardening, and gRPC/K8s transports remain.
 
 ### Phase 4 — Enable long-running work
 
@@ -138,7 +157,7 @@ execution path (ADR-120).
 Canonical workflow projection, incremental push protocol, hybrid stage
 derivation, eight-stage owning-agent attribution, and the TUI lifecycle rail
 are shipped (ADR-122, ADR-123). The multi-agent workflow orchestration core is
-implemented (ADR-118, Phase 1 partial). Remaining: agent swimlanes end-to-end
+implemented (ADR-118, Phases 1-3). Remaining: agent swimlanes end-to-end
 for orchestrated projects (the `projectWorkflowAcrossThreads` aggregation is
 wired but stage attribution is still settling), the premium Workspace diagram
 consuming the canonical projection, and temporal replay controls.

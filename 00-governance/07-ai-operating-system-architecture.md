@@ -2,10 +2,10 @@
 title: "AI Operating System Architecture — Foundation for Intelligent Governance"
 volume: "00-governance"
 book: "Book 1: Vision & Business"
-version: "2.0.0"
-status: "draft"
+version: "2.1.0"
+status: "accepted"
 owner: "@chief-architect"
-last-reviewed: "2026-07-27"
+last-reviewed: "2026-08-03"
 next-review: "2027-01-27"
 tags: ["architecture", "ai-os", "governance", "foundation", "operating-system", "runtime", "runtime-model"]
 ---
