@@ -2,11 +2,13 @@
 
 > **The complete architectural, business, and operational blueprint for the Vestara AI Platform.**
 
+> **Vestara is not an AI application. It is a standards-driven operating platform for AI products.**
+
 ---
 
 ## 📚 Blueprint Structure
 
-This repository contains **24 volumes** organized into **6 Books**, forming the complete specification for Vestara AI OS — from vision to implementation to future technologies.
+This repository contains **25 volumes** organized into **6 Books**, forming the complete specification for Vestara AI OS — from vision to implementation to future technologies.
 
 ```text
 vestara-blueprint/
@@ -21,6 +23,7 @@ vestara-blueprint/
 │   ├── 04-platform/           # Platform architecture, layers, modules
 │   ├── 06-workspace/          # Workspace, projects, knowledge, memory
 │   ├── 10-developer-platform/ # SDK, plugins, marketplace, APIs
+│   ├── 30-standards/          # Product contracts — what every product must implement
 │   └── 12-data/               # Data architecture, sync, privacy, ownership
 │
 ├── 📖 BOOK 3: AI Architecture
@@ -72,6 +75,7 @@ vestara-blueprint/
 | **Engineering Standards** | [14-engineering/evidence-based-verification.md](14-engineering/evidence-based-verification.md) |
 | **Visual Verification** | [14-engineering/visual-verification.md](14-engineering/visual-verification.md) |
 | **OS Architecture** | [07-operating-system/README.md](07-operating-system/README.md) |
+| **Product Contracts** | [30-standards/VES-100-product-contract.md](30-standards/VES-100-product-contract.md) |
 | **Roadmaps** | [20-roadmaps/V1.0-ROADMAP.md](20-roadmaps/V1.0-ROADMAP.md) |
 | **AI Development Workflow** | [00-governance/03-ai-development-lifecycle.md](00-governance/03-ai-development-lifecycle.md) |
 | **Security Model** | [11-security/README.md](11-security/README.md) |

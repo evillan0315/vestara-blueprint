@@ -1,0 +1,20 @@
+{
+  "schema": "vestara-os-asset-manifest/1",
+  "version": "1.0.0",
+  "colors": {
+    "background": "#0b1020",
+    "surface": "#1e2740",
+    "text": "#e5e7eb",
+    "accent": "#93c5fd"
+  },
+  "assets": {
+    "logos": [],
+    "wallpapers": [],
+    "boot": [],
+    "login": [],
+    "icons": [],
+    "fonts": [],
+    "sounds": []
+  },
+  "note": "Asset entries are content-addressed. Populate this manifest as reviewed, redistributable assets are added; the image builder refuses to consume unreferenced or unlicensed assets."
+}

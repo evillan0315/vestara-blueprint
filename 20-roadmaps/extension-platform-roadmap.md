@@ -19,10 +19,32 @@ tags: ["roadmap", "extensions", "marketplace", "reconciliation"]
 
 # Extension Platform Roadmap
 
+## Layer & Responsibility
+
+This is the **developer extensibility roadmap**. It is technical: it defines
+how products extend and integrate with the Vestara Platform.
+
+It answers questions like:
+
+- Plugin SDK
+- Extension SDK
+- Hooks
+- APIs
+- Events
+- Runtime injection
+- Dependency Injection
+- Capability registration
+- Sandboxing
+- Security
+- Permissions
+- Version compatibility
+
+> **Extension Platform = How products extend Vestara**
+
 ## Purpose
 
 Roadmap for the module/plugin runtime, provider packages, agent packs, and the
-Marketplace.
+Marketplace integration layer.
 
 ## Current state
 
@@ -68,6 +90,44 @@ not implemented.
 ## Terminology
 
 See `10-developer-platform/extension-platform.md`.
+
+## Relationship to Other Roadmaps
+
+```text
+Marketplace Workspace Roadmap (what is distributed)
+            │
+            ▼
+Product Runtime Roadmap (how products execute)
+            │
+            ▼
+Extension Platform Roadmap (how products integrate)
+            │
+            ▼
+Workspace SDK
+            │
+            ▼
+Third-party Products
+```
+
+- The **Marketplace** defines *what* can be distributed.
+- The **Product Runtime** defines *how* an installed product executes.
+- The **Extension Platform** defines *how* those products integrate.
+
+This roadmap depends on the Product Runtime: extensions execute inside the
+product runtime, so the runtime model must exist before extension contracts
+can be stabilized.
+
+See [Marketplace-Driven Workspace Roadmap](marketplace-workspace-roadmap.md)
+and [Product Runtime Roadmap](product-runtime-roadmap.md).
+
+## Standards
+
+This roadmap implements the following product contract standards:
+
+| Standard | Description |
+|----------|-------------|
+| [VES-100 Product Contract](../30-standards/VES-100-product-contract.md) | Shared foundation |
+| [VES-105 Extension Contract](../30-standards/VES-105-extension-contract.md) | Extension points, hooks, sandboxing |
 
 ## Related
 

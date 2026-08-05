@@ -34,6 +34,8 @@ tags: ["governance", "constitution", "rules", "lifecycle"]
 ├── 09-capability-catalog.md              ← Capability specification catalog
 ├── 10-capability-validation-framework.md  ← Capability validation methodology
 ├── 11-language.md                         ← Terminology, naming conventions, event naming
+├── 12-information-stewardship.md          ← Information Stewardship & Data Governance
+├── 13-architectural-validation.md         ← Architectural validation & evolution cycle
 ├── adr/                                   ← Architecture Knowledge Graph (AKG)
 │   ├── README.md                          ← AKG model, edge types, graph rules
 │   ├── ADR-100-ai-organization.md
@@ -72,6 +74,7 @@ VESTARA_CONSTITUTION.md  ← Supreme authority (root level)
 09-capability-catalog.md ← Capability specification catalog
 10-capability-validation-framework.md ← Capability validation
 11-language.md ← Terminology & naming conventions
+12-information-stewardship.md ← Information Stewardship & Data Governance
 adr/ADR-100-ai-organization.md ← AI Organization Over AI Assistant
 adr/ADR-101-conversation-architecture.md ← Conversation as Independent Architecture
 adr/ADR-102-vds-framework-agnostic.md ← Framework-Agnostic Design System
