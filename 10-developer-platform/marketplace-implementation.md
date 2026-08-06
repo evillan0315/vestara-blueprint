@@ -1267,5 +1267,211 @@ Marketplace plans, Extension Runtime executes, Workspace Runtime activates. No a
 
 ---
 
+## 16. Future Architecture: Identity and Authorization
+
+> **Security boundary:** Authentication establishes who the user is. RBAC and
+> policy determine what the user may do. Product permissions determine what
+> installed software may do. Those are three separate authorization layers.
+
+```text
+User identity
+      ↓
+User or organization authorization
+      ↓
+Installed-product capability authorization
+```
+
+For example, an organization administrator may be authorized to install a
+product, but the product must still request filesystem, network, model, or
+process capabilities through Vestara's existing governed permission system.
+
+### 16.1 Identity Modes
+
+The offline and online identity models remain distinct. A local installation
+must be able to transition online later without losing its installed state.
+Linking an account attaches cloud identity and entitlements; it does not
+recreate the local environment.
+
+**Offline mode:**
+
+- No OAuth required
+- Local first-party catalog
+- Local installation and activation
+- Local permissions and budgets
+- Optional local user profiles
+- No cloud purchase or publishing
+
+Offline identity roles:
+
+```text
+Local User
+Local Administrator
+Local Workspace Owner
+```
+
+These govern access to the local Marketplace catalog, installed products,
+permissions, budgets, and workspace configuration. No cloud dependency is
+introduced merely to install or run first-party local products.
+
+**Online mode:**
+
+- Vestara account
+- OAuth login
+- Remote catalog
+- Community and commercial products
+- Organization membership
+- Licensing and entitlements
+- Publishing
+- Synchronized purchases and updates
+
+### 16.2 OAuth Account Linking
+
+OAuth providers (Google, GitHub initially) authenticate the user to the Vestara
+cloud service. OAuth does not directly become the authorization model.
+
+```text
+Google / GitHub
+        ↓
+Vestara Account
+        ↓
+Organization Membership
+        ↓
+Marketplace Roles and Permissions
+```
+
+A user may link multiple OAuth identities to one Vestara account. The durable
+identity is the Vestara account ID, not the provider-specific subject ID.
+
+### 16.3 Organization and RBAC Model
+
+The authorization model remains capability-based beneath the roles. Roles are
+convenient bundles; policies evaluate explicit permissions.
+
+**Platform roles:**
+
+- `user`
+- `marketplace-operator`
+- `platform-admin`
+
+**Organization roles:**
+
+- `organization-owner`
+- `administrator`
+- `billing-manager`
+- `marketplace-manager`
+- `member`
+- `viewer`
+
+**Publisher roles:**
+
+- `publisher-owner`
+- `publisher-developer`
+- `publisher-release-manager`
+- `publisher-analyst`
+
+**Workspace roles:**
+
+- `workspace-owner`
+- `workspace-admin`
+- `engineer`
+- `reviewer`
+- `operator`
+- `viewer`
+
+**Capability-based permissions evaluated by policy:**
+
+- `marketplace.asset.install`
+- `marketplace.asset.enable`
+- `marketplace.asset.disable`
+- `marketplace.asset.purchase`
+- `marketplace.asset.publish`
+- `marketplace.release.approve`
+- `marketplace.publisher.manage`
+- `workspace.product.configure`
+- `workspace.workflow.approve`
+- `billing.budget.manage`
+
+This prevents RBAC from becoming too coarse as Vestara grows.
+
+### 16.4 Marketplace Cloud Platform
+
+The cloud Marketplace is a future dedicated platform service. It may be
+presented through the Vestara website but must not be architecturally coupled
+to the marketing website.
+
+**Vestara Website:**
+
+- Public product pages
+- Documentation
+- Pricing
+- Publisher information
+- Account entry points
+
+**Vestara Marketplace Cloud:**
+
+- Identity and organizations
+- Catalog API
+- Publisher registry
+- Manifests and releases
+- Signing metadata
+- Licenses and entitlements
+- Purchases and billing
+- Reviews and moderation
+- Analytics
+- Update distribution
+
+The website can consume Marketplace APIs for the public storefront, while
+installed Vestara clients use the same APIs for discovery, purchase,
+installation metadata, entitlement checks, and updates.
+
+**Future cloud topology:**
+
+```text
+Web Storefront
+Desktop / OS Client
+Workspace Marketplace UI
+        │
+        ▼
+Marketplace API Gateway
+        │
+        ├── Identity Service
+        ├── Organization and RBAC Service
+        ├── Catalog Service
+        ├── Publisher Service
+        ├── Release and Signing Service
+        ├── Entitlement Service
+        ├── Billing Service
+        ├── Moderation Service
+        ├── Analytics Service
+        └── Artifact Storage / CDN
+```
+
+### 16.5 Marketplace Phasing
+
+Identity and authorization are additive capabilities, not prerequisites for
+using Vestara. Local-first Marketplace remains the foundation.
+
+**Marketplace Phase 1 — Local Foundation:**
+
+Local product contracts, installation, enablement, lifecycle, evidence.
+
+**Marketplace Phase 2 — Local Workspace:**
+
+Local UI, product composition, Engineering Workspace reference product.
+
+**Marketplace Phase 3 — Accounts and Organizations:**
+
+Vestara accounts, Google/GitHub OAuth, organizations, RBAC.
+
+**Marketplace Phase 4 — Cloud Distribution:**
+
+Cloud catalog, publisher portal, remote product distribution.
+
+**Marketplace Phase 5 — Commerce:**
+
+Licensing, payments, entitlements, moderation, analytics.
+
+---
+
 *This document defines the corrected incremental implementation plan for the Vestara Marketplace.*
 *Build the platform first, then add capabilities. Respect ownership boundaries.*

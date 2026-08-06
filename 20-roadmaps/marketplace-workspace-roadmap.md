@@ -321,3 +321,22 @@ Complete the platform vision.
 
 **Outcome:** Every capability in Vestara is distributed through the
 Marketplace.
+
+---
+
+## Identity and Authorization Architecture
+
+The Marketplace identity and authorization architecture is defined in detail
+in [Marketplace Implementation — Section 16](../10-developer-platform/marketplace-implementation.md#16-future-architecture-identity-and-authorization).
+
+That section covers:
+
+- **Identity modes** — offline local identity and optional online Vestara account
+- **OAuth account linking** — Google/GitHub with provider-neutral identity contracts
+- **Organization and RBAC model** — platform, organization, publisher, and workspace roles with capability-based policy evaluation
+- **Marketplace cloud platform** — storefront, catalog APIs, publisher services, signing, entitlements, artifact delivery
+- **Marketplace phasing** — Phase 1 (Local Foundation) through Phase 5 (Commerce)
+
+The security boundary is: authentication establishes who the user is, RBAC and
+policy determine what the user may do, and product permissions determine what
+installed software may do.
