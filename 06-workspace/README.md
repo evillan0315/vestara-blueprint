@@ -113,6 +113,7 @@ Platform
 | `05-engineering-session.md` | Session as primary projection object | Approved |
 | `06-workspace-modes.md` | Adaptive interface contexts | Approved |
 | `workspace-projections.md` | Domain contract projection rules | Approved |
+| `activity-room.md` | Activity Room (AAR-001) implementation plan | Proposed |
 
 ### Builders
 
