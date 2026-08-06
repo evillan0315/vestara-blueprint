@@ -69,6 +69,11 @@ vestara-blueprint/
 | **Capability Maturity Matrix** | [99-appendix/capability-maturity-matrix.md](99-appendix/capability-maturity-matrix.md) |
 | **Implementation Alignment** | [99-appendix/implementation-alignment.md](99-appendix/implementation-alignment.md) |
 | **Engineering Event Architecture** | [04-platform/engineering-event-architecture.md](04-platform/engineering-event-architecture.md) |
+| **Verification Evidence Framework (ADR-012)** | [00-governance/adr/ADR-012-verification-evidence-framework.md](00-governance/adr/ADR-012-verification-evidence-framework.md) |
+| **Engineering Workflow (deterministic)** | [04-platform/engineering-operating-system.md](04-platform/engineering-operating-system.md) |
+| **Activity Room Architecture** | [06-workspace/activity-room.md](06-workspace/activity-room.md) |
+| **Marketplace Identity & Authorization** | [10-developer-platform/marketplace-implementation.md#16-future-architecture-identity-and-authorization](10-developer-platform/marketplace-implementation.md) |
+| **AI Qualification Framework** | [05-ai-core/ai-qualification-framework.md](05-ai-core/ai-qualification-framework.md) |
 | **Understand the Vision** | [01-company/01-mission-vision-values.md](01-company/01-mission-vision-values.md) |
 | **Understand the AI** | [05-ai-core/README.md](05-ai-core/README.md) |
 | **Provider Architecture** | [05-ai-core/provider-architecture.md](05-ai-core/provider-architecture.md) |
@@ -247,6 +252,7 @@ tags: ["tag1", "tag2"]
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 3.0.0 | 2026-08-06 | Chief Architect | BPS-001 Blueprint Synchronization: deterministic workflow orchestration, Activity Room architecture, Marketplace identity & authorization, verification evidence framework (ADR-012/VEF-001), AI qualification, engineering lifecycle maturity |
 | 2.0.0 | 2025-07-30 | Chief Architect | Promoted VDS to 13-design-system, Conversation to 23-conversation; added 11-language governance doc |
 | 1.0.0 | 2025-07-23 | Chief Architect | Initial blueprint creation |
 
