@@ -2361,6 +2361,158 @@ Introduce an `agentType` field on `AgentDefinition` with two values:
 
 ---
 
+### ADR-120: Durable Agent Execution via AgentHarnessRuntime
+
+**Status:** accepted
+**Date:** 2026-08-02
+**Category:** architecture
+
+**Context**:
+Agent execution was stateless across restarts. If the API server restarted mid-execution, all in-progress agent work was lost and had to be restarted from scratch.
+
+**Decision**:
+Introduce `AgentHarnessRuntime` as the durable execution layer. The harness owns the model/tool/observation/verification turn. It persists execution state so agents can resume after restart.
+
+**Consequences**:
+- Agent execution survives server restarts
+- The harness is the single lifecycle authority for agent turns
+- Other components (planning, browser use, learning) are specialists, not autonomous runtimes
+
+---
+
+### ADR-121: Engineering Event Projection (harness.* and change.*)
+
+**Status:** accepted
+**Date:** 2026-08-02
+**Category:** architecture
+
+**Context**:
+Subsystem events (harness events, change events) needed to be projected to users in real-time, but the projection format differed by consumer (TUI vs Workspace UI).
+
+**Decision**:
+Standardize on engineering event projection. All subsystem events flow through a canonical projection layer that formats them for display. The projection owns redaction, ordering, and formatting.
+
+**Consequences**:
+- Single projection layer serves all consumers
+- Event schema changes don't directly break UIs
+- Projection is testable independently of event sources
+
+---
+
+### ADR-122: Real-Time Workflow Lifecycle
+
+**Status:** accepted
+**Date:** 2026-08-02
+**Category:** architecture
+
+**Context**:
+The engineering workflow had no real-time lifecycle representation. Users could not see which stage a workflow was in or what was happening.
+
+**Decision**:
+Define a real-time workflow lifecycle with stages that are projected to the UI. Each stage has deterministic transitions and an owning agent.
+
+**Consequences**:
+- Users see live workflow state
+- Stage transitions are deterministic and auditable
+- The lifecycle is the backbone for the Activity Room
+
+---
+
+### ADR-123: Eight-Stage Workflow Agent Attribution and Workspace Surfaces
+
+**Status:** accepted
+**Date:** 2026-08-02
+**Category:** implementation
+
+**Context**:
+The eight-stage workflow projection (ADR-122) described stages but did not attribute an owning agent to each lifecycle stage.
+
+**Decision**:
+Every workflow stage carries an owning agent, derived deterministically from tool-call `payload.agentId` or a role default per stage.
+
+**Consequences**:
+- UI can answer "which agent owns this stage"
+- Agent display names resolved from agent registry
+- TUI and Workspace UI consume the same canonical projection
+
+---
+
+### ADR-124: Unified Marketplace Asset and Installation Model
+
+**Status:** accepted
+**Date:** 2026-08-03
+**Category:** architecture
+
+**Context**:
+The Marketplace asset model and installation model were specified separately, leading to inconsistencies in how products were described vs how they were installed.
+
+**Decision**:
+Unify the asset and installation models. A single product manifest describes both the catalog view and the installation requirements.
+
+**Consequences**:
+- One manifest serves discovery and installation
+- Reduces specification drift
+- Simplifies publisher workflow
+
+---
+
+### ADR-125: AI Qualification by Governed Engineering Behavior
+
+**Status:** accepted
+**Date:** 2026-08-06
+**Category:** architecture
+
+**Context**:
+Vestara delegates engineering work to AI agents. Without qualification, agents may produce outputs that don't meet engineering standards.
+
+**Decision**:
+Qualify AI agents by their governed engineering behavior, measured continuously: repository grounding, schema reliability, revision efficiency, scope discipline, approval awareness. Qualification is role-specific and feeds into engineering lifecycle gates.
+
+**Consequences**:
+- Agents must demonstrate competence before receiving autonomy
+- Qualification metrics are observable and comparable
+- Unqualified agents trigger human review or scope reduction
+
+---
+
+### ADR-126: Activity Room as Projection, Not Event Source
+
+**Status:** accepted
+**Date:** 2026-08-06
+**Category:** architecture
+
+**Context**:
+The Activity Room was initially designed as a direct consumer of the event bus, creating coupling between event schema and UI.
+
+**Decision**:
+The Activity Room is a projection of engineering events, not a direct consumer. Subsystem events flow through a projection layer (redaction, ordering, formatting) into an append-only store, then through a History API to the Activity Room.
+
+**Consequences**:
+- Event schema changes don't directly break the UI
+- Redaction is centralized
+- Activity history is replayable and auditable
+
+---
+
+### ADR-127: Local-First Marketplace with Optional Cloud Identity
+
+**Status:** accepted
+**Date:** 2026-08-06
+**Category:** architecture
+
+**Context**:
+The Marketplace must work offline while supporting future cloud features. Local product installation must not require a cloud account.
+
+**Decision**:
+The Marketplace is local-first. Offline mode is fully functional (local identity, catalog, installation, lifecycle). Online mode is additive, enabled by linking a Vestara account (OAuth → Vestara Account → Organization RBAC).
+
+**Consequences**:
+- Vestara is usable without internet or cloud account
+- Cloud features are additive, not prerequisites
+- Three authorization layers remain separate: identity, RBAC, product capabilities
+
+---
+
 **END OF DECISION LOG**
 
 *This log is append-only. Decisions are never deleted — only superseded with new ADR.*
