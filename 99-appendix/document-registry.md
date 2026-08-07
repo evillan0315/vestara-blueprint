@@ -1,3 +1,7 @@
+---
+title: "Document Registry"
+---
+
 # Document Registry
 
 ## Purpose

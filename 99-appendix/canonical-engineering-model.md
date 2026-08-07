@@ -1,3 +1,7 @@
+---
+title: "Canonical Engineering Model"
+---
+
 # Canonical Engineering Model
 
 ## Template

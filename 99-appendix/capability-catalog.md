@@ -1,3 +1,7 @@
+---
+title: "Capability Catalog"
+---
+
 # Capability Catalog
 
 ## Purpose

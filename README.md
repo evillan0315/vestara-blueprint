@@ -69,7 +69,7 @@ vestara-blueprint/
 | **Capability Maturity Matrix** | [99-appendix/capability-maturity-matrix.md](99-appendix/capability-maturity-matrix.md) |
 | **Implementation Alignment** | [99-appendix/implementation-alignment.md](99-appendix/implementation-alignment.md) |
 | **Engineering Event Architecture** | [04-platform/engineering-event-architecture.md](04-platform/engineering-event-architecture.md) |
-| **Verification Evidence Framework (ADR-012)** | [00-governance/adr/ADR-012-verification-evidence-framework.md](00-governance/adr/ADR-012-verification-evidence-framework.md) |
+| **Verification Evidence Framework (ADR-104)** | [00-governance/adr/ADR-104-evidence-based-verification.md](00-governance/adr/ADR-104-evidence-based-verification.md) |
 | **Engineering Workflow (deterministic)** | [04-platform/engineering-operating-system.md](04-platform/engineering-operating-system.md) |
 | **Activity Room Architecture** | [06-workspace/activity-room.md](06-workspace/activity-room.md) |
 | **Marketplace Identity & Authorization** | [10-developer-platform/marketplace-implementation.md#16-future-architecture-identity-and-authorization](10-developer-platform/marketplace-implementation.md) |

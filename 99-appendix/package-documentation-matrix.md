@@ -1,3 +1,7 @@
+---
+title: "Package Documentation Matrix"
+---
+
 # Package Documentation Matrix
 
 ## Purpose

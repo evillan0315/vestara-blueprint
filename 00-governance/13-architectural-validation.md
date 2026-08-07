@@ -39,7 +39,7 @@ verification: an architecture is not done when it is documented, but when it
 is proven on a real product.
 
 The current proof-of-concept is
-[EW-PV-001](../../20-roadmaps/engineering-workspace-validation.md): package
+[EW-PV-001](../20-roadmaps/engineering-workspace-validation.md): package
 the Engineering Workspace as the first official Vestara product. If the
 Workspace can be removed from the platform build, installed as a product
 package, launched through Product Runtime, verified, and replaced without

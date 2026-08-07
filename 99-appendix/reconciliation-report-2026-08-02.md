@@ -1,3 +1,7 @@
+---
+title: "Documentation Reconciliation Report — 2026-08-02"
+---
+
 # Documentation Reconciliation Report — 2026-08-02
 
 ## Scope

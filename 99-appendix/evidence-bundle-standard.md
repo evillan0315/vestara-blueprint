@@ -1,3 +1,7 @@
+---
+title: "Evidence Bundle Standard"
+---
+
 # Evidence Bundle Standard
 
 ## Purpose
