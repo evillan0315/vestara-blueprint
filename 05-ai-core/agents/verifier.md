@@ -409,6 +409,70 @@ A successful Verifier enables Vestara to answer:
 
 ---
 
+## Implementation
+
+The Verifier role maps onto the PCS-026 evidence pipeline in
+`packages/evidence/`. The pipeline does not implement the Verifier role
+itself; it implements the infrastructure the Verifier relies on. A future
+Verifier service sits **on top** of this pipeline and owns the verdict.
+
+### Evidence pipeline (`packages/evidence/src/pipeline.ts`)
+
+`EvidencePipeline.buildBundle(input)` produces the artifact the Verifier
+evaluates:
+
+1. **Collect + normalize evidence** from configured collectors
+   (command output, filesystem changes, source diffs, screenshots).
+2. **Content-address every item** via `ContentAddressedEvidenceStore`,
+   producing an immutable digest. Evidence cannot be silently replaced
+   after verification.
+3. **Write an immutable manifest** (`ImmutableEvidenceManifestStore`)
+   capturing run identity, repository, implementation commit, scope,
+   limitations, and the artifact list.
+4. **Build evidence references with provenance** — every piece of evidence
+   carries its producer, execution ID, operation, timestamp, environment,
+   and content hash.
+5. **Attach checks with per-check evidence attribution** — a check is
+   backed by the evidence kinds it declares, or all run evidence when
+   none are declared.
+6. **Build a replay descriptor** — deterministic artifact replay so the
+   verification can be reproduced.
+7. **Compute derived confidence** via `ConfidenceEngine`.
+
+The output is a `VerificationEvidenceBundle` containing the manifest,
+evidence references, checks, replay descriptor, and confidence. This is
+the structured input the Verifier role evaluates.
+
+### Confidence engine (`packages/evidence/src/confidence.ts`)
+
+`ConfidenceEngine.compute(input)` derives a six-factor confidence score
+using a product model. Every factor carries a rationale; limitations
+surface what was not captured. The dimensions map directly to the
+Verifier role's documented confidence factors:
+
+| Verifier factor | PCS-026 dimension | Computation |
+|---|---|---|
+| profile-coverage | `profile-coverage` | ran / expected profile checks |
+| check-success | `check-success` | passed / run checks |
+| evidence-integrity | `evidence-integrity` | checks backed by evidence / total |
+| evidence-independence | `evidence-independence` | distinct content-addressed items / total |
+| replayability | `replayability` | replayable / total evidence items |
+| freshness | `freshness` | within configurable freshness window |
+
+A verifier can never return a confidence score without exposing why.
+Confidence is derived, never agent-assigned.
+
+### Verifier service (future)
+
+The documented Verifier role — evaluating evidence against acceptance
+criteria and producing `VERIFIED` / `UNVERIFIED` / `FAILED` /
+`INDETERMINATE` verdicts — is not yet implemented as a standalone
+service. When built, it consumes `VerificationEvidenceBundle` from the
+pipeline, applies the acceptance criteria documented in this role, and
+attaches a structured verdict to the bundle.
+
+---
+
 ## The Verifier In The Organization
 
 ```text
