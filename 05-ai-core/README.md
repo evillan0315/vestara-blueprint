@@ -108,6 +108,7 @@ tags: ["ai", "core", "architecture", "overview"]
 - [Memory Architecture](memory/01-memory-architecture.md)
 - [Provider Manager](providers/01-provider-manager.md)
 - [Companion — Human Interface, Continuity & Personal Assistance Agent](agents/companion.md)
+- [Director — Organizational Intent, Authority & Decision Agent](agents/director.md)
 
 
 
