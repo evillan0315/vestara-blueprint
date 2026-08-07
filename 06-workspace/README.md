@@ -258,3 +258,22 @@ Builders orchestrate and project existing domain contracts—they do not own the
 
 *This volume defines the projection layer for the Vestara Engineering Operating System.*
 *Domain contracts are defined in Volumes 04, 08, and 14.*
+
+## Related documents
+
+- [Workspace UX Contract](01-workspace-ux-contract.md)
+- [Workspace Architecture](02-workspace-architecture.md)
+- [Engineering Session Workspace Projection](05-engineering-session.md)
+- [Workspace Modes](06-workspace-modes.md)
+- [Application Builder](builders/01-application-builder.md)
+- [API Builder](builders/02-api-builder.md)
+- [CLI and Workspace Integration](cli-workspace-integration.md)
+- [Engineering Session](engineering-session.md)
+- [Universal Inspector](inspector.md)
+- [Settings Architecture](settings-architecture.md)
+- [Contextual Tool Contract](tools/01-contextual-tool-contract.md)
+- [Messages Workspace](tools/02-messages-workspace.md)
+- [Vestara Assist](vestara-assist.md)
+- [Workspace Module](workspace-module.md)
+- [Workspace Projections](workspace-projections.md)
+

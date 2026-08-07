@@ -79,6 +79,37 @@ tags: ["platform", "architecture", "overview"]
 - [engineering-event-architecture.md](engineering-event-architecture.md) — event store + temporal model
 > Earlier service-oriented framing is superseded (see [01-platform-overview.md](01-platform-overview.md)).
 
+## Related documents
+
+- [Platform Architecture](PLATFORM_OVERVIEW.md)
+- [API Domain](builder-domains/api-domain.md)
+- [Application Domain](builder-domains/application-domain.md)
+- [Builder Registry](builder-domains/builder-registry.md)
+- [BuilderRuntime](builder-domains/builder-runtime.md)
+- [Builder SDK](builder-domains/builder-sdk.md)
+- [Builder Template](builder-domains/builder-template.md)
+- [Database Domain](builder-domains/database-domain.md)
+- [Infrastructure Domain](builder-domains/infrastructure-domain.md)
+- [Integration Domain](builder-domains/integration-domain.md)
+- [Workflow Domain](builder-domains/workflow-domain.md)
+- [Calendar Domain](calendar/calendar-domain.md)
+- [Contacts Domain](contacts/contacts-domain.md)
+- [Messaging Connector Runtime](messaging/messaging-connector-runtime.md)
+- [Messaging Domain](messaging/messaging-domain.md)
+- [Messaging Provider Contract](messaging/messaging-provider-contract.md)
+- [Notifications Domain](notifications/notifications-domain.md)
+- [Platform Kernel](platform-kernel.md)
+- [Runtime Graph](runtime-graph.md)
+- [Vestara Engineering IDE](vestara-engineering-ide.md)
+- [Contribution APIs](workspace/contribution-apis.md)
+- [Docking API](workspace/docking-api.md)
+- [Workspace Module Context](workspace/workspace-module-context.md)
+- [Workspace Runtime](workspace/workspace-runtime.md)
+- [Workspace SDK Internal](workspace/workspace-sdk-internal.md)
+- [Workspace SDK](workspace/workspace-sdk.md)
+
+
+
 **END OF PLATFORM VOLUME OVERVIEW**
 
 *The platform is the foundation. Every product is an expression of platform capabilities.*

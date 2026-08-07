@@ -279,3 +279,15 @@ Proposal → Research → Architecture Review → Blueprint Approval → Impleme
 ---
 
 *Vestara AI OS — Empowering people to transform ideas into products, businesses, and lifelong skills.*
+
+## Related documents
+
+- [Vestara AI OS — GitHub Copilot Instructions](.github/copilot-instructions.md)
+- [AGENTS.md](AGENTS.md)
+- [AI_AGENTS.md](AI_AGENTS.md)
+- [AI Context](AI_CONTEXT.md)
+- [AI_INSTRUCTION.md](AI_INSTRUCTION.md)
+- [AI_RULES.md](AI_RULES.md)
+- [CLAUDE.md](CLAUDE.md)
+- [🏛️ Vestara Constitution](VESTARA_CONSTITUTION.md)
+

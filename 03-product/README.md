@@ -29,3 +29,8 @@ tags: ["volume", "overview"]
 | `04-platform` | Platform foundation |
 | `05-ai-core` | AI capabilities |
 | `14-engineering` | Engineering standards |
+
+## Related documents
+
+- [Product Strategy](01-product-strategy.md)
+

@@ -99,6 +99,17 @@ tags: ["ai", "core", "architecture", "overview"]
 - [provider-architecture.md](provider-architecture.md) — provider-neutral runtime
 - [trust-and-confidence.md](trust-and-confidence.md) — permission / trust / confidence
 
+## Related documents
+
+- [AI Constitution (Core)](AI_CONSTITUTION.md)
+- [AI Architecture Overview](AI_OVERVIEW.md)
+- [Vestara Brain Architecture — The Four Brains](BRAIN-ARCHITECTURE.md)
+- [Cognitive Architecture v1.0](COGNITIVE-ARCHITECTURE.md)
+- [Memory Architecture](memory/01-memory-architecture.md)
+- [Provider Manager](providers/01-provider-manager.md)
+
+
+
 **END OF AI CORE VOLUME OVERVIEW**
 
 *The AI core is the brain of Vestara. All intelligence flows through these subsystems.*

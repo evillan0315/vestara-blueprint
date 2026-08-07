@@ -52,3 +52,14 @@ Git Repository → Configuration → Assets → Packages → Filesystem
 - `VALIDATION.md`
 - `ASSET-PIPELINE.md`
 - `15-devops/`
+
+## Related documents
+
+- [Image Builder — Blueprint Schema](BLUEPRINT.md)
+- [Image Builder — Build](BUILD.md)
+- [Image Builder — Customization](CUSTOMIZATION.md)
+- [Image Builder — Filesystem Layout](FILESYSTEM.md)
+- [Image Builder — Packages](PACKAGES.md)
+- [Image Builder — Releases](RELEASES.md)
+- [Image Builder — Build-Time Validation](VALIDATION.md)
+

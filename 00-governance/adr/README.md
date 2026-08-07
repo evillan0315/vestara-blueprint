@@ -152,3 +152,16 @@ As the graph grows, the AKG can power:
 - **Architecture Runtime** — A service that indexes the AKG and exposes `findDependencies()`, `findAffectedCapabilities()`, `validateConsistency()` as queryable operations
 
 The AKG is not documentation. It is the **shared architectural memory** that both human and AI participants reason over.
+
+## Related documents
+
+- [ADR 119 agent type selection](ADR-119-agent-type-selection.md)
+- [ADR 120 durable agent execution](ADR-120-durable-agent-execution.md)
+- [ADR 121 engineering event projection](ADR-121-engineering-event-projection.md)
+- [ADR 122 real time workflow lifecycle](ADR-122-real-time-workflow-lifecycle.md)
+- [ADR 123 eight stage workflow agent attribution](ADR-123-eight-stage-workflow-agent-attribution.md)
+- [ADR 124 unified marketplace asset model](ADR-124-unified-marketplace-asset-model.md)
+- [ADR 125 ai qualification by governed engineering behavior](ADR-125-ai-qualification-by-governed-engineering-behavior.md)
+- [ADR 126 activity room as projection](ADR-126-activity-room-as-projection.md)
+- [ADR 127 local first marketplace](ADR-127-local-first-marketplace.md)
+

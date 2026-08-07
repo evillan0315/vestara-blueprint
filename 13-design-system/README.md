@@ -108,3 +108,24 @@ The normative character-cell interpretation is defined in
 ---
 
 **VDS outlives every framework. It is the common language of Vestara surfaces.**
+
+## Related documents
+
+- [VDS Design Philosophy](01-design-philosophy.md)
+- [VDS Brand Identity](02-brand-identity.md)
+- [VDS Color System](03-color-system.md)
+- [VDS Typography](04-typography.md)
+- [VDS Grid & Layout](05-grid-layout.md)
+- [VDS Spacing](06-spacing.md)
+- [VDS Iconography](07-icons.md)
+- [VDS Motion](08-motion.md)
+- [VDS Components](09-components.md)
+- [VDS Design Patterns](10-design-patterns.md)
+- [VDS Agent Identity](11-agent-identity.md)
+- [VDS Conversation UI](12-conversation-ui.md)
+- [VDS Dashboard Design](13-dashboard-design.md)
+- [VDS Design Tokens](14-design-tokens.md)
+- [VDS Accessibility](15-accessibility.md)
+- [VDS Theme Engine](16-theme-engine.md)
+- [VDS Cross-Surface Provider UX](18-cross-surface-provider-ux.md)
+

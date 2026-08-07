@@ -62,6 +62,12 @@ tags: ["data", "database", "knowledge-graph", "vector", "sync"]
 
 ---
 
+## Related documents
+
+- [Engineering Event Store (Data Volume)](engineering-event-store.md)
+
+
+
 **END OF DATA VOLUME OVERVIEW**
 
 *Data is the user's most valuable asset. We treat it with the respect it deserves.*

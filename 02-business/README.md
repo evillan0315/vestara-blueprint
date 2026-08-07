@@ -41,6 +41,12 @@ tags: ["business", "model", "pricing", "market"]
 
 ---
 
+## Related documents
+
+- [Business Model](01-business-model.md)
+
+
+
 **END OF BUSINESS VOLUME OVERVIEW**
 
 *Business model = how value creation becomes value capture.*

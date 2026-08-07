@@ -44,6 +44,19 @@ tags: ["appendix", "glossary", "references", "archive"]
 - [capability-maturity-matrix.md](capability-maturity-matrix.md) — canonical capability status
 - [implementation-alignment.md](implementation-alignment.md) — status legend + repository references
 
+## Related documents
+
+- [Architecture Validation Engine](architecture-validation-engine.md)
+- [Canonical Engineering Model](canonical-engineering-model.md)
+- [Capability Catalog](capability-catalog.md)
+- [Commit-to-Capability Map](commit-capability-map.md)
+- [Document Registry](document-registry.md)
+- [Evidence Bundle Standard](evidence-bundle-standard.md)
+- [Package Documentation Matrix](package-documentation-matrix.md)
+- [Documentation Reconciliation Report — 2026-08-02](reconciliation-report-2026-08-02.md)
+
+
+
 **END OF APPENDIX VOLUME OVERVIEW**
 
 *The appendix makes the Blueprint self-contained — no external resources needed to understand Vestara.*
