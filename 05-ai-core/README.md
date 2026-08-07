@@ -113,6 +113,8 @@ tags: ["ai", "core", "architecture", "overview"]
 - [Developer — Engineering Implementation & Execution Agent](agents/developer.md)
 - [Observer — Organizational Awareness, Continuity & Intervention Agent](agents/observer.md)
 - [Verifier — Evidence Sufficiency & Verification Verdict Agent](agents/verifier.md)
+- [Planner — Intent Decomposition & Work Planning Agent](agents/planner.md)
+- [Counselor — Governance Oversight, Constitutional Compliance & Authority Check Agent](agents/counselor.md)
 
 
 
