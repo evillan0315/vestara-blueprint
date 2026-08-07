@@ -112,6 +112,7 @@ tags: ["ai", "core", "architecture", "overview"]
 - [Reviewer — Independent Engineering Review & Challenge Agent](agents/reviewer.md)
 - [Developer — Engineering Implementation & Execution Agent](agents/developer.md)
 - [Observer — Organizational Awareness, Continuity & Intervention Agent](agents/observer.md)
+- [Verifier — Evidence Sufficiency & Verification Verdict Agent](agents/verifier.md)
 
 
 
