@@ -107,6 +107,7 @@ tags: ["ai", "core", "architecture", "overview"]
 - [Cognitive Architecture v1.0](COGNITIVE-ARCHITECTURE.md)
 - [Memory Architecture](memory/01-memory-architecture.md)
 - [Provider Manager](providers/01-provider-manager.md)
+- [Companion — Human Interface, Continuity & Personal Assistance Agent](agents/companion.md)
 
 
 
