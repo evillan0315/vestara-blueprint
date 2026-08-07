@@ -109,6 +109,7 @@ tags: ["ai", "core", "architecture", "overview"]
 - [Provider Manager](providers/01-provider-manager.md)
 - [Companion — Human Interface, Continuity & Personal Assistance Agent](agents/companion.md)
 - [Director — Organizational Intent, Authority & Decision Agent](agents/director.md)
+- [Reviewer — Independent Engineering Review & Challenge Agent](agents/reviewer.md)
 
 
 
