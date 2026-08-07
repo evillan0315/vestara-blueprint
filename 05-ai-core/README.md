@@ -110,6 +110,7 @@ tags: ["ai", "core", "architecture", "overview"]
 - [Companion — Human Interface, Continuity & Personal Assistance Agent](agents/companion.md)
 - [Director — Organizational Intent, Authority & Decision Agent](agents/director.md)
 - [Reviewer — Independent Engineering Review & Challenge Agent](agents/reviewer.md)
+- [Developer — Engineering Implementation & Execution Agent](agents/developer.md)
 
 
 
