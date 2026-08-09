@@ -106,6 +106,7 @@ tags: ["ai", "core", "architecture", "overview"]
 - [Vestara Brain Architecture — The Four Brains](BRAIN-ARCHITECTURE.md)
 - [Cognitive Architecture v1.0](COGNITIVE-ARCHITECTURE.md)
 - [Memory Architecture](memory/01-memory-architecture.md)
+- [Organizational Memory Principle — State Transitions and Relationships](memory/02-organizational-memory-principle.md)
 - [Provider Manager](providers/01-provider-manager.md)
 - [Companion — Human Interface, Continuity & Personal Assistance Agent](agents/companion.md)
 - [Director — Organizational Intent, Authority & Decision Agent](agents/director.md)
