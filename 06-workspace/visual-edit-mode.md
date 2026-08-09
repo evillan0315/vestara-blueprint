@@ -183,6 +183,116 @@ component sizing could become **configuration rather than generated code** —
 making Visual Edit a native capability of the Vestara UI runtime rather than an
 AI coding feature. Recorded as direction, not yet an experiment.
 
+### VE-4 — Implementation Proposal (COMPLETE)
+
+**Hypothesis under test:** can Vestara resolve a confirmed Design Intent into
+the actual component architecture without mutating source?
+
+**Mechanism (smallest):** a semantic-target → source manifest resolves what the
+Director pointed at into the component architecture (Activity Composer →
+`ActivityComposer.tsx`; Activity Message / Organizational Event →
+`ActivityItem.tsx` variant; Activity Stream → `ActivityStream.tsx`), and a
+proposal builder renders: Resolved target, Affected source, Proposed
+implementation, Expected visual outcome, Scope: instance, Risk, Unrelated
+behavior, Verification. Inspection only — no code generated, no source
+mutation.
+
+**Result — PASS.**
+
+- Director perceptual verification: PASS — **"I can see the intent and
+  proposal. This is good and I like it. With this feature, it makes the app
+  alive."**
+- The controlled bridge (`Rendered UI → Semantic Target → Design Intent →
+  Architecture Resolution → Implementation Proposal`) avoids the dangerous
+  shortcut of DOM-element → arbitrary source editing.
+
+### Presentational vs behavioral safety boundary (recorded)
+
+Visual Edit's first safety boundary:
+
+```text
+PRESENTATIONAL
+alignment, spacing, density, size, visibility,
+typography, presentation variant
+        ↓
+potentially direct/config-driven
+
+BEHAVIORAL
+events, data fetching, business logic, routing,
+permissions, state transitions
+        ↓
+Developer / engineering workflow
+```
+
+The Intent Classifier routes presentation-only intents to configuration; the
+rest goes to the engineering workflow. This matters enormously if Visual Edit
+ever extends beyond Activity Room.
+
+### VE-5 — Apply (design only, not implemented)
+
+**The first write boundary.** VE-5 asks:
+
+> Can Vestara safely apply one confirmed presentation change and make the
+> running application match the preview?
+
+**Design — configuration-first, minimal scope.**
+
+- Introduce a small declarative presentation configuration consumed by the
+  Activity components:
+
+  ```text
+  ActivityMessage:
+    alignment: left
+    density: compact
+    presentation: minimal
+
+  OrganizationalEvent:
+    alignment: center
+    density: compact
+    presentation: minimal
+  ```
+
+- When the Director visually edits, the Intent Classifier checks whether the
+  change is presentation-only. If yes, it produces a **Visual Configuration**
+  update that React renders directly — no TSX rewrite.
+
+- **Constraint:** the first VE-5 experiment applies exactly **one confirmed
+  presentation intent to one target/property set** (e.g., Activity Message
+  alignment on the instance or a config-level variant). Reversible. Before/
+  after preview evidence retained. Behavioral changes are explicitly out of
+  scope.
+
+### VE-6 — Verify (design, the loop closer)
+
+After VE-5 applies something, the verifier compares the intended preview
+against the running UI and must be able to say:
+
+```text
+Target        Organizational Event          MATCH
+Alignment     expected center / observed    MATCH
+Density       expected compact / observed   MATCH
+Presentation  expected minimal / observed   MATCH
+Scope         expected organizational-event; unrelated Activity Messages changed: 0
+
+Result: VERIFIED
+```
+
+"Did anything else change?" is as important as verifying the requested thing
+changed. This closes the epistemic loop:
+
+> I know what you pointed at. I know what you changed. I can explain what I
+> think you mean. I know where that belongs architecturally. I can apply it
+> through an appropriate mechanism. And I can demonstrate that the resulting
+> application matches what you asked for without unexpectedly changing
+> something else.
+
+### Revised phase sequence
+
+```text
+VE-1 Ground   → VE-2 Manipulate → VE-3 Understand Intent
+→ VE-4 Resolve Architecture + Propose → VE-5 Apply → VE-6 Verify
+```
+
 ## 1. Problem Statement
 
 Current AI-driven UI modification relies heavily on natural-language
