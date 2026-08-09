@@ -1478,6 +1478,8 @@ The capability is complete when:
 
 # Final Product Experience
 
+> Related: [Vestara Visual Edit Mode — human–AI interaction model for visual software modification](visual-edit-mode.md) (the proposed mechanism for directly manipulating this interface).
+
 The intended experience should feel like entering the engineering room where Vestara is operating.
 
 The user should be able to see:

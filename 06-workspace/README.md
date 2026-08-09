@@ -114,6 +114,7 @@ Platform
 | `06-workspace-modes.md` | Adaptive interface contexts | Approved |
 | `workspace-projections.md` | Domain contract projection rules | Approved |
 | `activity-room.md` | Activity Room (AAR-001) implementation plan | Proposed |
+| `visual-edit-mode.md` | Visual Edit Mode — human–AI interaction model for visual software modification (experimental direction) | Proposed |
 
 ### Builders
 

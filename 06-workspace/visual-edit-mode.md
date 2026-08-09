@@ -1,0 +1,620 @@
+---
+id: "visual-edit-mode"
+title: "Vestara Visual Edit Mode — Human–AI Interaction Model for Visual Software Modification"
+volume: "06-workspace"
+book: "Book 2: Platform Architecture"
+version: "0.1.0"
+status: "proposed"
+architecture-status: "proposed"
+implementation-status: "proposed"
+verification-status: "unverified"
+implementation-repository: "evillan0315/vestara-ai-core"
+implementation-ref: "pending"
+tags: ["visual-edit", "design-intent", "human-ai-interaction", "ux", "experiment"]
+---
+
+# Vestara Visual Edit Mode — Blueprint Plan
+
+A proposed human–AI interaction model for visual software modification,
+derived from a failed convergence experiment on the Activity Room. Recorded as
+an **experimental direction with explicit falsification points**, not as an
+architectural mandate.
+
+## 1. Problem Statement
+
+Current AI-driven UI modification relies heavily on natural-language
+translation:
+
+```text
+Human visual perception
+        ↓
+Natural-language description
+        ↓
+AI interpretation
+        ↓
+Source-code modification
+        ↓
+Rendered application
+        ↓
+Human visual judgment
+        ↺
+```
+
+The Activity Room experiment demonstrated that this loop can be expensive and
+imprecise even when:
+
+- the human provides screenshots;
+- a reference UI is supplied;
+- the model supports image understanding;
+- implementation requirements are explicit;
+- structural/E2E tests pass;
+- visual fixtures pass.
+
+The resulting interface can still fail to represent the user's intended
+experience.
+
+### Experimental finding
+
+**Status: Failed experiment / useful evidence**
+
+> Natural-language instructions plus screenshots did not converge on the
+> intended Activity Room UI with acceptable precision, cost, and human effort.
+
+This does **not** establish that AI cannot perform UI work. It establishes
+that natural language and screenshots alone are an insufficiently precise
+interaction mechanism for some visual modifications.
+
+### Product hypothesis
+
+Vestara should allow humans to manipulate the interface directly and convert
+those manipulations into structured design intent that agents can implement,
+verify, and preserve.
+
+The goal is not:
+
+> AI generates whatever UI it thinks the human wants.
+
+The goal is:
+
+> **The human edits the experience. Vestara handles the engineering.**
+
+## 2. Core Principle
+
+Visual Edit Mode must not require the user to understand frontend
+implementation.
+
+The human should work with concepts such as:
+
+```text
+Move        Resize      Align        Hide        Show
+Compact     Spacious    Quiet       Prominent
+Icon only   Apply to similar   Match this   Undo
+Preview     Accept
+```
+
+Not:
+
+```text
+display: flex
+justify-content: flex-end
+max-width: 65%
+padding-inline
+Tailwind classes
+React component props
+CSS selectors
+DOM hierarchy
+```
+
+Those remain implementation concerns for Developer.
+
+## 3. Architectural Boundary
+
+The most important architectural decision:
+
+> **Direct visual manipulation must produce Design Intent, not arbitrary
+> permanent CSS mutations.**
+
+Example:
+
+```text
+Human action
+    │
+    ▼
+Resize ActivityComposer
+    │
+    ▼
+Visual Edit Interpreter
+    │
+    ▼
+Design Intent
+
+target:     ActivityComposer
+property:   density
+desired:    compact
+evidence:   previousHeight: 138  previewHeight: 82
+scope:      component
+    │
+    ▼
+Developer
+    │
+    ▼
+Source implementation
+    │
+    ▼
+Verification
+    │
+    ▼
+Human approval
+```
+
+The visual editor therefore communicates intent to the engineering system
+rather than becoming an alternative source-code editor.
+
+## 4. Sources of Truth
+
+Visual Edit Mode should maintain clear epistemic boundaries.
+
+| Layer | Authority |
+|---|---|
+| Source code | Authoritative for the implemented application. |
+| Design Intent | Authoritative for what the human requested. |
+| Preview state | Temporary and disposable. |
+| Rendered evidence | Evidence of what the implementation actually produced. |
+| Human approval | Evidence that the implementation satisfied the intended experience. |
+
+This avoids turning temporary browser manipulation into permanent
+organizational truth.
+
+## 5. Phase 0 — Preserve the Experiment
+
+This should happen before implementation.
+
+Create a Blueprint finding documenting the Activity Room experiment.
+
+Record:
+
+- original UI problem;
+- screenshots/references provided;
+- DeepSeek iterations;
+- multimodal Luna experiment;
+- significant token-cost difference;
+- structural verification passing despite visual dissatisfaction;
+- Director rejection of the resulting visual experience;
+- conclusion;
+- proposed Visual Edit hypothesis.
+
+The important conclusion should be something close to:
+
+> **Visual intent is not equivalent to visual reference, and structural visual
+> verification is not equivalent to perceptual satisfaction.**
+
+And:
+
+> **Human effort must be considered part of AI-assisted UI modification
+> success.**
+
+Do not generalize beyond the evidence.
+
+Status:
+
+**Observation / hypothesis — not yet an architectural mandate.**
+
+## 6. Phase 1 — Selection and Inspection
+
+This should be the first implementation experiment.
+
+Do **not** allow editing yet.
+
+The purpose is to prove that Vestara can connect something the human sees to
+something Developer understands.
+
+When Visual Edit Mode is enabled, hovering over an editable region highlights
+its boundary.
+
+Clicking it selects the semantic component (e.g. `ActivityComposer`). Vestara
+should resolve enough context to identify:
+
+- semantic component;
+- rendered element;
+- component type;
+- source ownership if available;
+- parent/child relationship;
+- current dimensions;
+- applicable design tokens;
+- editable capabilities.
+
+The normal user should **not** see source paths by default. A technical-details
+disclosure may show them.
+
+### Phase 1 acceptance criterion
+
+A human can point at a visible Activity Room element and Vestara can
+unambiguously identify what they selected.
+
+No source modification. No AI implementation. No persistence.
+
+This phase proves **visual grounding**.
+
+## 7. Phase 2 — Safe Preview Manipulation
+
+Once selection works, introduce a very small manipulation vocabulary.
+
+Initially support only:
+
+- alignment;
+- size;
+- visibility;
+- density;
+- presentation.
+
+Example controls:
+
+```text
+Alignment:      [ Left ] [ Center ] [ Right ]
+Density:        [ Compact ] [ Comfortable ] [ Spacious ]
+Presentation:   [ Text ] [ Icon + Text ] [ Icon Only ]
+Visibility:     [ Visible ] [ Hidden ]
+```
+
+Resize handles may be introduced where appropriate.
+
+Changes affect **preview state only**. Nothing modifies source code.
+
+A prominent distinction should exist:
+
+```text
+PREVIEW MODE
+Not yet applied
+```
+
+The human can:
+
+```text
+Undo      Reset      Apply
+```
+
+### Phase 2 acceptance criterion
+
+The Director can visually manipulate the problematic Activity Room elements
+into a substantially closer approximation of the desired interface without
+describing CSS or implementation details.
+
+This is the first critical hypothesis test.
+
+## 8. Phase 3 — Structured Design Intent
+
+Once the user selects **Apply**, Vestara should convert the preview delta into
+structured intent.
+
+Conceptually:
+
+```ts
+interface DesignIntent {
+  target: DesignTarget;
+  operation: DesignOperation;
+  scope: DesignScope;
+  before: DesignState;
+  desired: DesignState;
+  provenance: DesignProvenance;
+}
+```
+
+Possible operations initially:
+
+```text
+align
+resize
+set-density
+set-presentation
+set-visibility
+```
+
+Possible scopes:
+
+```text
+instance
+component
+semantic-variant
+```
+
+If the Director moves one message right, Vestara should be able to ask:
+
+> Apply only to this message, or all Director messages?
+
+That becomes `instance` versus `semantic-variant: human-message`. The human
+answers a human-level question; Vestara determines the engineering
+implications.
+
+### Phase 3 acceptance criterion
+
+A visual manipulation can be represented without storing arbitrary CSS or
+implementation-specific instructions.
+
+## 9. Phase 4 — Developer Handoff
+
+Only now does AI implementation enter the loop.
+
+Developer receives:
+
+```text
+Design Intent
++ component context
++ current implementation
++ before screenshot
++ preview target
+```
+
+Instead of receiving "make this cleaner", Developer might receive:
+
+```text
+Target:    ActivityMessage
+Variant:   human-message
+Current:   alignment=start  presentation=bubble  maxWidth=current
+Desired:   alignment=end    presentation=bubble  width=content  maxWidth=65%
+Scope:     all human-message variants
+```
+
+Developer decides how that intent should correctly map into React/Tailwind /
+component architecture.
+
+This preserves the role boundary:
+
+> **Director determines desired experience. Developer determines
+> implementation.**
+
+### Important constraint
+
+Vestara must not require the human's preview manipulation to map one-to-one to
+generated CSS. Developer may determine that the correct implementation
+requires changing component variants, extracting shared behavior, modifying
+design tokens, adjusting responsive behavior, or changing component
+composition.
+
+The preview communicates **desired outcome**, not implementation.
+
+## 10. Phase 5 — Visual Verification
+
+This phase connects directly to Vestara's existing evidence philosophy.
+
+After Developer implements the intent:
+
+```text
+Implementation
+      ↓
+Launch application
+      ↓
+Navigate to target
+      ↓
+Render same viewport/state
+      ↓
+Capture screenshot
+      ↓
+Compare with intended preview
+```
+
+Verification should combine multiple evidence types.
+
+### Structural evidence
+
+Bounding rectangles, alignment, dimensions, visibility, computed layout,
+semantic variant.
+
+### Rendered evidence
+
+Before and after screenshots.
+
+### Behavioral evidence
+
+Interaction still works (Send still sends, Inspect still opens, correction
+still works, scrolling remains correct).
+
+### Human evidence
+
+The Director can approve:
+
+```text
+Accept            Needs adjustment            Reject
+```
+
+> A passing Playwright test does not establish visual acceptance.
+
+## 11. Phase 6 — Correction Loop
+
+If the Director selects `Needs adjustment`, Vestara should not restart from
+zero. The existing Design Intent remains available; the human selects the
+remaining problem and adjusts it.
+
+```text
+Previous intent: Human messages → right
+Result: Correct alignment, but bubble too wide.
+New adjustment: Width → content-sized
+```
+
+Vestara now has:
+
+```text
+Intent A: alignment=end
+Intent B: width=content
+```
+
+Developer receives the delta — much more precise than another paragraph.
+
+## 12. Phase 7 — Apply to Similar
+
+The human modifies one object (e.g. a Developer message). Vestara recognizes
+its semantic class (`agent-message`) and asks:
+
+> Apply this appearance to all Agent messages?
+
+Likewise: Director message → all Human messages; Verifier event → all
+Organizational events; Send button → this component only.
+
+The user manipulates an example. Vestara generalizes the intent. Developer
+implements the generalized rule.
+
+## 13. Phase 8 — Vestara Design Knowledge
+
+Deliberately postponed until the earlier experiment succeeds.
+
+Approved visual decisions can eventually become organizational design
+knowledge:
+
+```text
+Activity Room
+  Human messages       → align end, content-sized, max width 65%
+  Agent messages       → align start, content-sized, max width 65%
+  Organizational events → centered, muted, minimal presentation
+  Composer             → compact, inline send action
+```
+
+Future agents retrieve those approved rules so Developer doesn't reinvent the
+visual grammar. This creates a durable Vestara Design Language derived from
+approved experience — but only from repeated evidence, not one experiment.
+
+## 14. Phase 9 — Natural Language + Direct Manipulation
+
+Natural language becomes much more powerful when grounded by selection.
+
+- Select `ActivityComposer` and say "Make this smaller" — Vestara knows what
+  *this* means.
+- Select component A and reference component B, say "Make this look like that"
+  — two concrete targets.
+
+Combined multimodal interaction:
+
+```text
+Selection + Direct manipulation + Natural language
++ Screenshot/reference + Component semantics
+```
+
+## 15. Phase 10 — Broader Application Editing
+
+Only after Activity Room proves the concept should Visual Edit Mode become
+workspace-wide.
+
+Potential future capabilities: reorder sections, resize panels, change
+component variants, responsive previews, mobile/tablet adjustments, typography
+controls, design-token changes, reusable style propagation, accessibility
+feedback, component replacement, layout templates.
+
+**Out of scope for the initial experiment.** Activity Room remains the
+laboratory.
+
+## 16. Safety and Engineering Guardrails
+
+Visual Edit Mode should never bypass normal engineering controls. A visual
+request may have consequences the human cannot see (e.g. hiding a field could
+affect accessibility, validation, workflow completion, or compliance).
+
+```text
+Human intent → Design Intent → Engineering analysis
+→ Implementation → Verification → Human approval
+```
+
+Not:
+
+```text
+Human drags thing → Production CSS changed
+```
+
+Undo must always be available before acceptance. Existing source control,
+verification, evidence, approval, and recovery mechanisms remain intact.
+
+## 17. Resource and Model Strategy
+
+The model experiment should influence — but not dictate — the architecture.
+
+Visual Edit Mode reduces dependence on expensive multimodal reasoning because
+much of the visual intent becomes structured. A cheaper Developer could receive
+`target / desired geometry / semantic scope / component context / preview
+evidence` rather than needing to infer everything from pixels.
+
+Expensive visual models are reserved for tasks where visual reasoning adds
+value: perceptual review, reference interpretation, accessibility/contrast
+analysis, ambiguous visual comparison.
+
+This aligns model cost with required capability.
+
+## 18. Success Metrics
+
+Do not measure success only by tests passing.
+
+For the Activity Room experiment, capture:
+
+```text
+Director interactions
+Developer iterations
+Screenshots required
+Natural-language corrections
+Elapsed time
+Token/model cost
+Visual acceptance
+Behavioral regressions
+```
+
+The most important metric:
+
+> **Human effort to reach an accepted visual result.**
+
+The baseline already exists: today's screenshot/prompt/model-switching
+experiment. Visual Edit Mode should beat it materially.
+
+## 19. First Real Experiment
+
+After Phases 0–5 exist, use the **current Activity Room**. Do not manufacture
+another test interface.
+
+The Director should attempt to fix the exact unresolved problems:
+
+1. Agent messages left.
+2. Director messages right.
+3. Organizational activity centered and quiet.
+4. Message bubbles content-sized.
+5. Composer reduced.
+6. Send icon-only and correctly positioned.
+
+This time, accomplish those primarily through Visual Edit Mode.
+
+A/B experiment:
+
+```text
+Experiment A: Natural language + screenshots   → FAILED convergence target
+Experiment B: Direct manipulation + structured intent → ?
+```
+
+If B materially reduces human effort and produces an accepted result, Visual
+Edit Mode has earned further investment. If it doesn't, we revise the
+hypothesis.
+
+## Recommended implementation sequence
+
+Do **not** send this entire architecture as one implementation task.
+
+- **VE-0 — Preserve experiment and ratify boundaries.** No implementation.
+- **VE-1 — Selection/inspection prototype.** Prove browser element → semantic
+  component grounding. Stop and review.
+- **VE-2 — Preview manipulation.** Alignment, density, visibility,
+  presentation, basic resize. No source mutation. Stop and conduct the human
+  test.
+- **VE-3 — Design Intent contract.** Convert approved preview delta into
+  structured intent. Stop and inspect the resulting data ourselves.
+- **VE-4 — Developer handoff.** Let Developer translate one Activity Room
+  intent into real source changes. Stop.
+- **VE-5 — Evidence and approval loop.** Before/after render + structural
+  evidence + behavior + Director acceptance.
+
+Then — and only then — decide whether `Apply to similar`, durable design
+knowledge, or broader Visual Edit capabilities have earned implementation.
+
+**VE-2 is the decisive experiment.** If a human can enter Visual Edit Mode,
+select the Activity Room pieces, manipulate them naturally, and feel "yes, this
+is much easier", we have something. If not, we stop before building an entire
+visual engineering subsystem around a hypothesis.
+
+## Status
+
+**Proposed — experimental direction with explicit falsification points.**
+
+Recorded before implementation. This is **not** an implementation mandate and
+**not** an architectural decision. It is the next hypothesis to test, grounded
+in a failed convergence experiment and the human-effort metric it exposed.
