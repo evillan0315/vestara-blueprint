@@ -20,6 +20,44 @@ derived from a failed convergence experiment on the Activity Room. Recorded as
 an **experimental direction with explicit falsification points**, not as an
 architectural mandate.
 
+## Experiment log
+
+### VE-1 — Selection and Inspection (COMPLETE)
+
+**Hypothesis under test:** can Vestara reliably identify what the human is
+pointing at in the rendered application?
+
+**Mechanism (smallest):** the four initial semantic targets declare their
+identity on the rendered element (`data-ve-target` / `data-ve-name` — Activity
+Composer, Activity Stream, Activity Message, Organizational Event). A
+read-only overlay highlights the hovered target's actual rendered bounding
+rect and identifies it on click. No manipulation, no persistence, no source
+mutation; normal behavior untouched when disabled.
+
+**Result — PASS:**
+
+| What you perceive | What Vestara understands |
+|---|---|
+| Activity stream | Activity Stream |
+| Message | Activity Message |
+| Composer | Activity Composer |
+| Nested message UI (action icon) | Activity Message |
+
+- Technical verification: PASS (real-browser hover → boundary matches the
+  visible element; click → correct semantic component; nested controls resolve
+  to the nearest semantic target; toggle-off preserves normal behavior).
+- Director perceptual verification: PASS ("It's perfect!").
+- Visual grounding hypothesis: **SUPPORTED** for the initial Activity Room
+  semantic targets.
+
+**Qualification:** grounding is proven for the initial Activity Room targets,
+not universal arbitrary-component grounding. That is exactly enough evidence
+for this phase.
+
+**Implication:** the translation loss from the failed convergence experiment
+has a demonstrated alternative — humans can point at the object they mean, and
+Vestara understands it directly.
+
 ## 1. Problem Statement
 
 Current AI-driven UI modification relies heavily on natural-language
