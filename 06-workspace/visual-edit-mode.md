@@ -322,6 +322,33 @@ property, before, after, scope, appliedBy, mechanism) and **Undo** restores it.
 **VE-6 — Verify (next, not implemented):** compare intended preview vs running
 UI per dimension, including "did anything else change?".
 
+### VE-6 — Verify (COMPLETE)
+
+**Hypothesis under test:** after applying a confirmed visual intent, can
+Vestara independently prove that the rendered result matches the intent and
+that unrelated UI did not change?
+
+**Mechanism (smallest):** a visual verifier reads the DOM — it does not trust
+the config store — and compares observed computed styles against the expected
+configuration values per dimension (alignment → align-self, density →
+padding, presentation → background-color), checks scope (changed matching
+instances = 1, unexpected changed instances = 0), and confirms behavioral
+integrity (target still rendered, action still present, stream intact). It
+produces a per-dimension MATCH/PARTIAL report and a VERIFIED/PARTIAL
+conclusion.
+
+**Result — the loop is closed.**
+
+- After Apply (right / compact / minimal), Verify reports all three dimensions
+  MATCH, scope clean, behavioral checks ok, Conclusion: VERIFIED.
+- **Drift detection:** when the rendered state diverges from the intent (a
+  manual override), Verify reports PARTIAL — it does not trust the config
+  store.
+
+The full sequence is now an end-to-end primitive:
+
+> See → Point → Manipulate → Understand → Confirm → Propose → Apply → Verify
+
 ## 1. Problem Statement
 
 Current AI-driven UI modification relies heavily on natural-language
