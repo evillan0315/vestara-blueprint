@@ -58,6 +58,36 @@ for this phase.
 has a demonstrated alternative — humans can point at the object they mean, and
 Vestara understands it directly.
 
+### VE-2 — Preview Manipulation (COMPLETE)
+
+**Hypothesis under test:** can the human manipulate the visible UI directly
+and get materially closer to the intended result without translating intent
+into engineering language?
+
+**Mechanism:** the selected element (from VE-1 grounding) gains three
+human-level controls — Alignment (Left/Center/Right), Density
+(Compact/Comfortable/Spacious), Presentation (Bubble/Minimal). All changes are
+preview-only runtime DOM styles on the selected instance; never source, never
+persisted. Reset restores the original rendered state.
+
+**Result — PASS with minor preview-mechanism limitations.**
+
+- Director perceptual verification: PASS — "I think I like it very much";
+  controls visibly change the rendered experience immediately, with
+  dramatically lower cognitive effort than describe → interpret → code →
+  inspect.
+- Contrast with the failed experiment: yesterday "describe → interpret → code
+  → inspect → describe again"; today "select → click Right → see it move".
+
+**Recorded preview limitations (not implementation defects; preserve for
+later):**
+
+1. Director message does not move fully to the right in preview.
+2. Bubble presentation does not behave exactly as expected in preview.
+
+These are preview-fidelity limitations, not evidence against the interaction
+model. Do not mistake preview fidelity for perfect implementation.
+
 ## 1. Problem Statement
 
 Current AI-driven UI modification relies heavily on natural-language
