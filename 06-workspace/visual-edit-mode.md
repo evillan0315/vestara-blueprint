@@ -88,6 +88,101 @@ later):**
 These are preview-fidelity limitations, not evidence against the interaction
 model. Do not mistake preview fidelity for perfect implementation.
 
+### VE-3 — Structured Design Intent (TECHNICAL PASS)
+
+**Hypothesis under test:** can Vestara turn a visual manipulation into an
+accurate, implementation-neutral statement of intent?
+
+**Mechanism:** the preview operations performed in VE-2 are captured as
+structured, implementation-neutral intent — Target, exact Instance (record
+id), Operations (alignment, density, presentation), Scope: instance,
+Provenance (Director visual manipulation · VE-2 preview) — rendered for human
+inspection. No generated code, no persistence.
+
+**Result — TECHNICAL PASS** (automated E2E performs the actual sequence:
+select Developer message → Left → Compact → Minimal → inspect intent → the
+intent corresponds to those operations). Director perceptual test pending:
+use Visual Edit, make changes, open "View intent", and confirm *"is that an
+accurate description of what I just asked Vestara to change?"*
+
+**The pipeline is now separated architecturally:**
+
+```text
+VE-1 Grounding     "What am I pointing at?"
+VE-2 Manipulation  "What do I want changed?"
+VE-3 Intent        "What does Vestara believe I asked for?"
+VE-4 Implementation "How should verified intent modify the application?"
+```
+
+### Future Design Intent scope model (recorded, not expanded)
+
+Scope will become one of the most important concepts in Visual Edit. Selecting
+one message could mean *this message*, *all Activity Messages*, *all Developer
+messages*, or *all agent messages in Activity Room* — radically different
+implementation requests from identical visual manipulation.
+
+```text
+Future Design Intent scope model
+
+instance
+component
+semantic-group
+page
+workspace
+```
+
+Future example:
+
+```text
+Target:   Activity Message
+Instance: activity:msg:123
+Operations:
+  alignment:    left
+  density:      compact
+  presentation: minimal
+
+Scope:
+  kind: semantic-group
+  selector:
+    actorType: agent
+
+Provenance:
+  source: visual-manipulation
+  actor:  Director
+```
+
+**This is the beginning of a UI modification language** — not CSS, Tailwind,
+React props, or DOM mutations, but a human-intent representation for
+presentation. The same Design Intent could be consumed by different
+implementations (React Web UI, Desktop UI, Marketplace UI); the implementation
+layer decides whether that means Tailwind classes, CSS variables, component
+props, theme configuration, or something else.
+
+### Configuration-first direction (recorded, not implemented)
+
+For safe presentation-level changes, a future Intent Classifier could route
+declarative-configuration targets directly:
+
+```text
+Visual Intent
+      ↓
+Intent Classifier
+      ↓
+Declarative configuration?  ── Yes ──→ Apply safely
+      │ No
+      ▼
+Implementation required
+      ↓
+Developer
+      ↓
+Verifier
+```
+
+Alignment, spacing, density, typography, visibility, presentation variants,
+component sizing could become **configuration rather than generated code** —
+making Visual Edit a native capability of the Vestara UI runtime rather than an
+AI coding feature. Recorded as direction, not yet an experiment.
+
 ## 1. Problem Statement
 
 Current AI-driven UI modification relies heavily on natural-language
