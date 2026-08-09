@@ -293,6 +293,35 @@ VE-1 Ground   → VE-2 Manipulate → VE-3 Understand Intent
 → VE-4 Resolve Architecture + Propose → VE-5 Apply → VE-6 Verify
 ```
 
+### VE-5 — Apply (COMPLETE)
+
+**The first write boundary.** Hypothesis: can Vestara safely and reversibly
+cross from confirmed human intent into a real application mutation?
+
+**Mechanism (configuration-first):** a tiny declarative visual configuration
+(`visual-config.ts`) keyed by instance id, consumed by the Activity components
+through React (`overrideStyle`) — **no TSX rewrite**. Apply preserves Design
+Intent scope exactly: instance scope is representable; any other scope is
+**refused** ("Cannot safely apply this scope yet") rather than broadened. The
+previous value is retained as an `AppliedChange` record (target, instance,
+property, before, after, scope, appliedBy, mechanism) and **Undo** restores it.
+
+**Result — the write boundary is proven.**
+
+- The running React UI reflects the configuration (the applied alignment
+  persists after Visual Edit is toggled off — it is config-driven, not a
+  transient preview mutation).
+- Source component TSX is not rewritten (the message's variant class is
+  unchanged).
+- Undo restores the previous rendered state.
+- Refusal is exercised: a component without an instance (Activity Composer)
+  cannot be applied with instance scope — Vestara refuses rather than
+  broadening.
+- The acceptance criteria (1–10) from review are met.
+
+**VE-6 — Verify (next, not implemented):** compare intended preview vs running
+UI per dimension, including "did anything else change?".
+
 ## 1. Problem Statement
 
 Current AI-driven UI modification relies heavily on natural-language
