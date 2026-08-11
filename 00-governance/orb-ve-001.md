@@ -3,8 +3,8 @@ id: "orb-ve-001"
 title: "ORB-VE-001 — Organizational Convergence Experiment (benchmark specification)"
 volume: "00-governance"
 book: "Book 1: Governance"
-version: "0.1.0"
-status: "proposed"
+version: "0.2.0"
+status: "accepted"
 architecture-status: "proposed"
 implementation-status: "proposed"
 verification-status: "unverified"
@@ -470,8 +470,37 @@ A failed workflow that Activity Room explains perfectly can prove Activity Room
 more strongly than a successful workflow with nothing interesting happening.
 Both axes are scored independently and reported separately.
 
+## 21. Single review pass — experiment-integrity check (FROZEN)
+
+The one permitted review pass examined only experiment-invalidating problems.
+
+| # | Integrity check | Coverage |
+| -- | --------------- | -------- |
+| 1 | Hypothesis can be falsified | §2 + §18 scoring; FAIL/PARTIAL are legitimate outcomes |
+| 2 | Acceptance criteria observable | §16 contract lists observable behaviors |
+| 3 | Contamination controlled | §6 (no answer leakage incl. agent context; not scored if contaminated) |
+| 4 | Historical reference inaccessible | §6 + §15 (reference not revealed until frozen) |
+| 5 | Director interventions classified | §11 |
+| 6 | Terminal conclusions derived, not agent-declared | §14 |
+| 7 | BLOCKED / FAILED / INDETERMINATE can occur | §14 terminal states |
+| 8 | Responsibility causally traceable to conditions | §4 + §12 |
+| 9 | Organization can become quiescent | §13 |
+| 10 | Execution and observability independently evaluated | §20 (four outcomes) |
+| 11 | Run frozen before reference comparison | §15 |
+
+No experiment-invalidating problem found.
+
 ## Status
 
-**Proposed — benchmark specification only. Recorded, not executed.** Execution
-is a separate authorized step that begins only after this specification is
-reviewed once and frozen.
+**FROZEN — experiment contract.**
+
+This specification is frozen as the ORB-VE-001 experiment contract. No further
+design additions, acceptance-criteria changes, or orchestration help are
+permitted while the run is in progress. Observed gaps are recorded as evidence,
+not fixed mid-run. The sole permitted interventions are safety or experiment
+integrity (isolation breach, prohibited reference access, unrelated repository
+risk), each recorded with its reason.
+
+Execution is a separate authorized step: identify the baseline worktree/commit,
+prepare the isolated environment, and only then run — without changing these
+rules while the run is live.
