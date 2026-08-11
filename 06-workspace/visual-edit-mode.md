@@ -376,6 +376,49 @@ auto-verify, "Saved and verified"). Can Vestara prove the resulting UI is what
 the human requested? (yes — the verifier reads the DOM, drift detection
 included).
 
+### REOPENED — Director verification contradiction (RESOLVED)
+
+The milestone was reopened when the Director's manual workflow contradicted the
+automated evidence: after `Visual Edit → Apply → Saved and verified → reload`,
+the Activity Room reverted to the previous presentation. The screenshot also
+showed a contradiction — `✓ Saved and verified` while the verifier reported
+`Changed matching instances: 2`, `Unexpected changed instances: 1`,
+`Conclusion: PARTIAL`.
+
+**Root causes found by tracing the full durability lifecycle:**
+
+1. **Route never dispatched.** `handleActivityRoomRoute` was registered only
+   for the `/api/activity-room` prefix; `/api/visual-config` was never routed,
+   so PUT never persisted and GET returned 404 → empty → revert. Fixed by
+   registering the `/api/visual-config` prefix.
+2. **GET double-wrapped the persisted shape.** The durable file stores
+   `{ overrides: {...} }`, but GET returned `{ overrides: <file content> }`,
+   so the client hydrated `overrides.overrides` and found nothing. Fixed to
+   return the inner map.
+3. **Success state not gated on the verdict.** The toast showed
+   `✓ Saved and verified` whenever an apply was recorded, regardless of a
+   PARTIAL verdict. Fixed: PARTIAL/indeterminate now shows
+   `⚠ Applied, but verification partial` — a PARTIAL verdict can never display
+   "Saved and verified".
+4. **Verifier scope miscount.** `Changed matching instances` counted all
+   overrides (e.g. 2 after two applies) and `Unexpected changed` was a naive
+   `count-1`. Fixed: matching = whether the applied instance has an override;
+   unexpected = overrides on *other* instances.
+
+**Why the automated tests previously passed while the Director's workflow
+failed:** the VE E2E mocked `/api/visual-config` with an in-test store, so it
+never exercised the real route wiring or the real GET shape — the client-side
+hydration logic was proven against a mock, not the production-like runtime.
+Closed the blind spot: an API regression test now asserts the dispatch prefix
+and the PUT→GET persistence round-trip against a temp repo path, and the VE
+E2E isolates non-durability tests from real persisted state.
+
+**Live proof (exact Director workflow):** against the running API — enter
+Visual Edit, select a real message, Apply right → `✓ Saved and verified` →
+real browser reload → the message is still right-aligned, reconstructed from
+the durable config. The three truths agree: persisted (file), rendered (DOM),
+verification (VERIFIED).
+
 ## 1. Problem Statement
 
 Current AI-driven UI modification relies heavily on natural-language
