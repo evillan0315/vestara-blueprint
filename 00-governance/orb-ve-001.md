@@ -372,6 +372,104 @@ contradictory evidence, invalidates the conclusion, assigns the unresolved
 condition, investigates, corrects, strengthens evidence, and stops only when
 the original condition resolves.
 
+## 20. Secondary observation track: Activity Room observability
+
+ORB-VE-001 tests **two systems simultaneously**:
+
+1. Can Vestara's organization execute and converge on the engineering problem?
+2. Can the Activity Room faithfully reconstruct that organizational process for
+   the Director?
+
+The second matters because Activity Room was built around the premise that the
+Director should not watch terminal output, inspect agent logs, or ask each
+participant what happened — the room should explain the organization.
+
+### Activity Room Observability Hypothesis
+
+> The existing durable activity history and Effective State projection are
+> sufficient for a Director to reconstruct the organization's current state,
+> responsibility, unresolved conditions, significant decisions, evidence
+> transitions, human requests, and terminal outcome without relying on
+> agent-private logs.
+
+### Expected capture (natural, not instrumented)
+
+```text
+Director     Submitted product intent
+Planner      Investigating problem → Created hypothesis / plan
+Developer    Accepted responsibility for UC-001 → Implementation activity → Submitted evidence
+Reviewer     Finding: evidence insufficient → Responsibility transferred
+Developer    Corrective work
+Verifier     Verification started → Evidence collected
+Observer     No unresolved conditions detected
+Organization COMPLETED
+```
+
+The room is not a verbose log viewer. While raw history may contain hundreds
+of records, the Director-facing Effective State should answer:
+
+> What is happening now? · Who currently owns something? · Why are they
+> acting? · What remains unresolved? · Is anything blocked? · Does the
+> organization need me? · What happened since I last looked?
+
+Example halfway-state:
+
+```text
+ORB-VE-001 · IN PROGRESS
+Current responsibility: Developer
+Working on: UC-003 · Visual intent does not survive cold reload
+Why: Verifier produced contradictory durability evidence.
+Waiting on you: Nothing
+Recent: Developer investigating persistence boundary
+        Reviewer challenged previous completion evidence
+        Verifier reopened durability requirement
+```
+
+Example waiting-state (legitimate Director involvement):
+
+```text
+ORB-VE-001 · WAITING FOR HUMAN
+Needs your judgment: two visual presentations satisfy the functional
+requirements. Which matches your intent? [Option A] [Option B]
+```
+
+The judgment is recorded as evidence; the organization continues without the
+Director activating any agent.
+
+Example terminal-state:
+
+```text
+ORB-VE-001 · COMPLETED
+Acceptance contract satisfied · Unresolved conditions: 0
+Blocking findings: 0 · Verification: VERIFIED
+Director interventions: 2 (2 perceptual judgments; 0 direction; 0 correction; 0 recovery)
+Organization is quiescent.
+```
+
+### Constraints (kept secondary)
+
+- **No new Activity Room features before ORB.** No special instrumentation to
+  make the visualization prettier unless the benchmark fundamentally requires
+  event capture that does not exist.
+- Run what we have. Observed gaps are **experiment findings about Activity
+  Room**, not annoyances to hide: "Planner's activity isn't visible",
+  "responsibility transfer can't be understood", "I can't tell why Developer
+  started working", "the room says IN PROGRESS but nobody owns anything".
+- Do **not** fail the autonomous engineering benchmark merely because Activity
+  Room presentation is poor.
+
+### Possible combined outcomes
+
+```text
+Organizational execution: PASS   Activity Room observability: PARTIAL
+Organizational execution: FAIL   Activity Room observability: PASS
+   (the room accurately shows where and why the organization failed)
+```
+
+A failed workflow that Activity Room explains perfectly can prove Activity Room
+more strongly than a successful workflow with nothing interesting happening.
+Both axes are scored independently and reported separately.
+
 ## Status
 
 **Proposed — benchmark specification only. Recorded, not executed.** Execution
