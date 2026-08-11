@@ -20,6 +20,11 @@ derived from a failed convergence experiment on the Activity Room. Recorded as
 an **experimental direction with explicit falsification points**, not as an
 architectural mandate.
 
+> This completed work is the **reference execution** for
+> [ORB-VE-001 — Organizational Convergence Experiment](../00-governance/orb-ve-001.md).
+> The organizational benchmark is intentionally kept separate and is not
+> inspectable by its participants.
+
 ## Experiment log
 
 ### VE-1 — Selection and Inspection (COMPLETE)
