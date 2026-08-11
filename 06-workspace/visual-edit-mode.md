@@ -419,6 +419,58 @@ real browser reload → the message is still right-aligned, reconstructed from
 the durable config. The three truths agree: persisted (file), rendered (DOM),
 verification (VERIFIED).
 
+### Visual Edit Milestone — Final Experimental Result: PASS
+
+**Classification:** PASS — convergence demonstrated.
+
+**Complexity:** High. The milestone crossed UI interaction, semantic component
+targeting, intent representation, configuration, API routing, durable
+persistence, hydration, runtime rendering, undo, DOM verification, verdict
+propagation, unit/API/E2E testing, and Director acceptance.
+
+**Observed execution:**
+
+```text
+Human visual intent → Point / manipulate → Structured Design Intent
+→ Apply → Persist → Hydrate → Render → Verify → Initial COMPLETE
+→ Director contradiction after reload → REOPEN
+→ Root-cause investigation → 4 defects discovered
+→ Implementation + evidence corrected → Automated verification
+→ Real browser reload → Persisted = Rendered = Verified → RESOLVED
+```
+
+**Critical finding:** the first completion conclusion was incorrect despite
+substantial green automated evidence. Human runtime observation introduced
+contradictory evidence, correctly invalidating the previous conclusion. The
+additional iteration discovered defects in server routing, persistence
+serialization/hydration, verification scope accounting, and success-verdict
+propagation; the testing blind spot (mocked persistence proving client
+hydration but not the real server boundary) was also identified and closed.
+
+**Why this is a PASS:** success was not defined as first-attempt correctness.
+Success was defined as whether the engineering process could converge from
+intent to a durable, independently verified outcome after encountering
+contradictory evidence. It did.
+
+### Architectural principles preserved from the milestone
+
+**Durable intent invariant:**
+
+> Persisted Truth = Reconstructed Runtime Truth = Verification Truth
+
+For durable operations, Vestara should not claim success simply because a write
+returned 200, or because the runtime currently looks correct. The durable
+representation, reconstructed runtime behavior, and independent verification
+must agree when the operation requires those properties.
+
+**Organizational convergence principle:**
+
+> A trustworthy engineering workflow is not one that never reaches an
+> incorrect conclusion. It is one that can detect contradictory evidence,
+> invalidate that conclusion, assign the unresolved condition, investigate it,
+> correct the system, establish stronger evidence, and stop only when the
+> original condition is resolved.
+
 ## 1. Problem Statement
 
 Current AI-driven UI modification relies heavily on natural-language
