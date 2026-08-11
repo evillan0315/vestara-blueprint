@@ -349,6 +349,33 @@ The full sequence is now an end-to-end primitive:
 
 > See → Point → Manipulate → Understand → Confirm → Propose → Apply → Verify
 
+### VE milestone — productized end-to-end workflow (COMPLETE)
+
+**Completion criterion:** *Point. Change. Apply. → Saved and verified.*
+
+- **Durability:** the declarative visual configuration is persisted via the
+  API (`.vestara/visual-config.json`, `GET/PUT /api/visual-config`) and
+  hydrated on boot — the visual decision survives browser reload and API
+  restart. The durable representation, not transient DOM state, is responsible
+  for reconstruction.
+- **Automatic routing:** presentation-only intent is classified as
+  declaratively representable → persisted configuration. Unrepresentable scope
+  is refused (never silently broadened): "Could not safely apply this change.
+  No changes were saved. [View reason]".
+- **Automatic verification after application:** Apply → persist → render →
+  verify automatically → "✓ Saved and verified" with progressive disclosure
+  ("View details" reveals the verification internals; manual Re-verify remains
+  under diagnostics).
+- The human does not need to understand or supervise the implementation
+  mechanism; the machinery remains underneath for Developer, Reviewer,
+  Verifier, evidence, and debugging.
+
+**Milestone review (3 questions):** did it become permanent? (yes — durable
+across reload). Did the human stop supervising the mechanism? (yes — one Apply,
+auto-verify, "Saved and verified"). Can Vestara prove the resulting UI is what
+the human requested? (yes — the verifier reads the DOM, drift detection
+included).
+
 ## 1. Problem Statement
 
 Current AI-driven UI modification relies heavily on natural-language
